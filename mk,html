@@ -1,12 +1,63 @@
-https://www.youporn.com/watch/17041948/step-dad-caught-horny-teen-bianca-bangs-masturbating-with-vibrator-and-helps-her-cum-dadcreep/
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hala</title>
-</head>
-<body>
-    <h1>Welcome to My First Page</h1>
-    <p>This is my first HTML experiment!</p>
-</body>https://www.pornhub.com/view_video.php?viewkey=66a00d094d5f1
-</html>
-https://www.pornhub.com/view_video.php?viewkey=ph630f7f605d823
+const express = require("express");
+const admin = require("firebase-admin");
+const serviceAccount = require("./firebaseAdmin.json");
+
+const app = express();
+app.use(express.json());
+
+// 🔥 Initialize Firebase
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const db = admin.firestore();
+
+// 🧠 AI Function (مؤقتاً)
+async function generateAIResponse(message) {
+  return `BlueMind AI says: ${message}`;
+}
+
+// 💬 Chat Route
+app.post("/chat", async (req, res) => {
+  try {
+    const { userId, message } = req.body;
+
+    if (!userId || !message) {
+      return res.status(400).json({ error: "Missing userId or message" });
+    }
+
+    // 1️⃣ Generate AI reply
+    const aiReply = await generateAIResponse(message);
+
+    // 2️⃣ Reference to user chat
+    const chatRef = db.collection("chats").doc(userId);
+    const messagesRef = chatRef.collection("messages");
+
+    // 3️⃣ Save user message
+    await messagesRef.add({
+      role: "user",
+      content: message,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // 4️⃣ Save AI reply
+    await messagesRef.add({
+      role: "assistant",
+      content: aiReply,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // 5️⃣ Send reply back
+    res.status(200).json({ reply: aiReply });
+
+  } catch (error) {
+    console.error("Chat error:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+// 🚀 Start Server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
