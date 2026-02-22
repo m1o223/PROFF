@@ -1,3 +1,7 @@
+// ==============================
+// 🚀 BlueMind AI Server
+// ==============================
+
 const express = require("express");
 const admin = require("firebase-admin");
 const serviceAccount = require("./firebaseAdmin.json");
@@ -5,31 +9,42 @@ const serviceAccount = require("./firebaseAdmin.json");
 const app = express();
 app.use(express.json());
 
+// ==============================
 // 🔥 Initialize Firebase
+// ==============================
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 const db = admin.firestore();
 
-// 🧠 AI Function (مؤقتاً)
+// ==============================
+// 🧠 AI Function (Temporary)
+// ==============================
+
 async function generateAIResponse(message) {
   return `BlueMind AI says: ${message}`;
 }
 
+// ==============================
 // 💬 Chat Route
+// ==============================
+
 app.post("/chat", async (req, res) => {
   try {
     const { userId, message } = req.body;
 
     if (!userId || !message) {
-      return res.status(400).json({ error: "Missing userId or message" });
+      return res.status(400).json({
+        error: "Missing userId or message",
+      });
     }
 
     // 1️⃣ Generate AI reply
     const aiReply = await generateAIResponse(message);
 
-    // 2️⃣ Reference to user chat
+    // 2️⃣ Reference chat
     const chatRef = db.collection("chats").doc(userId);
     const messagesRef = chatRef.collection("messages");
 
@@ -47,17 +62,33 @@ app.post("/chat", async (req, res) => {
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    // 5️⃣ Send reply back
-    res.status(200).json({ reply: aiReply });
+    // 5️⃣ Send response
+    res.status(200).json({
+      reply: aiReply,
+    });
 
   } catch (error) {
     console.error("Chat error:", error);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({
+      error: "Something went wrong",
+    });
   }
 });
 
+// ==============================
+// 🧪 Health Check
+// ==============================
+
+app.get("/health", (req, res) => {
+  res.json({ status: "Server is running" });
+});
+
+// ==============================
 // 🚀 Start Server
+// ==============================
+
 const PORT = 3000;
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
