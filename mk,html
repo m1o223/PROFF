@@ -1,89 +1,370 @@
 import express from "express";
 import cors from "cors";
-import admin from "firebase-admin";
 import dotenv from "dotenv";
-import serviceAccount from "./serviceAccount.json" assert { type: "json" };
+import admin from "firebase-admin";
+import Stripe from "stripe";
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 
-// 🔥 Initialize Firebase
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+/* =========================
+   1) Stripe Webhook (RAW)
+   لازم يكون قبل app.use(express.json())
+========================= */
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  : null;
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    try {
+      if (!stripe) return res.status(500).send("Stripe not configured");
+
+      const sig = req.headers["stripe-signature"];
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+
+      // مثال: إذا الدفع اكتمل (هنا بعدين بتربطها بتغيير plan)
+      if (event.type === "checkout.session.completed") {
+        const session = event.data.object;
+
+        // لو بدك: استخرج uid من metadata
+        // const uid = session?.metadata?.uid;
+        // if (uid) ... تحديث plan في firestore
+
+        console.log("✅ checkout.session.completed", session.id);
+      }
+
+      res.json({ received: true });
+    } catch (err) {
+      console.error("❌ Webhook error:", err.message);
+      res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+  }
+);
+
+/* =========================
+   2) Middlewares normal
+========================= */
+app.use(cors());
+app.use(express.json()); // بعد webhook فقط
+
+/* =========================
+   3) Firebase Admin init
+   (أفضل طريقة: Service Account JSON path)
+========================= */
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
+  console.warn(
+    "⚠️ FIREBASE_SERVICE_ACCOUNT_PATH is missing in .env (recommended)."
+  );
+}
+
+if (!admin.apps.length) {
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
+    // الأفضل: مسار ملف الخدمة
+    const serviceAccount = await import(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, {
+      assert: { type: "json" },
+    }).then((m) => m.default);
+
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  } else if (
+    process.env.FIREBASE_PROJECT_ID &&
+    process.env.FIREBASE_CLIENT_EMAIL &&
+    process.env.FIREBASE_PRIVATE_KEY
+  ) {
+    // بديل: من ENV (مع replace)
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      }),
+    });
+  } else {
+    throw new Error(
+      "Firebase Admin not configured. Provide FIREBASE_SERVICE_ACCOUNT_PATH or FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY"
+    );
+  }
+}
 
 const db = admin.firestore();
 
-const PORT = 3000;
+/* =========================
+   4) Plans + Limits
+========================= */
+const PLANS = {
+  free: { messages: 15, tickets: 5 },
+  pro100: { messages: 150, tickets: 40 },
+  pro250: { messages: Infinity, tickets: Infinity },
+};
 
-/* =========================================
-   CREATE USER DOCUMENT
-========================================= */
-app.post("/create-user", async (req, res) => {
-  try {
-    const { uid, email } = req.body;
+function limitValue(v) {
+  return v === Infinity ? Number.MAX_SAFE_INTEGER : v;
+}
 
-    if (!uid || !email) {
-      return res.status(400).json({ error: "uid and email required" });
-    }
+/* =========================
+   5) Helpers
+========================= */
+async function getUser(uid) {
+  const ref = db.collection("users").doc(uid);
+  const snap = await ref.get();
+  return { ref, snap };
+}
 
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
+async function ensureUser(uid, email = null) {
+  const { ref, snap } = await getUser(uid);
 
-    if (userDoc.exists) {
-      return res.json({ message: "User already exists" });
-    }
-
-    await userRef.set({
-      email: email,
+  if (!snap.exists) {
+    await ref.set({
+      email: email || "",
       plan: "free",
       messagesUsed: 0,
       ticketsUsed: 0,
-      createdAt: admin.firestore.FieldValue.serverTimestamp()
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
-
-    res.json({ success: true });
-
-  } catch (error) {
-    console.error("Create user error:", error);
-    res.status(500).json({ error: "Server error" });
+    return (await ref.get()).data();
   }
-});
 
-/* =========================================
-   GET USER DATA
-========================================= */
-app.get("/user/:uid", async (req, res) => {
+  // ضمان وجود حقول لو كانت ناقصة
+  const data = snap.data();
+  const patch = {};
+  if (!("plan" in data)) patch.plan = "free";
+  if (!("messagesUsed" in data)) patch.messagesUsed = 0;
+  if (!("ticketsUsed" in data)) patch.ticketsUsed = 0;
+  if (!("createdAt" in data))
+    patch.createdAt = admin.firestore.FieldValue.serverTimestamp();
+
+  if (Object.keys(patch).length) await ref.update(patch);
+
+  return { ...(snap.data() || {}), ...patch };
+}
+
+/* =========================
+   6) OPTIONAL security:
+   تحقق من Firebase ID Token
+   (للـ frontend لاحقاً)
+========================= */
+async function verifyFirebaseToken(req, res, next) {
   try {
-    const { uid } = req.params;
+    const header = req.headers.authorization || "";
+    const token = header.startsWith("Bearer ") ? header.slice(7) : null;
 
-    const userDoc = await db.collection("users").doc(uid).get();
-
-    if (!userDoc.exists) {
-      return res.status(404).json({ error: "User not found" });
+    if (!token) {
+      // إذا بدك تخليه إجباري: ارجع 401
+      // return res.status(401).json({ error: "Missing Bearer token" });
+      req.auth = null;
+      return next();
     }
 
-    res.json(userDoc.data());
+    const decoded = await admin.auth().verifyIdToken(token);
+    req.auth = decoded; // { uid, email, ... }
+    next();
+  } catch (e) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+}
 
-  } catch (error) {
-    console.error("Get user error:", error);
-    res.status(500).json({ error: "Server error" });
+/* =========================
+   7) Limits Middleware
+========================= */
+async function checkMessageLimit(req, res, next) {
+  const uid = req.body.uid || req.auth?.uid;
+  if (!uid) return res.status(400).json({ error: "uid required" });
+
+  const user = await ensureUser(uid, req.auth?.email || null);
+  const plan = user.plan || "free";
+  const limits = PLANS[plan] || PLANS.free;
+
+  if ((user.messagesUsed || 0) >= limitValue(limits.messages)) {
+    return res.status(403).json({
+      error: "Message limit reached",
+      plan,
+      messagesUsed: user.messagesUsed || 0,
+      messagesLimit: limits.messages,
+    });
+  }
+
+  req.uid = uid;
+  req.user = user;
+  next();
+}
+
+async function checkTicketLimit(req, res, next) {
+  const uid = req.body.uid || req.auth?.uid;
+  if (!uid) return res.status(400).json({ error: "uid required" });
+
+  const user = await ensureUser(uid, req.auth?.email || null);
+  const plan = user.plan || "free";
+  const limits = PLANS[plan] || PLANS.free;
+
+  if ((user.ticketsUsed || 0) >= limitValue(limits.tickets)) {
+    return res.status(403).json({
+      error: "Ticket limit reached",
+      plan,
+      ticketsUsed: user.ticketsUsed || 0,
+      ticketsLimit: limits.tickets,
+    });
+  }
+
+  req.uid = uid;
+  req.user = user;
+  next();
+}
+
+/* =========================
+   8) ROUTES
+========================= */
+
+// Health
+app.get("/health", (req, res) => {
+  res.json({ ok: true, name: "BlueMind.AI", time: new Date().toISOString() });
+});
+
+// Create/Ensure user in Firestore
+// Body: { uid, email }
+app.post("/create-user", verifyFirebaseToken, async (req, res) => {
+  try {
+    const uid = req.body.uid || req.auth?.uid;
+    const email = req.body.email || req.auth?.email || "";
+
+    if (!uid) return res.status(400).json({ error: "uid required" });
+
+    const user = await ensureUser(uid, email);
+    res.json({ success: true, uid, user });
+  } catch (err) {
+    console.error("create-user error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
-/* =========================================
-   HEALTH CHECK
-========================================= */
-app.get("/", (req, res) => {
-  res.send("🔥 BlueMind AI Server Running");
+// Chat (AI placeholder)
+// Body: { uid, message }
+app.post("/chat", verifyFirebaseToken, checkMessageLimit, async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "message required" });
+
+    // 🔥 هنا لاحقاً تربط OpenAI
+    const reply = `رد تجريبي من BlueMind.AI ✅\nأنت قلت: ${message}`;
+
+    await db.collection("users").doc(req.uid).update({
+      messagesUsed: admin.firestore.FieldValue.increment(1),
+    });
+
+    res.json({
+      success: true,
+      reply,
+      plan: req.user.plan || "free",
+    });
+  } catch (err) {
+    console.error("chat error:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
-/* =========================================
-   START SERVER
-========================================= */
+// Use ticket (مثلاً لرفع صورة/ميزة مدفوعة)
+// Body: { uid, reason? }
+app.post(
+  "/use-ticket",
+  verifyFirebaseToken,
+  checkTicketLimit,
+  async (req, res) => {
+    try {
+      await db.collection("users").doc(req.uid).update({
+        ticketsUsed: admin.firestore.FieldValue.increment(1),
+      });
+
+      res.json({
+        success: true,
+        plan: req.user.plan || "free",
+        used: 1,
+      });
+    } catch (err) {
+      console.error("use-ticket error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
+// Admin: change plan
+// Body: { uid, plan }  plan: free|pro100|pro250
+app.post("/admin/set-plan", async (req, res) => {
+  try {
+    // حماية بسيطة:
+    if (req.headers["x-admin-key"] !== process.env.ADMIN_KEY) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { uid, plan } = req.body;
+    if (!uid || !plan) return res.status(400).json({ error: "uid + plan required" });
+    if (!PLANS[plan]) return res.status(400).json({ error: "Invalid plan" });
+
+    await ensureUser(uid);
+    await db.collection("users").doc(uid).update({ plan });
+
+    res.json({ success: true, uid, plan });
+  } catch (err) {
+    console.error("set-plan error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin: reset monthly usage (messagesUsed/ticketsUsed = 0)
+// Body: { uid? } إذا ما أعطيت uid => يعمل reset للجميع (حذر)
+app.post("/admin/reset-monthly", async (req, res) => {
+  try {
+    if (req.headers["x-admin-key"] !== process.env.ADMIN_KEY) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { uid } = req.body || {};
+
+    if (uid) {
+      await db.collection("users").doc(uid).update({
+        messagesUsed: 0,
+        ticketsUsed: 0,
+      });
+      return res.json({ success: true, reset: "single", uid });
+    }
+
+    // reset all users (batch)
+    const snap = await db.collection("users").get();
+    let batch = db.batch();
+    let count = 0;
+    let ops = 0;
+
+    for (const doc of snap.docs) {
+      batch.update(doc.ref, { messagesUsed: 0, ticketsUsed: 0 });
+      count++;
+      ops++;
+
+      if (ops === 400) {
+        await batch.commit();
+        batch = db.batch();
+        ops = 0;
+      }
+    }
+    if (ops) await batch.commit();
+
+    res.json({ success: true, reset: "all", count });
+  } catch (err) {
+    console.error("reset-monthly error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/* =========================
+   9) START
+========================= */
 app.listen(PORT, () => {
-  console.log(`🔥 Server running on http://localhost:${PORT}`);
+  console.log(`✅ BlueMind AI server running on http://localhost:${PORT}`);
 });
