@@ -1,1 +1,179 @@
 
+STOP.
+
+Do NOT modify anything except the iOS drawer layering and geometry.
+
+This task is ONLY about making the drawer and the chat container behave like a native iOS layered interface.
+
+====================================================
+GOAL
+====================================================
+
+BlueMind should feel like the ChatGPT iOS app.
+
+Not because of the icons or colors.
+
+Because of the LAYERING.
+
+Right now BlueMind looks like:
+
+- One flat menu.
+- One flat screen.
+- Straight vertical separator.
+
+That is wrong.
+
+====================================================
+HOW IT SHOULD LOOK
+====================================================
+
+Think of the interface as TWO separate cards.
+
+Card 1:
+The Drawer (Menu)
+
+Card 2:
+The Chat Screen
+
+The chat screen is NOT the phone background.
+
+The chat screen itself is another rounded panel.
+
+Exactly like ChatGPT.
+
+====================================================
+CHAT CONTAINER
+====================================================
+
+When the drawer opens:
+
+The chat screen becomes a floating card.
+
+It must:
+
+• start below the status bar / Dynamic Island
+• keep large iOS corner radius
+• extend to the bottom with matching rounded corners
+• look like one continuous card
+
+No straight vertical edge.
+
+No rectangular clipping.
+
+No hard border.
+
+====================================================
+BACKGROUND
+====================================================
+
+The drawer keeps the dark menu background.
+
+The chat card has its own surface.
+
+NOT pure black.
+
+Use a very dark graphite / dark gray surface.
+
+Exactly like native iOS grouped surfaces.
+
+The difference must be subtle.
+
+The user should feel two different layers.
+
+====================================================
+SEPARATION
+====================================================
+
+There must NOT be a straight black line between menu and chat.
+
+Instead there should be depth.
+
+It must look like:
+
+Drawer
+↓
+
+Floating Chat Card
+
+Not:
+
+Rectangle | Rectangle
+
+====================================================
+MASKING
+====================================================
+
+Use proper iOS masking.
+
+Do NOT fake this with borders.
+
+Do NOT fake this with shadows.
+
+Clip the chat container itself.
+
+The rounded geometry must belong to the chat panel.
+
+====================================================
+ANIMATION
+====================================================
+
+Do NOT change timing yet.
+
+Keep the existing animation.
+
+Only make the geometry correct.
+
+When the menu opens the chat card should move while keeping its rounded shape.
+
+No stretching.
+
+No clipping.
+
+No rectangular edges.
+
+====================================================
+DO NOT TOUCH
+====================================================
+
+Do NOT modify:
+
+- colors outside Dark Mode
+- icons
+- typography
+- spacing
+- menu items
+- search
+- buttons
+- animations
+- functionality
+
+Only the drawer/card geometry.
+
+====================================================
+IMPORTANT
+====================================================
+
+If the current architecture cannot produce this shape correctly,
+
+DO NOT hack around it.
+
+Find the old clipping or masking code that creates the rectangular layout.
+
+Remove it.
+
+Implement the chat container as a proper native iOS rounded card.
+
+If old code conflicts with this implementation,
+
+remove or replace that code instead of layering new code on top.
+
+====================================================
+DELIVERABLE
+====================================================
+
+When finished provide:
+
+1. What old code prevented the correct geometry.
+2. What you replaced.
+3. Why the new implementation matches native iOS layering.
+4. Confirmation that no Android or Web code was modified.
