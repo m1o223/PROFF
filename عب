@@ -1,0 +1,310 @@
+The current iOS native design direction is approved.
+
+DO NOT redesign the app.
+
+DO NOT touch Android.
+
+DO NOT modify the approved composer styling.
+
+This task is ONLY about rebuilding the iOS side menu interaction to a premium native standard.
+
+========================================================
+GOAL
+========================================================
+
+I do NOT want a normal drawer.
+
+I do NOT want a fullscreen menu.
+
+I want the interaction quality of the ChatGPT iOS application.
+
+This is about UX behavior, not copying the visual design.
+
+BlueMind must keep its own branding, icons, colors and identity.
+
+========================================================
+FIRST STEP - INVESTIGATION
+========================================================
+
+Before changing anything:
+
+Audit the current implementation completely.
+
+Identify:
+
+- every menu animation
+- every gesture
+- every overlay
+- every z-index
+- every safe area adjustment
+- every SwiftUI layer
+- every UIKit container
+- every React wrapper
+- every Capacitor bridge
+- every hit-testing rule
+
+If old code prevents the correct native implementation,
+
+REMOVE IT.
+
+Do not keep legacy code just because it exists.
+
+If wrappers are fighting each other,
+
+rewrite them.
+
+If React is controlling something that should be native,
+
+move it to native.
+
+========================================================
+DESIRED BEHAVIOR
+========================================================
+
+Current behavior is incorrect.
+
+The menu simply appears on top.
+
+Instead:
+
+When Menu opens:
+
+The ENTIRE chat screen should move together.
+
+Not only the content.
+
+Everything.
+
+Header.
+
+Messages.
+
+Composer.
+
+Buttons.
+
+Everything becomes one moving surface.
+
+The whole chat shifts smoothly to the right.
+
+At the same time:
+
+The side menu enters naturally from the left.
+
+The menu becomes the navigation layer.
+
+The chat remains visible behind it.
+
+Exactly like a premium iOS application.
+
+The user should feel that the chat is still alive behind the menu.
+
+Not replaced.
+
+Not hidden.
+
+Not navigated away.
+
+========================================================
+CHAT SURFACE
+========================================================
+
+While the menu is open:
+
+The chat surface should:
+
+move right
+
+slightly reduce in scale
+
+gain elegant shadow
+
+feel elevated above the menu
+
+No clipping.
+
+No layout jumps.
+
+No flashing.
+
+No React re-render artifacts.
+
+========================================================
+MENU
+========================================================
+
+The menu remains fixed.
+
+The chat moves.
+
+Not the opposite.
+
+Opening:
+
+spring animation
+
+Closing:
+
+spring animation
+
+Interactive.
+
+Natural.
+
+========================================================
+INPUT
+========================================================
+
+The composer must move together with the chat.
+
+It is part of the chat surface.
+
+It must NEVER remain floating above the menu.
+
+It must NEVER overlap the menu.
+
+========================================================
+HEADER
+========================================================
+
+Menu button
+
+AI selector
+
+New Chat button
+
+All move together with the chat.
+
+Nothing stays behind.
+
+Nothing overlaps.
+
+========================================================
+GESTURES
+========================================================
+
+Allow native swipe if appropriate.
+
+Opening animation should feel physical.
+
+Closing should feel physical.
+
+No abrupt stop.
+
+========================================================
+SAFE AREA
+========================================================
+
+Support:
+
+Dynamic Island
+
+Notch
+
+Home indicator
+
+Keyboard
+
+Rotation
+
+All iPhone sizes.
+
+========================================================
+PERFORMANCE
+========================================================
+
+If the current implementation causes unnecessary React renders,
+
+remove them.
+
+If duplicate listeners exist,
+
+remove them.
+
+If old bridge code is obsolete,
+
+remove it.
+
+If old wrappers interfere,
+
+rewrite them.
+
+Prefer the cleanest native architecture.
+
+========================================================
+IMPORTANT
+========================================================
+
+Do NOT break:
+
+Android
+
+Web
+
+Existing approved composer
+
+Existing AI selector
+
+BlueMind branding
+
+========================================================
+TESTING
+========================================================
+
+Test everything.
+
+Open menu.
+
+Close menu.
+
+Repeated open/close.
+
+Keyboard open.
+
+Keyboard closed.
+
+Typing.
+
+Streaming.
+
+Large conversations.
+
+Fast taps.
+
+Slow taps.
+
+Rotation.
+
+Background/foreground.
+
+Verify:
+
+No overlap.
+
+No clipping.
+
+No frozen frames.
+
+No broken animations.
+
+No layout shifts.
+
+========================================================
+FINAL REPORT
+========================================================
+
+Explain:
+
+What old code was removed.
+
+What was rewritten.
+
+Why.
+
+Which architecture changed.
+
+Which bugs were fixed.
+
+What performance improved.
+
+What remains for future polish.
