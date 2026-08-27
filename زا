@@ -1,1 +1,273 @@
+STOP.
 
+Read this entire message before changing ANY code.
+
+You misunderstood the previous requests because you assumed the design instead of following it.
+
+From now on:
+
+- Do NOT redesign.
+- Do NOT improvise.
+- Do NOT make visual decisions yourself.
+
+Follow every step exactly.
+
+This task is ONLY about the iOS DARK MODE side menu.
+
+Do NOT touch:
+- Chat UI
+- Input
+- Login
+- Register
+- Android
+- Web
+- Light Mode
+
+====================================================
+STEP 1 — UNDERSTAND THE ARCHITECTURE
+====================================================
+
+This is NOT a separate page.
+
+This is NOT a full-screen page.
+
+This is a Native iOS Side Panel (Navigation Drawer).
+
+Think exactly like the ChatGPT iOS app.
+
+The Chat screen remains the main screen.
+
+The Menu is only a panel that slides above it.
+
+Do NOT rebuild the screen.
+
+Do NOT replace the screen.
+
+====================================================
+STEP 2 — MENU LAYER
+====================================================
+
+The Menu must always be ABOVE the Chat.
+
+The Chat must always stay BELOW the Menu.
+
+The Menu owns the top visual layer.
+
+Nothing from the Chat may appear above the Menu.
+
+====================================================
+STEP 3 — CHAT LAYER
+====================================================
+
+The Chat must stay visible on the right.
+
+Approximately 15–20% of the Chat should remain visible.
+
+The Chat should NOT disappear.
+
+The Chat should NOT move to another page.
+
+It stays exactly where it is.
+
+Only covered by the Menu.
+
+====================================================
+STEP 4 — BACKGROUND / BLUR
+====================================================
+
+Do NOT make the Menu gray.
+
+Do NOT change the Menu to another color.
+
+The Menu itself remains the approved Dark Mode color.
+
+The blur belongs to the Chat behind the Menu.
+
+The Chat becomes:
+
+- darker
+- blurred
+- visually behind the Menu
+
+The Menu itself should remain clean.
+
+====================================================
+STEP 5 — TOP OF THE MENU
+====================================================
+
+The Menu currently feels like a flat rectangle.
+
+That is incorrect.
+
+The Menu must have a proper iPhone panel top.
+
+Study the ChatGPT iOS Menu.
+
+The panel starts BELOW the status bar.
+
+It feels like a floating native panel.
+
+Do NOT create an ugly flat rectangle.
+
+====================================================
+STEP 6 — RIGHT EDGE
+====================================================
+
+The right edge of the Menu is the clipping boundary.
+
+Nothing behind it may leak through.
+
+No buttons.
+
+No text.
+
+No icons.
+
+No input.
+
+No chat controls.
+
+Everything behind the Menu remains behind it.
+
+====================================================
+STEP 7 — OPEN
+====================================================
+
+Opening must behave like native iOS.
+
+User taps Menu button.
+
+OR
+
+User swipes RIGHT from the left edge.
+
+The Menu slides in smoothly.
+
+The Chat remains underneath.
+
+====================================================
+STEP 8 — CLOSE
+====================================================
+
+Closing must work in THREE ways.
+
+1.
+
+Tap outside the Menu.
+
+Close.
+
+2.
+
+Swipe LEFT on the Menu.
+
+Close.
+
+3.
+
+Press Menu button again.
+
+Close.
+
+No exceptions.
+
+====================================================
+STEP 9 — ANIMATION
+====================================================
+
+Horizontal movement ONLY.
+
+Never move vertically.
+
+Never bounce.
+
+Never drop down.
+
+Never overshoot.
+
+Never shake.
+
+Just a clean native slide.
+
+====================================================
+STEP 10 — MASKING
+====================================================
+
+Audit the masking implementation.
+
+If any old clipping code causes visual artifacts:
+
+Remove it.
+
+Rewrite it correctly.
+
+Do NOT patch over broken masking.
+
+====================================================
+STEP 11 — BEFORE CODING
+====================================================
+
+Audit every existing Menu-related file.
+
+If previous Menu implementations conflict with these requirements:
+
+Refactor them cleanly.
+
+Do NOT keep legacy code that causes conflicts.
+
+====================================================
+STEP 12 — VERIFICATION
+====================================================
+
+Before considering the task complete, verify:
+
+✓ Menu opens by button.
+
+✓ Menu opens by right swipe.
+
+✓ Menu closes by outside tap.
+
+✓ Menu closes by left swipe.
+
+✓ Menu closes by button.
+
+✓ Chat stays underneath.
+
+✓ Chat remains 15–20% visible.
+
+✓ Blur is applied only to the Chat.
+
+✓ Menu remains the approved Dark Mode color.
+
+✓ Nothing leaks outside the Menu edge.
+
+✓ No vertical movement.
+
+✓ No animation glitches.
+
+====================================================
+FINAL REPORT
+====================================================
+
+Do NOT simply say "Done."
+
+Explain:
+
+1. What old code conflicted.
+
+2. What you removed.
+
+3. What you refactored.
+
+4. How masking now works.
+
+5. How gestures now work.
+
+6. How layering now works.
+
+7. Confirm:
+
+- Android untouched.
+- Web untouched.
+- Light Mode untouched.
+- Only iOS Dark Menu modified.
