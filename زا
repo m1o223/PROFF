@@ -1,1 +1,81 @@
 
+STOP.
+
+This task is ONLY about the visual separation between the Drawer and the Chat.
+
+The current implementation is still wrong.
+
+====================================================
+REMOVE THE VERTICAL LINE
+====================================================
+
+The visible vertical separator between the drawer and the chat must be completely removed.
+
+There must be NO border.
+
+NO divider.
+
+NO edge line.
+
+The separation must come only from native iOS layering.
+
+====================================================
+DRAWER MATERIAL
+====================================================
+
+The drawer must NOT be an opaque black panel.
+
+Use a native iOS dark material.
+
+The drawer should be slightly translucent.
+
+I should be able to softly perceive the chat behind it.
+
+Exactly like the ChatGPT iOS drawer.
+
+====================================================
+CHAT VISIBILITY
+====================================================
+
+The chat behind the drawer must remain partially visible.
+
+I should still recognize text, message shapes and layout behind the drawer.
+
+Do NOT completely hide the chat.
+
+Do NOT over-blur it.
+
+Do NOT darken it too much.
+
+====================================================
+DEPTH
+====================================================
+
+The feeling should be:
+
+Drawer floating above the chat.
+
+Not:
+
+Black rectangle covering another rectangle.
+
+====================================================
+DO NOT CHANGE
+====================================================
+
+Do NOT modify:
+
+• animations
+• buttons
+• icons
+• spacing
+• typography
+
+Only fix:
+
+1. Remove the vertical divider.
+2. Use proper native iOS material.
+3. Let the chat remain softly visible behind the drawer.
+4. Make the drawer feel like floating glass instead of an opaque panel.
+
+Before finishing, compare the result visually with the ChatGPT iOS drawer and make sure the feeling is the same while keeping BlueMind branding.
