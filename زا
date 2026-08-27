@@ -1,161 +1,95 @@
-This task is ONLY about the Menu opening and closing animation.
+Task: Menu Layering ONLY (Dark Mode ONLY)
 
-Do NOT modify anything else.
+Do NOT touch Light Mode.
 
-Do NOT touch:
-- Colors
-- Glass
-- Buttons
-- Search
-- Chat
-- Input
-- Android
-- Web
+Do NOT modify colors outside Dark Mode.
+
+Do NOT modify animations.
+
+Do NOT modify buttons.
+
+This task is ONLY about the Menu layer appearance.
 
 ========================================================
-GOAL
-========================================================
 
-I only want to improve how the menu OPENS and CLOSES.
+Current issue:
 
-Nothing else.
+The Menu does not feel like a separate iOS panel.
 
-========================================================
-CURRENT PROBLEM
-========================================================
+Compared to the ChatGPT iOS menu:
 
-The current animation feels incorrect.
-
-When the menu opens, it slightly moves DOWN while opening.
-
-That vertical movement looks wrong.
-
-It feels unstable.
-
-The same happens while closing.
+• The Menu should feel like a floating panel above the Chat.
+• There should be a clear separation between the Menu layer and the Chat layer.
+• The Chat must remain behind the Menu.
+• The Menu must visually own its own surface.
 
 ========================================================
-DESIRED BEHAVIOR
-========================================================
 
-The menu should move ONLY on the horizontal axis.
+Dark Mode ONLY.
 
-No vertical movement.
+The Menu background should NOT be pure black.
 
-No dropping.
+Use a premium dark material (dark gray / graphite style).
 
-No bouncing.
+It should feel like an iOS floating panel.
 
-No shifting downward.
-
-No diagonal movement.
-
-No position jump.
-
-It should feel like one smooth horizontal sliding panel.
-
-Imagine opening and closing a premium sliding door.
+Do NOT change Light Mode.
 
 ========================================================
-OPEN ANIMATION
-========================================================
 
-When the user taps the Menu button:
+The right edge of the Menu must become the clipping boundary.
 
-• Start immediately.
-• Slide smoothly from the left.
-• Constant horizontal movement.
-• No lag.
-• No frame drops.
-• No vertical offset.
-• No bounce.
-• No overshoot.
+Nothing from the Chat should visually leak through that edge.
 
-The animation should feel elegant and premium.
+No controls.
 
-========================================================
-CLOSE ANIMATION
-========================================================
+No buttons.
 
-When closing:
+No input.
 
-Use the exact reverse animation.
+No icons.
 
-Same speed.
-
-Same easing.
-
-Same smoothness.
-
-No different timing.
+Everything behind the Menu must remain behind it.
 
 ========================================================
-TIMING
-========================================================
 
-The animation should not feel slow.
+The Menu should feel like an independent panel floating above the application.
 
-It should not feel too fast.
+The Chat should remain visible on the right (about 15–20%), but clearly behind the Menu layer.
 
-Target approximately the same feeling as high-quality native iOS navigation.
-
-Smooth.
-
-Responsive.
-
-Natural.
+There should be a clean visual separation between both layers.
 
 ========================================================
-PERFORMANCE
-========================================================
 
-Inspect the current animation implementation.
+Audit the current masking / clipping implementation.
 
-If any previous code causes:
+If previous clipping or overlay code is causing visual leakage:
 
-• vertical movement
-• layout recalculation
-• conflicting animations
-• duplicated transitions
+rewrite it cleanly.
 
-remove or rewrite that implementation.
-
-Do not patch over bad animation code.
+Do NOT patch around the issue.
 
 ========================================================
-VERIFY
-========================================================
 
-Test:
+Verify:
 
-• Open slowly.
-• Open quickly.
-• Close slowly.
-• Close quickly.
-• Repeated open/close.
-• Rapid tapping.
+✓ Dark Mode only changed.
 
-Confirm:
+✓ Light Mode untouched.
 
-✓ No vertical movement.
+✓ Menu feels like an independent iOS panel.
 
-✓ No lag.
+✓ Chat remains behind the Menu.
 
-✓ No bounce.
-
-✓ No flicker.
-
-✓ No dropped frames.
-
-✓ Pure horizontal sliding.
+✓ Nothing leaks outside the Menu edge.
 
 ========================================================
-FINAL REPORT
-========================================================
 
-Explain:
+Final report:
 
-- What caused the vertical movement.
-- What you changed.
-- How you eliminated it.
-- Confirm that NOTHING else in the UI was modified.
+• Explain what caused the visual leakage.
+
+• Explain how the Menu layer is now isolated.
+
+• Confirm Light Mode was not modified.
+
