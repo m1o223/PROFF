@@ -1,1 +1,161 @@
+This task is ONLY about the Menu opening and closing animation.
 
+Do NOT modify anything else.
+
+Do NOT touch:
+- Colors
+- Glass
+- Buttons
+- Search
+- Chat
+- Input
+- Android
+- Web
+
+========================================================
+GOAL
+========================================================
+
+I only want to improve how the menu OPENS and CLOSES.
+
+Nothing else.
+
+========================================================
+CURRENT PROBLEM
+========================================================
+
+The current animation feels incorrect.
+
+When the menu opens, it slightly moves DOWN while opening.
+
+That vertical movement looks wrong.
+
+It feels unstable.
+
+The same happens while closing.
+
+========================================================
+DESIRED BEHAVIOR
+========================================================
+
+The menu should move ONLY on the horizontal axis.
+
+No vertical movement.
+
+No dropping.
+
+No bouncing.
+
+No shifting downward.
+
+No diagonal movement.
+
+No position jump.
+
+It should feel like one smooth horizontal sliding panel.
+
+Imagine opening and closing a premium sliding door.
+
+========================================================
+OPEN ANIMATION
+========================================================
+
+When the user taps the Menu button:
+
+• Start immediately.
+• Slide smoothly from the left.
+• Constant horizontal movement.
+• No lag.
+• No frame drops.
+• No vertical offset.
+• No bounce.
+• No overshoot.
+
+The animation should feel elegant and premium.
+
+========================================================
+CLOSE ANIMATION
+========================================================
+
+When closing:
+
+Use the exact reverse animation.
+
+Same speed.
+
+Same easing.
+
+Same smoothness.
+
+No different timing.
+
+========================================================
+TIMING
+========================================================
+
+The animation should not feel slow.
+
+It should not feel too fast.
+
+Target approximately the same feeling as high-quality native iOS navigation.
+
+Smooth.
+
+Responsive.
+
+Natural.
+
+========================================================
+PERFORMANCE
+========================================================
+
+Inspect the current animation implementation.
+
+If any previous code causes:
+
+• vertical movement
+• layout recalculation
+• conflicting animations
+• duplicated transitions
+
+remove or rewrite that implementation.
+
+Do not patch over bad animation code.
+
+========================================================
+VERIFY
+========================================================
+
+Test:
+
+• Open slowly.
+• Open quickly.
+• Close slowly.
+• Close quickly.
+• Repeated open/close.
+• Rapid tapping.
+
+Confirm:
+
+✓ No vertical movement.
+
+✓ No lag.
+
+✓ No bounce.
+
+✓ No flicker.
+
+✓ No dropped frames.
+
+✓ Pure horizontal sliding.
+
+========================================================
+FINAL REPORT
+========================================================
+
+Explain:
+
+- What caused the vertical movement.
+- What you changed.
+- How you eliminated it.
+- Confirm that NOTHING else in the UI was modified.
