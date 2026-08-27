@@ -1,1 +1,197 @@
+This task is ONLY about the Menu content and native iOS behavior.
 
+Do NOT modify:
+- Chat screen
+- Input
+- Composer
+- Login
+- Register
+- Light Mode
+- Android
+- Web
+
+Work ONLY on the iOS Menu.
+
+====================================================
+1. BlueMind AI Header
+====================================================
+
+The "BlueMind AI" title currently has too much blur/glow behind it.
+
+Reduce it.
+
+I want a very subtle premium effect like native iOS.
+
+The text must remain perfectly sharp.
+
+No heavy blur behind the title.
+
+====================================================
+2. Search Button
+====================================================
+
+Use the same native Glass button style that we already approved.
+
+The Search button inside the menu must use exactly the same:
+
+- Material
+- Blur
+- Highlight
+- Shadow
+- Corner radius
+
+Do not redesign it.
+
+Use the existing approved Glass component.
+
+====================================================
+3. New Chat Button
+====================================================
+
+The New Chat button is currently a little too large.
+
+Reduce its size slightly.
+
+Keep:
+
+- BlueMind colors
+- BlueMind icon
+
+Only improve proportions.
+
+It should feel lighter and more elegant.
+
+====================================================
+4. Profile Avatar
+====================================================
+
+Reduce the profile avatar size slightly.
+
+Increase spacing between:
+
+- New Chat button
+- Avatar
+
+Improve visual balance.
+
+====================================================
+5. Conversation Menu
+====================================================
+
+Remove the visible three-dot button (⋮) beside every conversation.
+
+Instead:
+
+Use native iOS Long Press Context Menu.
+
+No custom popup.
+
+No custom modal.
+
+No custom sheet.
+
+Use the real iOS Context Menu.
+
+Options:
+
+📌 Pin
+
+✏️ Rename
+
+📁 Add to Project
+
+🗑 Delete
+
+Use native icons and native animations.
+
+====================================================
+6. Pinned Section
+====================================================
+
+Add a new section near the top of the menu.
+
+Title:
+
+Pinned
+
+It should remain empty for now.
+
+When conversations are pinned later, they will appear here.
+
+Do NOT implement pin logic yet.
+
+Only create the section and prepare the structure.
+
+====================================================
+7. Projects Section
+====================================================
+
+Add a permanent "Projects" item in the menu.
+
+Use the BlueMind design language.
+
+When tapped:
+
+Open an empty placeholder Projects screen.
+
+The page can simply display:
+
+Projects
+Coming Soon
+
+No functionality is required yet.
+
+This is only to reserve the navigation flow so we don't forget it later.
+
+====================================================
+8. Native Feel
+====================================================
+
+Everything should feel like a native iOS application.
+
+Use:
+
+- Native spacing
+- Native animation timing
+- Native context menu
+- Native touch behavior
+
+Avoid custom implementations whenever iOS already provides a native component.
+
+====================================================
+9. Code Audit
+====================================================
+
+Before making changes:
+
+Inspect the existing menu code.
+
+If previous implementations conflict with these requirements:
+
+Refactor or remove them cleanly.
+
+Do NOT layer new code over broken code.
+
+Keep Android and Web completely untouched.
+
+Keep Light Mode untouched.
+
+Modify Dark Mode menu only.
+
+====================================================
+10. Final Report
+====================================================
+
+After finishing, provide a report including:
+
+• What files were changed.
+
+• What old code was removed or refactored.
+
+• Confirmation that Android was untouched.
+
+• Confirmation that Web was untouched.
+
+• Confirmation that Light Mode was untouched.
+
+• Confirmation that only the iOS Dark Menu was modified.
