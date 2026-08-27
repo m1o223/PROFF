@@ -1,1 +1,80 @@
+STOP.
 
+This is a design consistency task only.
+
+From now on, the "Research AI" button is the visual reference for every circular action button in the iOS app.
+
+Do NOT redesign the Research AI button.
+
+Use it as the design system reference.
+
+====================================================
+GOAL
+====================================================
+
+Every circular button in BlueMind must share the exact same visual language.
+
+I want one unified iOS design system.
+
+====================================================
+APPLY TO ALL CIRCULAR BUTTONS
+====================================================
+
+Use the same:
+
+• corner radius
+• glass effect
+• blur amount
+• background opacity
+• border thickness
+• border color
+• shadow
+• highlight
+• material
+• inner spacing
+• visual depth
+
+Everything should match the Research AI button.
+
+The ONLY thing that changes is the icon inside.
+
+====================================================
+EXAMPLES
+====================================================
+
+Apply this style to:
+
+• Menu button
+• Search button
+• New Chat button
+• Back button
+• Settings buttons
+• Profile action buttons
+• Any future floating circular action button
+
+Every button keeps its own icon.
+
+Only the visual style is shared.
+
+====================================================
+DO NOT CHANGE
+====================================================
+
+Do NOT change:
+
+• icon design
+• icon meaning
+• button size (unless inconsistent)
+• functionality
+
+Only unify the visual appearance.
+
+====================================================
+RESULT
+====================================================
+
+When the user looks at the app, every circular button should immediately feel like it belongs to the same premium iOS design system.
+
+There should be one consistent glass language across the entire application.
+
+Report which components were updated to use the shared button style.
