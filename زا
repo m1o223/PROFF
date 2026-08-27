@@ -1,0 +1,124 @@
+The current iOS direction is approved.
+
+Keep all previously approved improvements.
+
+Do NOT redesign the menu.
+
+Do NOT redesign the header.
+
+Do NOT touch Android.
+
+This is only a polish pass.
+
+====================================================
+1. MENU OPEN ANIMATION
+====================================================
+
+The current menu behavior is close to what I want, but the animation still does not feel like ChatGPT on iOS.
+
+Study the ChatGPT iOS interaction carefully.
+
+When the Menu button is pressed:
+
+The side menu should naturally slide in from the left.
+
+The chat surface should smoothly move to the right.
+
+Nothing should appear to "drop down".
+
+Nothing should feel like it is being added later.
+
+The entire movement should feel like one continuous horizontal motion.
+
+The menu should already exist and simply slide into view.
+
+The chat should slide away at the same time.
+
+Use a native spring animation.
+
+====================================================
+2. CHAT BEHIND THE MENU
+====================================================
+
+Do NOT completely hide the chat.
+
+The partially visible chat on the right is correct.
+
+However:
+
+Move it slightly farther behind the menu so it feels more natural.
+
+Apply a subtle translucent blur/glass effect over the visible portion.
+
+It should feel like background content.
+
+It should never compete visually with the menu.
+
+====================================================
+3. SEARCH BUTTON
+====================================================
+
+Keep the Search button exactly as it is.
+
+Keep the circular glass background.
+
+Do NOT redesign it.
+
+====================================================
+4. THREE-DOTS BUTTON
+====================================================
+
+Keep only the three-dot icon.
+
+Remove the extra circular glass/background around it.
+
+The three-dot button should feel lighter and cleaner.
+
+====================================================
+5. HEADER POLISH
+====================================================
+
+Keep all previously approved refinements:
+
+• BlueMind custom menu icon
+• White menu lines
+• Top line longest
+• Middle shorter
+• Bottom shortest
+• AI selector slightly larger
+• New Chat button slightly larger
+• Better corner radius
+• Premium glass
+• Native press animations
+
+Do NOT undo any of these.
+
+====================================================
+6. VERIFY
+====================================================
+
+Test everything after implementation.
+
+Open/close the menu repeatedly.
+
+Ensure the entire transition is one continuous horizontal movement.
+
+No vertical movement.
+
+No jumping.
+
+No clipping.
+
+No overlapping.
+
+No flickering.
+
+No layout shifts.
+
+Everything should feel like a premium first-party iOS application while keeping BlueMind's own identity.
+
+If any old code, wrapper, animation, constraint or transition is preventing this behavior, investigate it first.
+
+If necessary, remove only the obsolete implementation and replace it with a clean native iOS solution.
+
+Do not affect Android or Web.
