@@ -1,1 +1,194 @@
+TASK: Rebuild the New Reminder form layout correctly.
 
+STOP patching the current broken geometry.
+
+The New Reminder form has had the same layout problem repeatedly:
+fields overlap, elements move outside their own area, and the entire page can shift horizontally beyond the iPhone viewport.
+
+If the existing layout/CSS structure is causing this, REMOVE the broken form layout and rebuild the UI structure from scratch.
+
+IMPORTANT:
+Preserve all existing reminder functionality, state, validation, save logic, date/time logic, repeat logic, and backend behavior.
+
+I am asking you to rebuild the PRESENTATION/LAYOUT if necessary — not the reminder feature itself.
+
+==================================================
+CORE RULE
+==================================================
+
+Every control must have its OWN allocated layout space.
+
+Nothing may overlap another control.
+
+Nothing may escape the form container.
+
+Nothing may increase the width of the page.
+
+The screen must NEVER horizontally scroll or shift left/right.
+
+The complete form must remain locked to the iPhone viewport width.
+
+==================================================
+REBUILD THE FORM STRUCTURE
+==================================================
+
+Build a clean vertical layout in this order:
+
+New Reminder header
+
+Title
+[Title input]
+
+Description
+[Description textarea]
+
+Date              Time
+[Date control]    [Time control]
+
+Reminder Before
+[Reminder Before control]
+
+Repeat                 Every
+[Repeat control]       [Every control]
+
+[Cancel]               [Save]
+
+Each section must occupy its own layout row.
+
+Use proper containers/stacks/grid/flex layout rather than manual absolute positioning.
+
+Do NOT position these fields using arbitrary left/right coordinates.
+
+==================================================
+WIDTH SAFETY
+==================================================
+
+The parent form must use the available viewport width.
+
+All child controls must calculate their width FROM THE PARENT.
+
+Use proper:
+- box-sizing
+- min-width handling
+- max-width constraints
+- flex/grid shrinking
+
+No child is allowed to force the parent wider than the iPhone screen.
+
+Explicitly prevent horizontal overflow.
+
+There must be:
+
+NO horizontal scrolling.
+NO sideways page movement.
+NO clipped inputs.
+NO fields extending beyond the left edge.
+NO fields extending beyond the right edge.
+
+==================================================
+TWO-COLUMN ROWS
+==================================================
+
+Date + Time are one controlled two-column row.
+
+Repeat + Every are another controlled two-column row.
+
+Cancel + Save are another controlled two-column row.
+
+The columns must fit INSIDE the available width including:
+- padding
+- gaps
+- borders
+
+Do not use fixed widths that together exceed the viewport.
+
+If the available screen becomes smaller, the layout must shrink correctly rather than overflow.
+
+==================================================
+TEXT / KEYBOARD
+==================================================
+
+Opening the keyboard must NOT change the horizontal geometry.
+
+Typing long text must NOT increase input width.
+
+Focus must NOT:
+- scale the input
+- translate it
+- move neighboring elements
+- expand the page width
+
+The page may scroll VERTICALLY when needed.
+
+It must NEVER scroll horizontally.
+
+==================================================
+iOS UI
+==================================================
+
+After the geometry is stable, apply the same existing iOS glass/native visual system already used in BlueMind.
+
+Inputs and controls should use the established iOS treatment where appropriate.
+
+Do NOT create another fake glass system.
+
+Reuse existing shared/native iOS components.
+
+But FIRST fix the layout geometry.
+
+==================================================
+CLOSE BUTTON
+==================================================
+
+Keep the existing close behavior.
+
+The X must belong to the New Reminder sheet/container and move with that sheet.
+
+It must not exist as an independently positioned floating element outside the sheet lifecycle.
+
+==================================================
+DO NOT PATCH AROUND THE BUG
+==================================================
+
+Inspect the existing New Reminder implementation first.
+
+If old CSS, absolute positioning, transforms, fixed widths, legacy wrappers, or duplicated styles are fighting the new layout:
+
+REMOVE or REPLACE them.
+
+Do not layer another CSS fix on top of broken layout code.
+
+A clean rebuild of this form's UI is preferred if necessary.
+
+==================================================
+REAL DEVICE VERIFICATION
+==================================================
+
+Test this on the connected real iPhone.
+
+Verify:
+
+1. Open New Reminder.
+2. No overlap anywhere.
+3. No horizontal scrolling.
+4. Try dragging horizontally — page must not move.
+5. Focus Title.
+6. Focus Description.
+7. Open Date.
+8. Open Time.
+9. Change Reminder Before.
+10. Change Repeat.
+11. Change Every.
+12. Open keyboard.
+13. Type long text.
+14. Scroll vertically.
+15. Rotate/focus/unfocus if applicable.
+16. Cancel.
+17. Open again.
+18. Save a reminder.
+
+At every stage the geometry must remain stable.
+
+Do not report this fixed based only on a successful build.
+
+Confirm it visually on the real iPhone.
