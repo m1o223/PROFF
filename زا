@@ -1,1 +1,234 @@
 
+Task: Replace the custom Settings popovers with REAL native iOS system UI.
+
+The current Settings selector shown for Appearance is still a custom app-made popup.
+
+I do NOT want BlueMind to visually imitate iOS here.
+
+I want iOS itself to present the selector.
+
+====================================================
+CORE REQUIREMENT
+====================================================
+
+On iOS, use real native UIKit / iOS presentation for these Settings actions:
+
+1. Appearance
+   - System
+   - Dark
+   - Light
+
+2. App Accent Color
+   - existing accent color options
+
+3. Chat Color
+   - existing chat color options
+
+4. Log out
+   - Cancel
+   - destructive Log out confirmation
+
+And use the same native presentation approach for any similar Settings selector that fits this interaction pattern.
+
+====================================================
+DO NOT BUILD CUSTOM UI
+====================================================
+
+Do NOT use:
+
+- React modal
+- HTML modal
+- CSS glass popup
+- custom backdrop
+- custom rounded panel
+- fake Apple blur
+- manually recreated iOS selector
+
+The visual appearance must come from the iOS system itself.
+
+Use native UIKit APIs.
+
+====================================================
+NATIVE IOS STYLE
+====================================================
+
+The system should automatically provide:
+
+- native material / glass
+- native blur
+- native corner radius
+- native typography
+- native animation
+- correct spacing
+- native selection state
+- correct Dark Mode
+- correct Light Mode
+- accessibility behavior
+
+Do not hardcode visual values that duplicate Apple's appearance.
+
+====================================================
+APPEARANCE
+====================================================
+
+When tapping Appearance:
+
+Present a native iOS selector containing:
+
+- System
+- Dark
+- Light
+
+Current selection must be clearly indicated using the appropriate native selection treatment.
+
+Selecting an option must:
+- apply the existing appearance logic
+- update Settings immediately
+- dismiss using native behavior
+
+====================================================
+APP ACCENT COLOR
+====================================================
+
+When tapping App Accent Color:
+
+Present the colors using a native iOS selection UI.
+
+Keep the existing color names and color values.
+
+The native UI should clearly indicate the current choice.
+
+Do not change the actual accent-color logic.
+
+====================================================
+CHAT COLOR
+====================================================
+
+Same native iOS selection presentation.
+
+Keep the existing chat color options and logic.
+
+Only replace the current custom presentation layer.
+
+====================================================
+LOG OUT
+====================================================
+
+When tapping Log out:
+
+Use a real native iOS destructive confirmation.
+
+Title:
+Log out?
+
+Message:
+You will need to sign in again to use BlueMind AI.
+
+Actions:
+- Cancel
+- Log out (destructive)
+
+Only execute the existing logout logic after native confirmation.
+
+====================================================
+ARCHITECTURE
+====================================================
+
+Create one clean native bridge/presentation system for Settings actions instead of creating unrelated custom popups for every row.
+
+React should send:
+- selector type
+- title
+- options
+- selected value
+
+Native iOS should own:
+- presentation
+- system UI
+- dismissal
+- user selection
+
+Then return the selected action/value to React.
+
+====================================================
+IMPORTANT
+====================================================
+
+Remove or bypass the existing custom iOS Settings popup implementation.
+
+There must NEVER be:
+
+custom popup
+→ then native popup
+
+The flow must be:
+
+tap Settings row
+→ native iOS UI appears directly
+
+====================================================
+OTHER PLATFORMS
+====================================================
+
+Do not break Android or Web.
+
+Native UIKit presentation is required specifically for iOS.
+
+Keep an appropriate existing fallback for other platforms.
+
+====================================================
+DO NOT CHANGE
+====================================================
+
+Do not redesign:
+
+- Settings background
+- Settings cards
+- profile area
+- icons
+- text
+- layout
+- current colors
+- setting values
+- authentication logic
+
+This task is ONLY replacing custom selector/confirmation presentation on iOS with real native system UI.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test on the connected real iPhone:
+
+Appearance:
+- open selector
+- select System
+- select Dark
+- select Light
+
+App Accent Color:
+- open selector
+- change multiple colors
+
+Chat Color:
+- open selector
+- change multiple colors
+
+Log out:
+- Cancel
+- confirm Log out
+
+Verify:
+- no custom BlueMind popup appears
+- all selectors come directly from native iOS
+- Dark Mode correct
+- Light Mode correct
+- Settings state updates correctly
+- no duplicate overlays
+- no old custom popup flashes
+
+At the end report:
+1. UIKit APIs used
+2. old custom popup code removed/bypassed
+3. native bridge used
+4. real iPhone test result
