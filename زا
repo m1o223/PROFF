@@ -1,1 +1,62 @@
+Task: Fix Schedule cards + use the real native iOS action menu.
 
+For this task ONLY, make these two changes inside Schedule.
+
+1. SCHEDULE CARDS
+
+The schedule/event cards are currently blue/navy.
+
+Change ALL schedule cards to a neutral dark gray iOS-style surface.
+
+Requirements:
+- Remove the blue/navy tint from the card background.
+- Use a dark graphite/gray material similar to the other BlueMind iOS surfaces.
+- Keep the card readable and premium.
+- Keep the current card layout:
+  - icon
+  - schedule name
+  - date/time
+  - three-dot action button
+- Do NOT change card data, spacing, logic, or calendar behavior yet.
+- The card must not turn blue when selected or pressed.
+- Pressing must not move, resize, jump, or shift the card.
+
+Apply this consistently to:
+- the event card under the selected calendar date
+- cards inside "All schedules"
+- any other Schedule list card using the same component
+
+2. THREE-DOT ACTION MENU
+
+When the user taps the circular three-dot button on a schedule card:
+
+DO NOT use the current custom HTML/CSS popup.
+
+Use the real native iOS action menu / context menu presentation already used elsewhere in the iOS app.
+
+The menu should contain:
+
+Edit
+Delete
+
+Requirements:
+- Edit = normal iOS action
+- Delete = destructive red iOS action
+- Use real iOS material, spacing, typography and behavior
+- Do not manually imitate the Apple menu with CSS
+- Anchor/present it naturally from the three-dot action
+- The card must stay in place while the menu opens
+- No black rectangle
+- No layout shift
+- No duplicate menu
+- No flash of the old custom menu
+
+If an old custom React/HTML popup exists for Schedule actions, remove/bypass it on iOS rather than layering the native menu over it.
+
+IMPORTANT:
+Do not redesign anything else in Schedule in this pass.
+
+When finished, report:
+1. which card component was changed to dark gray
+2. which old three-dot popup implementation was removed/bypassed
+3. confirmation that Edit/Delete now use the real native iOS action presentation
