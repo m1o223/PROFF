@@ -1,1 +1,182 @@
+TWO SMALL SETTINGS FIXES ONLY.
+Do not redesign anything else.
 
+====================================================
+FIX 1 — SIMPLIFY DELETE ACCOUNT ROW
+====================================================
+
+In the main Settings ACCOUNT section, the Delete Account row currently contains:
+
+- Delete Account
+- a long descriptive sentence underneath
+
+Remove the descriptive sentence completely from the MAIN Settings list.
+
+The row should show ONLY:
+
+Delete Account
+
+Nothing else.
+
+Do not show:
+- password explanation
+- permanent removal explanation
+- account deletion description
+
+Those details belong inside the Delete Account screen AFTER the user taps the row.
+
+Keep:
+- red destructive styling
+- delete icon
+- chevron
+- existing navigation behavior
+
+Only remove the subtitle/description from the main Settings list.
+
+====================================================
+FIX 2 — X MUST MOVE WITH THE SETTINGS SHEET
+====================================================
+
+There is currently a timing/layer bug with the Settings X button.
+
+Observed behavior:
+
+When Settings closes:
+- the Settings sheet moves/disappears
+- but the X remains visible by itself for a fraction of a second
+- then the X disappears later
+
+When Settings opens:
+- the X sometimes appears first
+- then the Settings sheet appears/moves in afterward
+
+This is wrong.
+
+The X must NEVER behave as an independent floating overlay.
+
+====================================================
+TARGET BEHAVIOR
+====================================================
+
+The X button must belong to the SAME root Settings presentation container as the Settings sheet.
+
+When Settings opens:
+- sheet + X appear/move together
+- same frame
+- same timing
+- same transform
+- no early X
+
+When Settings closes:
+- sheet + X move down together
+- X must not remain behind
+- X must not disappear later
+- both finish dismissal at exactly the same time
+
+====================================================
+IMPORTANT IMPLEMENTATION RULE
+====================================================
+
+Do NOT animate the X separately.
+
+Do NOT give the X:
+- separate opacity animation
+- separate translate animation
+- separate mount delay
+- separate unmount delay
+- separate timeout
+- separate lifecycle transition
+
+The X should inherit the Settings root movement.
+
+Conceptually:
+
+SettingsRoot
+ ├── SettingsSurface
+ ├── SettingsContent
+ └── NativeCloseButton
+
+Animate / translate SettingsRoot as one unit.
+
+Do NOT animate:
+
+SettingsSurface
+and
+CloseButton
+
+independently.
+
+====================================================
+MOUNT / UNMOUNT TIMING
+====================================================
+
+On open:
+
+Mount the Settings root and X together.
+
+Do not render the X before the Settings container is ready.
+
+On close:
+
+Keep BOTH mounted until the sheet dismissal finishes.
+
+Then unmount the complete Settings root together.
+
+There must be no frame where:
+- X exists without Settings
+or
+- Settings exists without X
+
+====================================================
+Z-ORDER
+====================================================
+
+The X should remain visually above the Settings surface,
+but it must still belong to the same presentation hierarchy.
+
+Do not put the X in a global overlay/root portal independent from Settings.
+
+====================================================
+KEEP CURRENT X DESIGN
+====================================================
+
+The current native iOS X style is correct.
+
+Do NOT change:
+- glass
+- size
+- icon
+- styling
+- position
+- native behavior
+
+Only fix its presentation ownership and synchronization with Settings.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test repeatedly on the connected real iPhone:
+
+1. Open Settings 10 times.
+2. Close Settings with X 10 times.
+3. Open/close quickly several times.
+4. Take slow-motion/video if needed.
+
+Verify:
+
+- X never appears before Settings
+- X never remains after Settings
+- X and Settings move together
+- no flash
+- no delayed disappearance
+- no independent X animation
+
+When finished report:
+
+1. Why the X was independent.
+2. Whether it was rendered in a separate overlay/portal/native layer.
+3. What was changed so X and Settings share one presentation lifecycle.
+4. Real-iPhone test result.
+
+DO NOT CHANGE ANYTHING ELSE.
