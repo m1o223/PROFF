@@ -1,1 +1,234 @@
+TASK: Fix ONLY the “All Schedules” sheet/modal on iOS.
 
+IMPORTANT:
+Do not redesign the Schedule page.
+Do not change the calendar.
+Do not change schedule creation.
+Do not change the existing schedule data or backend logic.
+Do not modify other BlueMind chats, Reminders, Settings, or other sheets.
+
+This task is ONLY about the “All Schedules” sheet/modal and the schedule cards displayed inside it.
+
+==================================================
+1. ALL SCHEDULES SHEET HEIGHT
+==================================================
+
+The “All Schedules” sheet currently does not use enough of the screen.
+
+Change it so that when opened:
+
+- It covers approximately 90% of the iPhone screen height.
+- Leave approximately 10% of the original Schedule screen visible at the top.
+- It must behave like a proper bottom sheet.
+- It should start from the bottom and extend upward to the 90% position.
+- Do NOT make it full screen.
+- Do NOT place it in the middle of the screen.
+
+Target:
+
+Screen:
+[ 10% original Schedule screen visible ]
+-----------------------------------------
+[                                       ]
+[          ALL SCHEDULES SHEET          ]
+[                                       ]
+[                 90%                   ]
+[                                       ]
+[_______________________________________]
+
+The content inside the sheet must remain correctly clipped inside the sheet.
+
+==================================================
+2. CLOSE X BUTTON
+==================================================
+
+The X in the top-right corner of the “All Schedules” sheet must remain INSIDE the sheet.
+
+Right now it looks like a simple X.
+
+Replace its visual container with the same iOS glass-style circular control already used elsewhere in the app.
+
+Requirements:
+
+- Circular button.
+- iOS glass/material appearance.
+- Same visual language as the existing glass Back / Plus / Calendar controls.
+- X icon centered inside it.
+- Correct touch target.
+- The entire circular button is tappable, not only the X icon.
+
+MOST IMPORTANT:
+
+Tapping this X MUST close the “All Schedules” sheet.
+
+It must return the user to the Schedule screen underneath.
+
+Do not navigate somewhere else.
+Do not close the Schedule page itself.
+Only dismiss the “All Schedules” sheet.
+
+==================================================
+3. FIX THE THREE-DOT BUTTON BUG
+==================================================
+
+There is currently a specific bug.
+
+When a schedule exists, I can see TWO three-dot controls:
+
+A) One three-dot button INSIDE the schedule card.
+B) Another floating three-dot button OUTSIDE the card.
+
+CURRENT WRONG BEHAVIOR:
+
+- The three-dot button INSIDE the card does NOT work.
+- The floating three-dot button OUTSIDE the card DOES work.
+
+This is backwards.
+
+DO NOT simply hide the working button without moving its functionality first.
+
+Correct implementation:
+
+STEP 1:
+Find the event/action handler used by the OUTSIDE floating three-dot button.
+
+STEP 2:
+Connect/reuse that exact working action-menu behavior on the three-dot button that already exists INSIDE the schedule card.
+
+STEP 3:
+Test the INSIDE three-dot button.
+
+When tapped, it must open the schedule actions for THAT EXACT schedule.
+
+For example:
+
+- Open
+- Edit (if currently supported)
+- Delete
+
+Use the existing iOS/native action presentation already used by the app.
+
+STEP 4:
+ONLY AFTER the inside button works correctly, remove the floating/outside three-dot button completely.
+
+FINAL RESULT:
+
+Each schedule card must contain exactly ONE three-dot button.
+
+Correct structure:
+
+┌──────────────────────────────────────┐
+│  [icon]   Schedule name          ⋮   │
+│           Date / time                │
+└──────────────────────────────────────┘
+
+The ⋮ belongs INSIDE the card.
+
+There must NEVER be another floating ⋮ somewhere outside the card.
+
+==================================================
+4. THREE-DOT BUTTON APPEARANCE
+==================================================
+
+The three-dot control inside the card should use the same iOS glass visual language as the rest of these controls.
+
+It should:
+
+- stay inside the card
+- have a circular glass/material background
+- have the three dots centered
+- have a proper iOS-sized touch target
+- not overlap text
+- not extend outside the card
+- not create another floating copy
+
+Do not change the card layout unnecessarily.
+
+==================================================
+5. EMPTY STATE
+==================================================
+
+When there are ZERO schedules:
+
+Currently there is a large card/container around:
+
+“No schedules yet”
+“Use the plus button to add your first schedule.”
+
+Remove that unnecessary empty-state card.
+
+Instead, show the empty-state information directly inside the All Schedules sheet.
+
+Example structure:
+
+All schedules
+
+Sorted by date and time automatically.
+
+
+          [calendar icon]
+
+        No schedules yet
+Use the + button to add your first schedule.
+
+No large bordered card is needed around this message.
+
+Keep it clean and minimal.
+
+==================================================
+6. DO NOT BREAK EXISTING SCHEDULES
+==================================================
+
+Existing schedules must remain intact.
+
+Do NOT:
+
+- delete existing schedule data
+- recreate the schedule database
+- change schedule IDs
+- change dates/times
+- change schedule creation behavior
+- change calendar behavior
+- change search behavior elsewhere
+- touch unrelated screens
+
+This is primarily a UI/layout + event-handler correction.
+
+==================================================
+7. REQUIRED FINAL TEST
+==================================================
+
+Please test this exact sequence on the connected iPhone:
+
+TEST A:
+Open Schedule → open All Schedules.
+
+Expected:
+The sheet occupies ~90% of the screen and ~10% of the Schedule page remains visible above it.
+
+TEST B:
+Tap the glass X.
+
+Expected:
+Only All Schedules closes and the Schedule page remains.
+
+TEST C:
+Create or use an existing schedule.
+
+Expected:
+Exactly ONE three-dot button appears and it is INSIDE the schedule card.
+
+TEST D:
+Tap the three-dot button INSIDE the card.
+
+Expected:
+The correct iOS/native schedule action menu opens for that schedule.
+
+TEST E:
+Verify there is NO second/floating three-dot button outside the card.
+
+TEST F:
+When no schedules exist, verify that the empty message appears directly on the sheet without the large empty-state card.
+
+Do not report this as complete based only on build success.
+Verify the actual behavior on the connected iPhone.
