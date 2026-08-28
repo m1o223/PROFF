@@ -1,1 +1,65 @@
+Task: Convert ALL Schedule buttons to real native iOS glass controls.
 
+For this task ONLY, do not redesign the calendar, cards, spacing, text, data, or Schedule logic.
+
+I want every interactive button inside the Schedule flow to use the SAME real iOS native circular/glass button system we already use successfully elsewhere in BlueMind.
+
+Update ALL of these Schedule controls:
+
+- Back button
+- Plus (+) button
+- Calendar / All Schedules button
+- X / Close button
+- Any back button inside Schedule sub-pages
+- Any close button inside Schedule sheets/pages
+- Create Schedule action control
+- Any other icon/button used for navigation inside Schedule
+
+REQUIREMENTS:
+
+1. Use the REAL native iOS implementation/material.
+Do NOT recreate an HTML/CSS button that only looks like iOS.
+
+2. Icon-only navigation controls must be circular and use the same native glass appearance:
+- same diameter
+- same blur/material
+- same border/highlight
+- same icon weight
+- same padding
+- same pressed behavior
+
+3. Keep the existing icons:
+- full back arrow ←
+- plus +
+- calendar icon
+- X close icon
+
+Do not replace them with different symbols.
+
+4. They must not:
+- jump
+- resize
+- move position when pressed
+- create a black rectangle behind them
+- flash another layer
+- show duplicate backgrounds
+
+5. The button and its glass background must behave as ONE component.
+
+6. Apply this consistently across:
+- main Schedule page
+- month/week calendar
+- All Schedules
+- new schedule/create flow
+- any Schedule subpage that contains navigation buttons
+
+7. If old CSS/React/native code conflicts with the real iOS control, remove or replace the old button implementation instead of stacking the new one over it.
+
+IMPORTANT:
+Do not change anything else yet.
+This pass is ONLY for standardizing all Schedule buttons to the real native iOS circular glass system.
+
+After finishing, report:
+- which Schedule buttons were replaced
+- which old implementations were removed
+- confirmation that all Schedule navigation controls now use one shared native iOS button implementation
