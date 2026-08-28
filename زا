@@ -1,1 +1,128 @@
+BUG: Settings color rows are visible but not tappable / native selector does not open.
 
+In the iOS Settings screen, these rows are displayed correctly:
+
+- Appearance
+- App Accent Color
+- Chat Color
+
+But tapping Chat Color currently does nothing.
+Please also verify the other two rows.
+
+This is NOT a visual redesign task.
+
+====================================================
+EXPECTED BEHAVIOR
+====================================================
+
+Tap Appearance
+→ open the real native iOS selector
+
+Tap App Accent Color
+→ open the real native iOS selector
+
+Tap Chat Color
+→ open the real native iOS selector
+
+The entire visible row should be tappable, not only the label or chevron.
+
+====================================================
+AUDIT THE TOUCH PATH
+====================================================
+
+Please inspect:
+
+1. The React onClick/onTap handler for each row.
+2. Whether the handler still calls the native iOS bridge.
+3. Whether any transparent overlay/view is intercepting touches.
+4. z-index / pointer-events.
+5. Whether the Settings scroll container is swallowing the tap.
+6. Whether the row is accidentally disabled.
+7. Whether an old custom modal state is blocking the native presentation.
+8. Whether the native bridge callback/action ID for Chat Color is missing or incorrect.
+
+Do not assume the UI is clickable just because the chevron is visible.
+
+====================================================
+VERY IMPORTANT
+====================================================
+
+Do NOT create a new custom popup.
+
+These rows must use the SAME native iOS selector architecture already requested for Settings.
+
+If the native selector implementation already exists:
+repair the connection between the row and that native selector.
+
+====================================================
+FULL ROW HIT AREA
+====================================================
+
+Make the complete row interactive:
+
+icon + title + selected value + chevron + empty row space
+
+The user should be able to tap anywhere inside the row.
+
+Minimum touch target must be appropriate for iOS.
+
+Do not make only the chevron clickable.
+
+====================================================
+CHAT COLOR
+====================================================
+
+Current value shown:
+Teal
+
+Tap Chat Color
+→ native selector opens
+→ current Teal value is selected
+→ user chooses another color
+→ existing Chat Color logic updates
+→ selector closes
+→ main Settings remains open
+
+====================================================
+APP ACCENT COLOR
+====================================================
+
+Current value shown:
+Sky
+
+Same behavior.
+
+====================================================
+APPEARANCE
+====================================================
+
+Current value shown:
+System
+
+Same behavior.
+
+====================================================
+DO NOT CLOSE SETTINGS
+====================================================
+
+Opening or closing the child native selector must not dismiss the main Settings sheet.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test directly on the connected iPhone.
+
+Tap each row from:
+- left side/icon
+- center/title
+- right side/current value
+- chevron area
+
+Verify all areas open the same native selector.
+
+Report:
+1. Why Chat Color was not responding.
+2. Whether a touch-blocking overlay existed.
+3. Which event/native bridge handler was fixed.
+4. Real iPhone test result for all 3 rows.
