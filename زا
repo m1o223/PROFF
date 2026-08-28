@@ -1,1 +1,42 @@
+SMALL FIX ONLY — DO NOT CHANGE ANYTHING ELSE.
 
+The native iOS X close button is now correct in style and behavior.
+
+Do NOT redesign it.
+Do NOT replace it.
+Do NOT change its size, glass, icon, color, or functionality.
+
+ONLY FIX ITS POSITION.
+
+CURRENT PROBLEM:
+The X button is sitting too high and overlaps / floats above the top edge of the Settings sheet.
+
+TARGET:
+Move the X button slightly downward so it sits fully INSIDE the Settings sheet.
+
+It should be:
+- below the top edge / top boundary of the Settings sheet
+- visually contained inside the Settings surface
+- aligned near the top-right corner
+- respecting the sheet's internal top padding and safe-area spacing
+
+The complete circular glass button must remain inside the Settings bounds.
+
+Do not let any part of the X button extend above the Settings sheet.
+
+IMPORTANT:
+Keep everything else exactly as it is.
+
+Do NOT change:
+- Settings size
+- Settings position
+- opening/closing behavior
+- animations
+- drag behavior
+- X native iOS glass style
+- X functionality
+- other Settings content
+
+This is ONLY a positioning fix for the X button.
+
+After changing it, verify on the real iPhone that the entire X button is visually inside the Settings sheet and no longer floats above the top border.
