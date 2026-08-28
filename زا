@@ -1,1 +1,119 @@
+TASK: Replace the current Settings X close button with a REAL native iOS glass close control.
 
+IMPORTANT:
+Do NOT redesign the existing React/CSS X button.
+
+REMOVE the current custom Settings close button entirely on iOS.
+
+I want the close button to be owned/rendered by native iOS.
+
+====================================================
+CURRENT PROBLEM
+====================================================
+
+The Settings sheet currently has a custom circular X button.
+
+It looks similar to iOS, but it is still BlueMind/React UI.
+
+I do not want an imitation.
+
+====================================================
+TARGET
+====================================================
+
+Use a real native iOS close button/control with:
+
+- native Apple glass/material
+- native blur
+- native highlight behavior
+- native press response
+- native accessibility
+- native X symbol
+- native sizing/spacing
+
+The appearance must come from iOS, not from CSS.
+
+====================================================
+BEHAVIOR
+====================================================
+
+The native X button must:
+
+- stay fixed at the top-right of Settings
+- remain visible while Settings content scrolls
+- close ONLY the main Settings sheet
+- return the user to the menu underneath
+- NOT automatically navigate to Chat
+- NOT affect child Settings state unexpectedly
+
+====================================================
+NO CUSTOM DUPLICATE
+====================================================
+
+There must be only ONE X.
+
+Do not keep the old React button underneath or behind the native control.
+
+Remove/bypass:
+
+- custom circular background
+- custom border
+- custom blur
+- custom box-shadow
+- custom X icon
+- custom pressed animation
+
+on iOS.
+
+====================================================
+USE EXISTING NATIVE IOS SYSTEM
+====================================================
+
+Inspect the native iOS controls already implemented elsewhere in BlueMind.
+
+If we already have the correct Apple glass button architecture, reuse that same native implementation.
+
+Do NOT create another CSS copy.
+
+====================================================
+POSITION
+====================================================
+
+Respect:
+
+- iPhone safe area
+- top inset
+- right inset
+
+The button must remain aligned correctly across different iPhone sizes.
+
+====================================================
+ANIMATIONS
+====================================================
+
+Because Settings is currently in the zero-custom-animation phase:
+
+Do not add custom show/hide/scale/spring animations to the X.
+
+Only unavoidable native iOS system interaction behavior is acceptable.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test on the connected real iPhone.
+
+Verify:
+
+1. Only one X exists.
+2. It is rendered by native iOS.
+3. Glass/material changes naturally with content underneath.
+4. It remains fixed while Settings scrolls.
+5. Tap closes Settings.
+6. Closing Settings leaves the user in the menu underneath.
+7. No React/CSS X flashes before/after the native control.
+
+At the end tell me:
+- which old X implementation was removed
+- which native iOS component is now used
+- confirmation from the real iPhone test
