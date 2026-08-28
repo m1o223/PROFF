@@ -1,1 +1,191 @@
 
+Refine the Reminders page UI based on the current implementation.
+
+IMPORTANT:
+The current page is already much better.
+Do NOT redesign the entire page.
+Do NOT change reminder functionality, data, navigation, or existing working behavior.
+Only make the UI refinements below.
+
+1. REMINDER ACTIONS MENU
+
+The current "Reminder Actions" popup is too large for only two actions.
+
+Replace/refine it so it feels like a compact native iOS context menu.
+
+Requirements:
+- Make the menu significantly smaller and more compact.
+- Position it naturally near the three-dot button that triggered it.
+- It should not cover a large portion of the reminder cards.
+- Use the existing native iOS glass/material implementation already available in the project. Do NOT imitate glass with custom CSS if the native implementation can be reused.
+- Keep smooth rounded iOS geometry.
+- Remove unnecessary empty space.
+
+Order MUST be:
+
+Edit
+Delete
+
+NOT:
+
+Delete
+Edit
+
+Edit:
+- normal white label
+- pencil icon
+
+Delete:
+- destructive red label
+- red trash icon
+- always the last action
+
+Do not add unnecessary titles such as "Reminder Actions" if the native context menu does not require one.
+
+The result should feel like a real iOS context menu attached to the three-dot control.
+
+
+2. REMINDER NOTIFICATIONS CARD
+
+The notification card currently consumes too much vertical space.
+
+Keep the same content and functionality, but make the card more compact.
+
+- Reduce unnecessary vertical padding.
+- Keep the title and description readable.
+- Keep the three controls.
+- Preserve the existing native glass treatment.
+- Do not make the controls cramped.
+- The goal is to give more screen space to the actual reminders.
+
+The reminder list should visually remain the main content of this screen.
+
+
+3. REMINDER CARDS
+
+Keep the current card design, but polish consistency:
+
+- identical corner radius across all reminder cards
+- identical internal padding
+- consistent spacing between cards
+- consistent placement of the completion icon
+- consistent placement of the three-dot button
+- date/time/status chips must remain aligned
+- long titles/descriptions must never push controls outside the card
+- Arabic, Swedish and English text must all fit correctly
+- no horizontal page movement
+- no horizontal overflow
+- cards must remain locked to the screen width
+
+Do NOT redesign them. Just clean up geometry and alignment.
+
+
+4. THREE-DOT BUTTONS
+
+Keep the current circular control, but ensure every reminder uses exactly the same native iOS glass treatment.
+
+The button must:
+- stay fixed in its position
+- never shift when pressed
+- not resize the reminder card
+- not cause layout movement
+- open the compact native action menu described above
+
+
+5. SEARCH BAR
+
+Keep the search bar simple and native-looking.
+
+Use the same native iOS glass/material system already used elsewhere in BlueMind.
+
+Make sure:
+- corner radius matches the rest of the interface
+- no blue tint
+- no layout movement when focused
+- keyboard opening must not horizontally shift or resize the page
+- the search bar stays inside the screen bounds
+
+
+6. TOP NAVIGATION
+
+The Back and + controls are already good.
+
+Do NOT redesign them.
+
+Only verify that both use the exact same native iOS glass implementation and consistent sizing.
+
+Keep:
+BlueMind AI
+Reminders
+
+exactly where they currently belong.
+
+
+7. COLOR CONSISTENCY
+
+Remove unnecessary blue surfaces from the Reminders page.
+
+The interface should primarily use:
+- black background
+- dark neutral iOS glass/material
+- white primary text
+- gray secondary text
+
+Accent color should only appear where it communicates state/action.
+
+Do not turn entire cards blue.
+
+
+8. NO LAYOUT SHIFT
+
+This is important.
+
+Nothing on this page should jump, resize, slide horizontally, or change its geometry when:
+
+- tapping a reminder
+- tapping the three-dot button
+- opening the action menu
+- focusing search
+- opening the keyboard
+- closing the keyboard
+- scrolling
+
+The page width must always remain fixed to the iPhone viewport.
+
+No horizontal scrolling.
+
+
+9. NATIVE iOS FIRST
+
+Where the project already has a real native iOS implementation for:
+- glass/material
+- context menus
+- controls
+- action presentation
+
+reuse that implementation.
+
+Do NOT recreate native iOS effects with approximate HTML/CSS versions.
+
+This task is iOS-only.
+Do not modify Android or Web behavior.
+
+
+FINAL RESULT
+
+The Reminders page should feel quieter, cleaner and more compact.
+
+The visual hierarchy should be:
+
+Reminders
+↓
+Notification controls
+↓
+Search
+↓
+Reminder cards
+
+The reminders themselves must remain the primary focus.
+
+Do not make unrelated changes.
+Do not redesign working components that already look correct.
