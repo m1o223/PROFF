@@ -1,1 +1,170 @@
+Task: Replace the in-app Language selector on iOS with the native iOS App Settings language flow.
 
+CURRENT PROBLEM
+
+BlueMind currently has its own custom Language popup inside Settings:
+
+- English
+- العربية
+- Svenska
+
+I do NOT want BlueMind to own a separate language-selection UI on iOS anymore.
+
+====================================================
+TARGET BEHAVIOR
+====================================================
+
+On iOS:
+
+When the user taps:
+
+Settings → Language
+
+do NOT open any BlueMind modal, popover, selector, or custom language list.
+
+Instead, open the native iOS Settings page for BlueMind.
+
+The user should manage the app language from Apple's own Settings interface.
+
+Expected flow:
+
+BlueMind Settings
+→ tap Language
+→ iOS Settings opens
+→ BlueMind app settings
+→ user changes the app language using Apple's native language setting
+
+====================================================
+IMPORTANT
+====================================================
+
+Remove/bypass the current custom iOS Language popup.
+
+There must be NO:
+
+- React language modal
+- HTML selector
+- custom glass popup
+- BlueMind language picker
+
+on iOS.
+
+The row inside BlueMind should only act as a shortcut to the native iOS app Settings.
+
+====================================================
+IOS IMPLEMENTATION
+====================================================
+
+Use the native iOS Settings URL / UIApplication settings API to open BlueMind's app-specific Settings page.
+
+Use the supported native API rather than a private Settings URL scheme.
+
+Do not use undocumented deep links into private Settings pages.
+
+====================================================
+APP LOCALIZATION SUPPORT
+====================================================
+
+Verify that BlueMind correctly declares/supports the intended iOS localizations:
+
+- English
+- Arabic
+- Swedish
+
+The native iOS per-app Language option should be available when the app is configured with supported localizations.
+
+If the native Language option is not appearing in BlueMind's iOS Settings page, inspect the iOS localization configuration and fix the actual project configuration required for iOS to recognize these supported languages.
+
+Do NOT recreate the missing option inside BlueMind as a workaround.
+
+====================================================
+LANGUAGE BEHAVIOR
+====================================================
+
+When BlueMind launches/resumes:
+
+- read/use the language selected by iOS
+- use system/app locale as the source of truth on iOS
+- do not override it with an old BlueMind language preference
+- do not force English if the user selected Arabic or Swedish
+
+If old localStorage/React language state conflicts with the native iOS language, remove/bypass that override on iOS.
+
+====================================================
+LANGUAGE ROW INSIDE SETTINGS
+====================================================
+
+Keep the existing Language row visually.
+
+It can show the current language on the right side if that value can be read reliably.
+
+For example:
+
+Language        English   >
+Language        العربية   >
+Language        Svenska   >
+
+But tapping the row must open iOS Settings.
+
+Do not open an in-app selector.
+
+====================================================
+RETURNING TO BLUEMIND
+====================================================
+
+After the user changes the app language in iOS Settings and returns to BlueMind:
+
+- detect the current iOS locale/app language
+- update the interface correctly
+- avoid stale old-language UI
+
+If iOS requires the app to relaunch for a language change, follow normal native iOS behavior.
+
+Do not invent a custom language-switch animation.
+
+====================================================
+OTHER PLATFORMS
+====================================================
+
+This requirement is specifically for iOS.
+
+Do not break Android or Web.
+
+They may keep their existing language-selection implementation if needed.
+
+====================================================
+REMOVE OLD IOS FLOW
+====================================================
+
+On iOS, remove/bypass the current custom Language popup shown in Settings.
+
+Tapping Language should directly open the native app Settings.
+
+No custom popup should briefly flash first.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test on the connected real iPhone:
+
+1. Open BlueMind Settings.
+2. Tap Language.
+3. Confirm native iOS Settings opens.
+4. Confirm it opens BlueMind's app-specific Settings.
+5. Confirm the native language option is available.
+6. Switch to Arabic.
+7. Return/relaunch BlueMind and verify Arabic.
+8. Switch to Swedish and verify Swedish.
+9. Switch to English and verify English.
+10. Confirm the old custom Language popup never appears.
+
+At the end report:
+
+1. Native API used to open Settings
+2. iOS localization configuration
+3. How BlueMind reads the current iOS language
+4. What old custom iOS language code was removed/bypassed
+5. Real-iPhone test results
+
+Do not redesign any other Settings section.
