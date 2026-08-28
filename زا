@@ -1,1 +1,472 @@
+TASK: Implement the complete native iOS language system for BlueMind.
 
+IMPORTANT:
+Right now BlueMind can open the iOS Settings page, but changing the language there does NOT actually change the language of the BlueMind interface.
+
+I do NOT want only a shortcut to iOS Settings.
+
+I want the complete language architecture to work correctly end-to-end:
+
+iOS App Language
+        ↓
+BlueMind detects selected language
+        ↓
+React/UI uses that language
+        ↓
+ALL BlueMind interface text changes
+
+====================================================
+SUPPORTED LANGUAGES
+====================================================
+
+BlueMind must officially support these 3 languages on iOS:
+
+1. English
+2. Swedish (Svenska)
+3. Arabic (العربية)
+
+These languages must be properly declared as supported iOS localizations.
+
+Do not merely create three options in React.
+
+iOS itself must recognize BlueMind as supporting these languages.
+
+====================================================
+SOURCE OF TRUTH ON IOS
+====================================================
+
+On iOS, the selected iOS per-app language must become the SOURCE OF TRUTH.
+
+Do NOT allow an old BlueMind preference such as:
+
+localStorage.language
+saved React state
+old language setting
+hardcoded "en"
+
+to override the language selected in iOS Settings.
+
+If the user selects:
+
+English → BlueMind loads English
+Svenska → BlueMind loads Swedish
+العربية → BlueMind loads Arabic
+
+====================================================
+IOS PROJECT CONFIGURATION
+====================================================
+
+Audit the actual Xcode/iOS project.
+
+Configure the application correctly so iOS knows that BlueMind supports:
+
+- en
+- sv
+- ar
+
+Check the proper iOS localization configuration, including the project localization setup and Info.plist/build configuration where appropriate.
+
+Do not fake this by only showing these languages inside BlueMind.
+
+After this work, the BlueMind app Settings in iOS should expose the supported app languages through Apple's native language system where supported by iOS.
+
+====================================================
+TRANSLATION ARCHITECTURE
+====================================================
+
+Audit the current React/frontend localization system.
+
+I want ONE centralized localization architecture.
+
+Do NOT manually hardcode language conditions throughout components such as:
+
+if (language === "sv") ...
+if (language === "ar") ...
+
+Create/use proper translation resources.
+
+For example conceptually:
+
+en
+sv
+ar
+
+with translation keys such as:
+
+settings.title
+settings.appearance
+settings.language
+settings.changeEmail
+settings.changePassword
+
+auth.login
+auth.email
+auth.password
+auth.forgotPassword
+auth.createAccount
+
+chat.newChat
+chat.placeholder
+
+etc.
+
+The UI should render translation keys rather than hardcoded English text wherever practical.
+
+====================================================
+TRANSLATE THE REAL APPLICATION
+====================================================
+
+Do not stop after translating the Settings screen.
+
+Audit the full user-facing BlueMind interface.
+
+The localization system must support translation across:
+
+- Get Started
+- Login
+- Create Account
+- Forgot Password
+- Reset Password
+- verification screens
+- Chat
+- menu/drawer
+- Normal Chat
+- Private Chat
+- Writing Mode
+- Hidden Chat
+- Smart Hub
+- Reminders
+- AI Plans
+- Schedule
+- Projects
+- Settings
+- Account
+- Appearance
+- colors
+- General
+- language labels
+- Help & Support
+- confirmation messages
+- errors
+- empty states
+- buttons
+- placeholders
+- validation messages
+- other user-visible BlueMind UI
+
+Do not translate dynamic AI-generated conversation content.
+
+Only localize BlueMind's own interface/system text.
+
+====================================================
+IOS → REACT LANGUAGE BRIDGE
+====================================================
+
+BlueMind is a React/Capacitor application with native iOS integration.
+
+Implement a reliable way for the frontend to know which language iOS selected for BlueMind.
+
+On app startup:
+
+1. Read the effective iOS app language/locale.
+2. Normalize it to a supported BlueMind locale.
+
+For example:
+
+en-US → en
+en-GB → en
+
+sv-SE → sv
+sv → sv
+
+ar-SA → ar
+ar-SE → ar
+ar → ar
+
+3. Load the corresponding BlueMind translation resources.
+4. Render the application in that language.
+
+If iOS returns a language BlueMind does not support:
+→ fall back safely to English.
+
+====================================================
+APP RESUME / LANGUAGE CHANGES
+====================================================
+
+Handle this scenario correctly:
+
+1. User is using BlueMind.
+2. User opens iOS Settings.
+3. User changes BlueMind language to Svenska.
+4. User returns to BlueMind.
+
+BlueMind must not remain stuck in English because React has an old language value cached.
+
+On launch/resume, verify the effective iOS language again.
+
+If the selected language changed:
+- update localization state
+- render the correct language
+
+If iOS normally restarts/relaunches the app after changing its per-app language, respect native iOS behavior.
+
+Do NOT build a fake custom restart system unless actually necessary.
+
+====================================================
+SETTINGS → LANGUAGE ROW
+====================================================
+
+Inside BlueMind Settings, keep the Language row.
+
+Example:
+
+Language          English >
+Language          Svenska >
+Language          العربية >
+
+The value on the right should reflect the CURRENT effective iOS app language.
+
+When the user taps Language:
+
+→ open BlueMind's native iOS app Settings page.
+
+Do NOT show the old BlueMind custom language popup on iOS.
+
+The old popup containing:
+
+English
+العربية
+Svenska
+
+must be removed/bypassed on iOS.
+
+====================================================
+ARABIC / RTL — VERY IMPORTANT
+====================================================
+
+Arabic is not only a translation.
+
+It requires RTL support.
+
+When Arabic is active:
+
+- text direction must be RTL where appropriate
+- navigation/layout semantics must respect RTL
+- text alignment should be correct
+- labels should not remain forced LTR
+- Arabic strings must display naturally
+- input fields must behave correctly
+- icons that should semantically mirror in RTL should follow appropriate iOS behavior
+
+BUT:
+
+Do NOT blindly mirror the entire interface.
+
+Some elements should remain unchanged, such as:
+- logos
+- media
+- universal symbols
+- certain graphics
+
+Use proper RTL-aware layout behavior rather than manually flipping the whole app with CSS transforms.
+
+====================================================
+INPUT / CONTENT DIRECTION
+====================================================
+
+Be careful with mixed content.
+
+For example:
+
+Arabic UI + email address
+
+The UI can be RTL, but:
+
+example@email.com
+
+must remain readable correctly.
+
+Passwords, URLs, codes and technical values must not be incorrectly reversed.
+
+====================================================
+PERSISTENCE
+====================================================
+
+On iOS:
+
+Do NOT maintain a second independent BlueMind language preference that can conflict with Apple's selected app language.
+
+iOS language selection is authoritative.
+
+If old language values exist in:
+- localStorage
+- preferences
+- database
+- React state
+
+audit them.
+
+Remove/migrate/bypass them on iOS where they conflict with native language selection.
+
+====================================================
+DO NOT BREAK OTHER PLATFORMS
+====================================================
+
+This native-language requirement is specifically for iOS.
+
+Do NOT break:
+- Web
+- Android
+
+If Web/Android currently require BlueMind's own language selector, preserve an appropriate platform-specific implementation.
+
+Do not force the iOS architecture onto platforms where it does not apply.
+
+====================================================
+DO NOT CHANGE VISUAL DESIGN
+====================================================
+
+This task is LANGUAGE ARCHITECTURE only.
+
+Do NOT redesign:
+
+- Settings
+- Chat
+- Login
+- menu
+- glass effects
+- buttons
+- colors
+- spacing
+- animations
+
+Preserve the current UI design.
+
+Only make it localization-aware.
+
+====================================================
+REMOVE OLD CONFLICTING CODE
+====================================================
+
+Audit old language code carefully.
+
+If old code is conflicting with the native iOS language system:
+
+REMOVE or REFACTOR it.
+
+Do NOT keep layering:
+
+old language system
++
+new language system
++
+another override
+
+I want one predictable language flow.
+
+On iOS:
+
+iOS language
+→ native bridge/effective locale
+→ localization engine
+→ BlueMind UI
+
+====================================================
+TEST ON THE REAL IPHONE
+====================================================
+
+Do not consider this finished after compilation.
+
+Test on the connected real iPhone.
+
+TEST 1 — ENGLISH
+
+1. Set BlueMind language to English in iOS.
+2. Launch BlueMind.
+3. Verify Login is English.
+4. Verify menu is English.
+5. Verify Chat UI is English.
+6. Verify Settings is English.
+7. Verify Language row says English.
+
+TEST 2 — SWEDISH
+
+1. Change BlueMind language to Svenska in iOS Settings.
+2. Return/relaunch BlueMind.
+3. Verify interface actually changes to Swedish.
+4. Check Login.
+5. Check menu.
+6. Check Chat.
+7. Check Settings.
+8. Confirm Language row says Svenska.
+
+There must NOT still be English hardcoded across major screens.
+
+TEST 3 — ARABIC
+
+1. Select العربية in iOS Settings.
+2. Return/relaunch BlueMind.
+3. Verify BlueMind displays Arabic.
+4. Verify RTL behavior.
+5. Verify Login.
+6. Verify menu.
+7. Verify Chat.
+8. Verify Settings.
+9. Verify email/password fields remain usable.
+10. Confirm Language row says العربية.
+
+TEST 4 — PERSISTENCE
+
+For each language:
+
+- force close BlueMind
+- reopen it
+
+The correct language must remain.
+
+Also test:
+- device restart/app relaunch behavior if practical
+- logout/login
+- Settings reopening
+
+Changing authentication state must NOT randomly reset the language.
+
+====================================================
+FINAL AUDIT
+====================================================
+
+Search the frontend for remaining hardcoded user-facing English strings.
+
+Do not blindly translate:
+- internal variable names
+- API values
+- database fields
+- developer logs
+
+Only audit user-facing interface strings.
+
+====================================================
+DELIVERABLE
+====================================================
+
+When finished, give me a detailed report containing:
+
+1. Why changing language in iOS previously did not change BlueMind.
+2. How iOS localizations are now declared.
+3. How the effective iOS app language is read.
+4. How that language reaches React.
+5. Localization library/system used.
+6. Translation resource files created/updated.
+7. How Arabic RTL is handled.
+8. What old language code was removed/refactored.
+9. How Web and Android behavior was preserved.
+10. Real-iPhone test results for:
+    - English
+    - Svenska
+    - العربية
+
+IMPORTANT:
+
+Do not tell me only that the build passed.
+
+I want proof that changing BlueMind's language in iOS Settings ACTUALLY changes the visible BlueMind interface on the real iPhone.
