@@ -1,1 +1,208 @@
+Redesign ONLY the Smart Hub page.
 
+The current page feels like a long informational website rather than a premium iOS application screen.
+
+Do NOT change the underlying navigation or feature logic.
+Do NOT remove existing destinations.
+Focus on layout, hierarchy, spacing, materials and colors.
+
+GOAL:
+Make Smart Hub feel premium, native-iOS inspired, compact and polished.
+
+1. PAGE IDENTITY
+
+Change the main page title from:
+
+BlueMind Home
+
+to:
+
+Smart Hub
+
+Use a smaller subtitle under it:
+
+"Your intelligent workspace for learning, planning and productivity."
+
+Do not use oversized web-style typography.
+
+Use an iOS-style hierarchy:
+- strong page title
+- compact subtitle
+- clear section headers
+- readable card titles
+
+2. COLOR SYSTEM
+
+Remove the current bright/light blue accents.
+
+Use the existing BlueMind PRIMARY DARK BLUE from the project.
+
+Do NOT invent a new blue.
+
+Base palette:
+- near-black page background
+- dark graphite card surfaces
+- subtle gray separators
+- white primary text
+- muted gray secondary text
+- BlueMind dark blue only for accent / active / important elements
+
+3. QUICK ACCESS
+
+Create a clean "Quick Access" section.
+
+Use compact premium cards for:
+
+Chat
+Reminders
+Schedule
+Writing
+AI Plans
+Projects
+
+Cards should feel like native iOS glass/material surfaces.
+
+Each card:
+- one consistent icon size
+- title
+- one short subtitle
+- subtle rounded corners
+- consistent spacing
+- no oversized empty areas
+
+Prefer a clean 2-column grid.
+
+4. REMOVE WEB-LIKE VISUALS
+
+The current screen has too many large black pills/tags such as:
+
+AI teacher
+Interactive lessons
+Video courses
+Smart exams
+etc.
+
+Do not keep these as large individual pills.
+
+Replace them with either:
+- compact mini feature cards
+or
+- clean iOS-style rows/grid
+
+The page should not feel like a marketing landing page.
+
+5. BLUEMIND 5.0 SECTION
+
+Keep the BlueMind 5.0 information, but compress it into ONE polished feature card.
+
+Structure:
+
+BLUE MIND 5.0
+Coming Soon
+
+BlueMind 5.0
+
+Short description:
+"Learning is coming to BlueMind with AI-guided lessons, exams, languages, flashcards and personalized study plans."
+
+Then show only the most important feature highlights:
+
+AI Teacher
+Interactive Lessons
+Smart Exams
+Languages
+Study Plans
+Flashcards
+
+Use compact mini rows/cards.
+
+Do not display 10+ large pills.
+
+Add one subtle CTA:
+
+"Explore what's coming"
+
+6. FUTURE FEATURES
+
+Replace the large "More Features Are Coming" block with a smaller section called:
+
+Coming Next
+
+Use compact cards for:
+
+Faster AI
+Better Voice
+Smarter Search
+Better Planning
+New AI Tools
+Personalization
+
+These should be small iOS-style tiles, not large marketing panels.
+
+7. IOS MATERIAL LANGUAGE
+
+Use the same iOS-inspired material system already used elsewhere in BlueMind.
+
+Requirements:
+- dark translucent/graphite surfaces
+- subtle borders
+- soft rounded corners
+- consistent spacing
+- restrained shadows
+- no heavy gradients
+- no bright blue blocks
+
+The design should look like a real app screen, not a webpage.
+
+8. TYPOGRAPHY
+
+Reduce oversized typography.
+
+Use consistent hierarchy.
+
+Page title:
+large but not giant
+
+Section label:
+small uppercase or muted
+
+Section title:
+medium-large
+
+Card title:
+medium-bold
+
+Description:
+smaller muted gray
+
+Avoid excessive bold text.
+
+9. SPACING
+
+Increase spacing BETWEEN sections.
+
+Reduce unnecessary empty space INSIDE cards.
+
+Every component should align to one consistent horizontal grid.
+
+Do not allow cards to have inconsistent widths.
+
+10. FINAL RESULT
+
+Smart Hub should feel:
+
+- premium
+- clean
+- modern
+- iOS-native inspired
+- compact
+- visually calm
+- clearly part of BlueMind
+
+It should NOT feel like:
+- a website
+- a marketing landing page
+- a long list of black pills
+- a prototype
+
+Do not modify other screens.
