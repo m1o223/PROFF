@@ -1,1 +1,239 @@
+Task: Use the SAME real native iOS selection control already used successfully in the Chat flow, and reuse it inside Settings.
 
+IMPORTANT:
+Do not create another custom Settings popup.
+
+I want the exact same native iOS presentation architecture that is already working correctly in the Chat interface.
+
+====================================================
+TARGET AREAS
+====================================================
+
+Replace the current custom Settings selectors for:
+
+1. Appearance
+   - System
+   - Dark
+   - Light
+
+2. App Accent Color
+   - existing color options
+
+3. Chat Color
+   - existing chat color options
+
+with the SAME native iOS selector/presentation mechanism already used in Chat.
+
+====================================================
+REUSE EXISTING NATIVE IOS IMPLEMENTATION
+====================================================
+
+First inspect the Chat implementation.
+
+Find the native iOS UI/presentation code that already produces the correct Apple/iOS glass selector/menu.
+
+Do NOT rebuild a second imitation.
+
+Reuse/refactor that existing native component/bridge so Settings can call the same native system.
+
+I want:
+
+Chat native selector
+and
+Settings native selector
+
+to come from ONE native iOS presentation layer.
+
+====================================================
+NO CUSTOM REACT POPUP
+====================================================
+
+Remove/bypass the current custom Settings popup shown in the screenshot.
+
+Do NOT use:
+
+- React modal
+- HTML overlay
+- CSS glass
+- custom blur
+- custom rounded list
+- fake Apple checkmark styling
+
+On iOS the selector must be native UIKit/system UI.
+
+====================================================
+APPEARANCE
+====================================================
+
+When user taps Appearance:
+
+React should ask the native iOS layer to present:
+
+- System
+- Dark
+- Light
+
+The currently selected value must be marked using native iOS selection state/checkmark.
+
+Selecting a value:
+- calls the existing appearance logic
+- updates Settings row
+- dismisses the native selector
+- keeps the main Settings sheet OPEN
+
+Very important:
+Closing/selecting the child selector must NOT close Settings.
+
+====================================================
+APP ACCENT COLOR
+====================================================
+
+When tapping App Accent Color:
+
+Use the same native selector system.
+
+Pass:
+- color names
+- selected value
+
+If the existing native selector supports icons/swatches, show the color swatch.
+If not, preserve the cleanest native-compatible presentation rather than building a fake custom row.
+
+Selecting a color:
+- applies existing accent-color logic
+- updates the row
+- closes only the selector
+- Settings remains open
+
+====================================================
+CHAT COLOR
+====================================================
+
+Use the exact same native iOS selector architecture.
+
+Selecting a chat color:
+- updates existing chat-color state
+- closes only the selector
+- keeps Settings open
+
+====================================================
+PARENT / CHILD BEHAVIOR
+====================================================
+
+This is critical.
+
+The main Settings sheet is the parent.
+
+The native selection UI is a child presentation.
+
+Flow:
+
+Settings open
+→ tap Appearance
+→ native iOS selector appears
+→ select Dark
+→ selector closes
+→ Settings is STILL open
+
+Never:
+
+Settings
+→ selector
+→ selector closes
+→ Chat screen
+
+Do not allow native callbacks to dismiss the Settings parent.
+
+====================================================
+VISUAL SOURCE OF TRUTH
+====================================================
+
+Do not manually choose:
+- corner radius
+- blur amount
+- gray colors
+- shadows
+- checkmark spacing
+
+The native iOS system must own those visual details.
+
+This is why I want the same native implementation already used in Chat.
+
+====================================================
+ARCHITECTURE
+====================================================
+
+Prefer one shared native bridge API such as conceptually:
+
+presentNativeSelection({
+    title,
+    options,
+    selectedValue
+})
+
+Native iOS owns:
+- presentation
+- material
+- animation
+- selection UI
+- dismissal
+
+React owns:
+- actual setting value
+- business logic
+
+Do not duplicate native code separately for each Settings row.
+
+====================================================
+DO NOT CHANGE
+====================================================
+
+Do NOT redesign:
+- Settings background
+- cards
+- profile area
+- Account section
+- General
+- Language
+- Voice & Audio
+- other settings
+- Chat UI
+
+Only replace these three Settings selector presentations.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test on the connected real iPhone.
+
+Appearance:
+- open
+- select System
+- select Dark
+- select Light
+- verify Settings stays open
+
+App Accent Color:
+- open
+- change colors
+- verify native iOS presentation
+- verify Settings stays open
+
+Chat Color:
+- open
+- change colors
+- verify native iOS presentation
+- verify Settings stays open
+
+Also compare directly with the native selector already used in Chat.
+
+They should clearly come from the same iOS presentation system.
+
+At the end report:
+
+1. Which native Chat implementation was reused
+2. Which old Settings popup code was removed/bypassed
+3. Shared native bridge/component used
+4. How parent Settings remains open
+5. Real iPhone test result
