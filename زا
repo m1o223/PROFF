@@ -1,1 +1,97 @@
+Task: Darken and strengthen ONLY the Settings background blur/tint.
 
+Current issue:
+The Settings sheet is improved, but the content behind it is still too readable.
+
+I can still recognize and read text such as menu labels behind the Settings surface.
+
+That is NOT the target.
+
+====================================================
+TARGET
+====================================================
+
+I want the Settings background to behave like a strong dark iOS glass sheet:
+
+- I should still sense that there is content behind it
+- I should see vague shapes / light / movement behind it
+- BUT I should NOT be able to read any text behind it
+- I should NOT clearly identify buttons or menu labels behind it
+
+The underlying UI should become abstract and indistinct.
+
+====================================================
+VISUAL DIRECTION
+====================================================
+
+Increase BOTH:
+
+1. background blur strength
+2. dark graphite / near-black tint strength
+
+The result should be:
+
+- much darker
+- much stronger blur
+- less readable background
+- still slightly translucent
+- not fully opaque black
+
+Do NOT make it flat black.
+
+I still want a real glass/depth effect.
+
+Think:
+strong iOS dark material where background content exists visually,
+but text cannot be read.
+
+====================================================
+IMPORTANT
+====================================================
+
+Do NOT change:
+- Settings layout
+- cards
+- buttons
+- profile section
+- typography
+- spacing
+- row colors
+- close button
+- any Settings functionality
+
+ONLY adjust the outer Settings sheet material/background.
+
+====================================================
+DO NOT CHEAT
+====================================================
+
+Do NOT:
+- hide the underlying page manually
+- set opacity: 1 with pure black
+- blur each background element individually
+- place an extra random black rectangle behind Settings
+
+Use the Settings presentation layer itself to create:
+- stronger blur
+- stronger dark tint
+- correct translucency
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+On the real iPhone:
+
+1. Open Settings over the drawer/home UI.
+2. Confirm the background is still faintly visible.
+3. Confirm text behind Settings can NOT be read.
+4. Confirm icons/buttons behind Settings cannot be clearly identified.
+5. Confirm the sheet still feels like glass, not a solid black panel.
+
+At the end report:
+- previous blur/tint values
+- new blur/tint values
+- real iPhone result
+
+Do not change anything else.
