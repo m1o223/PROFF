@@ -1,1 +1,419 @@
+TASK: Convert ALL remaining custom Settings popups/actions on iOS to REAL native iOS system UI.
 
+IMPORTANT:
+This is NOT a visual redesign task.
+
+I do NOT want BlueMind to imitate Apple UI with React/CSS.
+
+For every Settings interaction shown below, use actual native iOS/UIKit system presentation wherever appropriate.
+
+The visual appearance, blur, glass/material, spacing, typography, selection state, destructive styling, animations and accessibility must come from iOS itself.
+
+====================================================
+CURRENT PROBLEM
+====================================================
+
+Several Settings actions still open custom BlueMind popups that only look similar to iOS.
+
+Examples currently include:
+
+- Chat History
+- Voice Language
+- Auto-play AI Responses
+- Notification choices
+- AI Voice
+- Speech Speed
+- Delete Account
+- password confirmation flows
+- other Settings selectors/confirmations
+
+These custom React/HTML/CSS popups must NOT be used on iOS.
+
+====================================================
+MAIN REQUIREMENT
+====================================================
+
+Audit ALL interactive Settings rows on iOS.
+
+For each interaction, determine the correct native iOS presentation:
+
+- native menu
+- native action sheet
+- native alert
+- native confirmation
+- native destructive alert
+- native text/password prompt
+- native switch/control
+- native settings link where appropriate
+
+Use the correct Apple system component rather than creating a custom visual copy.
+
+====================================================
+1. CHAT HISTORY
+====================================================
+
+Current options:
+- On
+- Off
+
+Replace the custom BlueMind popup with native iOS selection UI.
+
+Current selected state must be indicated by native iOS behavior.
+
+Selecting:
+- updates existing Chat History state
+- closes only the child native selector
+- keeps main Settings open
+
+====================================================
+2. VOICE LANGUAGE
+====================================================
+
+Current choices:
+- Auto
+- English
+- العربية
+- Svenska
+
+Use native iOS selection UI.
+
+Do NOT use the current custom glass card list.
+
+Selecting a voice language:
+- keeps existing voice-language logic
+- updates the Settings row
+- closes only the child selector
+- main Settings remains open
+
+====================================================
+3. AUTO-PLAY AI RESPONSES
+====================================================
+
+Current:
+- ON
+- OFF
+
+Prefer a true native iOS control where appropriate.
+
+If this is logically a boolean setting, strongly prefer a native UISwitch-style implementation rather than opening a custom two-row popup.
+
+Do not imitate an iOS switch in CSS.
+
+The existing setting logic must remain unchanged.
+
+====================================================
+4. NOTIFICATIONS
+====================================================
+
+Audit ALL notification controls, including:
+
+- Email Notifications
+- Reminder Notifications
+- Study Notifications
+- AI Notifications
+- Security Notifications
+- App Update Notifications
+- Birthday Notifications
+- any other notification rows
+
+For boolean settings:
+prefer actual native iOS switch controls.
+
+Do NOT open custom ON/OFF cards if a native switch is the correct interaction.
+
+If system notification permission is required:
+use the real iOS notification permission flow.
+
+Do not fake permission UI inside BlueMind.
+
+====================================================
+5. AI VOICE
+====================================================
+
+Current voices include examples such as:
+
+- Nova
+- Luna
+- Atlas
+- Echo
+- Mira
+- Sage
+
+The current custom BlueMind popup must be replaced on iOS.
+
+Use a native iOS selection list/menu/sheet suitable for multiple choices.
+
+Selected voice must use native selection treatment.
+
+Keep:
+- existing voice names
+- existing voice descriptions
+- existing preview/business logic
+
+If preview is unavailable, preserve that state.
+
+Do not fake a native audio selector with custom cards.
+
+====================================================
+6. SPEECH SPEED
+====================================================
+
+Current:
+- Slow
+- Normal
+- Fast
+
+Use native iOS selection UI.
+
+Current selection:
+- native checkmark/state
+
+Selecting:
+- update existing speech-speed logic
+- close only child selector
+- keep Settings open
+
+====================================================
+7. DELETE ACCOUNT
+====================================================
+
+The current large custom Delete Account modal must NOT be used on iOS.
+
+This is a destructive security-sensitive flow.
+
+Use real native iOS dialogs/presentation.
+
+Desired flow:
+
+Tap Delete Account
+→ native iOS warning/confirmation
+→ clearly explain that deletion is permanent
+→ if password confirmation is required, use a native secure text-entry prompt
+→ only after successful validation and final destructive confirmation execute existing account deletion logic
+
+Use native destructive action styling.
+
+Do NOT recreate:
+- red card
+- password field
+- Cancel/Delete buttons
+with React/CSS on iOS.
+
+====================================================
+8. PASSWORD CONFIRMATION
+====================================================
+
+Any Settings flow requiring the user's password should use a native secure iOS text input/prompt when presented as confirmation.
+
+Requirements:
+- secure text entry
+- native keyboard behavior
+- native cancel/confirm actions
+- proper iOS accessibility
+- no custom HTML password modal on iOS
+
+Do not expose or persist password values.
+
+====================================================
+9. LOGOUT
+====================================================
+
+Keep the previously requested real native iOS destructive logout confirmation.
+
+Do not regress this to a custom modal.
+
+====================================================
+10. APPEARANCE / APP COLOR / CHAT COLOR
+====================================================
+
+Keep these on the same shared native iOS selection architecture.
+
+Do not maintain separate custom popup implementations.
+
+====================================================
+SHARED NATIVE ARCHITECTURE
+====================================================
+
+Do NOT build a different custom native bridge for every single Setting.
+
+Create/refactor a reusable native Settings presentation layer.
+
+Conceptually it should support operations like:
+
+presentSelection(...)
+presentConfirmation(...)
+presentDestructiveConfirmation(...)
+presentSecurePrompt(...)
+presentBooleanControl(...)
+openSystemSettings(...)
+
+React should provide:
+- title
+- options
+- selected value
+- semantic type
+- callback/action ID
+
+Native iOS owns:
+- presentation
+- material/glass
+- system animations
+- selection appearance
+- keyboard
+- destructive styling
+- dismissal
+
+React owns:
+- setting state
+- business logic
+- API calls
+
+====================================================
+PARENT SETTINGS MUST STAY OPEN
+====================================================
+
+Critical behavior:
+
+Main Settings is the parent.
+
+Native child UI must NEVER close the main Settings sheet accidentally.
+
+Example:
+
+Settings
+→ Voice Language
+→ select Svenska
+→ child native selector closes
+→ Settings remains open
+
+Same for:
+- Chat History
+- Speech Speed
+- AI Voice
+- Appearance
+- colors
+- notifications
+- any normal selector
+
+Only the main Settings X or intentional Settings drag-down may close the main Settings sheet.
+
+====================================================
+NO CUSTOM IOS FALLBACK FLASH
+====================================================
+
+On iOS there must NEVER be:
+
+custom BlueMind popup
+→ then native iOS popup
+
+The native iOS UI must appear directly.
+
+No flash of the old custom modal.
+
+====================================================
+DO NOT REDESIGN SETTINGS
+====================================================
+
+Keep the existing main Settings page visual layout.
+
+Do not change:
+- section order
+- cards
+- icons
+- typography
+- main Settings background
+- profile area
+- spacing
+
+This task is ONLY replacing interaction/popup/control layers with real native iOS behavior.
+
+====================================================
+OTHER PLATFORMS
+====================================================
+
+Do not break Android or Web.
+
+These requirements apply specifically to iOS.
+
+Keep suitable non-iOS fallback UI where needed.
+
+====================================================
+AUDIT ALL SETTINGS
+====================================================
+
+Do a complete audit of every clickable/toggle Settings row.
+
+Create a table/report internally like:
+
+Setting | Current implementation | Correct iOS native component | Changed?
+
+Do not stop after fixing only the screenshots shown.
+
+Find all remaining custom Settings selectors/dialogs on iOS and convert the relevant ones.
+
+====================================================
+REAL IPHONE TEST
+====================================================
+
+Test on the connected real iPhone.
+
+Verify at minimum:
+
+Chat History
+- On
+- Off
+
+Voice Language
+- Auto
+- English
+- Arabic
+- Swedish
+
+Auto-play
+- On
+- Off
+
+Notifications
+- toggle multiple notification settings
+
+AI Voice
+- select multiple voices
+
+Speech Speed
+- Slow
+- Normal
+- Fast
+
+Delete Account
+- open flow
+- Cancel
+- password prompt
+- destructive confirmation
+DO NOT actually delete the test account unless safely using a disposable test account.
+
+Logout
+- Cancel
+- Log out
+
+For every selector:
+- native iOS UI only
+- no custom popup flash
+- Settings remains open after normal selection
+
+====================================================
+FINAL REPORT
+====================================================
+
+When finished report:
+
+1. Every Settings interaction converted to native iOS
+2. UIKit/system API used for each category
+3. Old custom iOS popup code removed/bypassed
+4. Shared native bridge architecture
+5. Parent Settings dismissal protection
+6. What remains custom and why, if anything
+7. Real iPhone test results
+
+Do NOT say "done" only because the project builds.
+
+I want confirmation that these controls are ACTUALLY native iOS system UI on the real iPhone.
