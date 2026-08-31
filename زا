@@ -1,1 +1,207 @@
+أكيد. هاي رسالة مفصلة تقدر تبعتها للكود/الـAI مباشرة، ومصاغة بحيث ما يخبص بباقي النظام ولا يغيّر التصميم أو الوظائف بدون سبب:
 
+⸻
+
+مهمة: Security Audit + Security Hardening للتطبيق بالكامل
+
+أريد منك الآن تعمل مراجعة أمنية شاملة للتطبيق بالكامل. الهدف الأساسي هو اكتشاف وإصلاح أي ثغرات أمنية موجودة، بدون تغيير تصميم التطبيق أو حذف أي وظيفة موجودة إلا إذا كان ذلك ضروريًا لإغلاق ثغرة.
+
+1. تسجيل الدخول والحسابات
+
+راجع نظام Authentication بالكامل، وتأكد من:
+
+* لا يمكن لأي شخص الدخول إلى حساب مستخدم آخر بدون صلاحية.
+* لا يمكن تجاوز تسجيل الدخول بالتلاعب بالـURL أو الـroutes أو الـAPI requests.
+* لا يمكن فتح صفحات أو بيانات خاصة بمجرد معرفة رابطها.
+* أي صفحة أو API تحتاج تسجيل دخول يجب أن تتحقق من المستخدم من الـbackend وليس فقط من الـfrontend.
+* لا تعتمد على إخفاء الصفحات بالـfrontend كوسيلة حماية.
+* افحص الـsessions والـtokens والـcookies وطريقة تخزينها وانتهاء صلاحيتها.
+* تأكد أن تسجيل الخروج يلغي/ينهي الجلسة بالشكل الصحيح.
+* افحص reset password / email verification إذا كانت موجودة.
+* افحص إمكانية إنشاء حسابات أو تعديل صلاحيات بطريقة غير مصرح بها.
+
+2. كلمات السر والبيانات الحساسة
+
+افحص الـbackend وقاعدة البيانات وتأكد أن:
+
+* كلمات السر لا يتم تخزينها كنص عادي أبدًا.
+* يتم استخدام password hashing آمن ومناسب.
+* لا تظهر كلمات السر في logs أو responses أو errors.
+* لا يتم إرسال بيانات حساسة للـfrontend بدون حاجة.
+* مفاتيح API وsecrets وdatabase credentials لا تكون داخل الكود أو Git repository أو الـfrontend.
+* استخدم environment variables / secret management بالطريقة الصحيحة.
+* افحص جميع الـAPI responses للتأكد أنها لا تكشف معلومات حساسة.
+
+3. حماية الـBackend والـAPI
+
+راجع جميع endpoints والـAPI routes:
+
+* Authentication.
+* Authorization.
+* Ownership checks.
+* User IDs.
+* Schedule IDs.
+* أي بيانات مرتبطة بالمستخدم.
+* أي endpoint يسمح بالـcreate / edit / delete.
+
+تأكد أن المستخدم لا يستطيع تغيير ID في request والوصول إلى بيانات مستخدم آخر.
+
+مثال:
+إذا كان المستخدم A يملك schedule رقم 123، لا يجب أن يستطيع المستخدم B الوصول إليه بمجرد إرسال request إلى schedule 123.
+
+افحص هذا النوع من المشاكل بشكل خاص (IDOR / Broken Access Control).
+
+4. التلاعب بالـURL والـFrontend
+
+اختبر التطبيق ضد:
+
+* تغيير الـURL يدويًا.
+* فتح routes مباشرة.
+* حذف أو تغيير parameters.
+* إرسال requests مباشرة للـAPI بدل استخدام الواجهة.
+* تعديل البيانات القادمة من الـfrontend.
+* محاولة الوصول إلى صفحات admin أو private pages.
+* محاولة تنفيذ actions بدون authentication.
+
+أي حماية تعتمد فقط على JavaScript أو UI تعتبر غير كافية إذا كان الـbackend يسمح بالعملية.
+
+5. حماية البيانات
+
+راجع قاعدة البيانات وقواعد الوصول إليها وتأكد من:
+
+* كل مستخدم يرى بياناته فقط.
+* المستخدم لا يستطيع تعديل/حذف بيانات مستخدم آخر.
+* قواعد database security صحيحة.
+* لا توجد بيانات مكشوفة بسبب queries أو responses.
+* لا توجد IDs أو معلومات حساسة مكشوفة بدون ضرورة.
+* عمليات الحذف والتعديل تتحقق من ownership والصلاحيات من الـserver.
+
+6. المدخلات والـRequests
+
+افحص جميع المدخلات ضد:
+
+* Injection.
+* XSS.
+* SQL/NoSQL injection حسب التقنية المستخدمة.
+* Malicious parameters.
+* Invalid data types.
+* Huge/abusive requests.
+* رفع ملفات إذا كان التطبيق يسمح بذلك.
+* أي input يتم إدخاله في database أو HTML أو commands.
+
+استخدم validation وsanitization مناسبة، لكن لا تعتمد على frontend validation فقط.
+
+7. Rate Limiting وBrute Force
+
+راجع:
+
+* Login.
+* Password reset.
+* Signup.
+* أي endpoint حساس.
+
+وتأكد من وجود حماية مناسبة ضد brute-force وabuse وطلبات API المفرطة.
+
+8. Secrets وEnvironment
+
+ابحث في المشروع بالكامل عن:
+
+* API keys.
+* OpenAI keys.
+* Database passwords.
+* JWT secrets.
+* Firebase/Supabase secrets.
+* Private tokens.
+* Service-role keys.
+* أي credentials.
+
+تأكد أن أي secret لا يمكن الوصول إليه من الـclient أو من الـpublic repository.
+
+مهم جدًا: لا تطبع secrets الحقيقية في التقرير أو الـlogs.
+
+9. Dependencies وConfiguration
+
+راجع:
+
+* Packages/dependencies.
+* إصداراتها.
+* أي packages فيها vulnerabilities معروفة.
+* CORS.
+* Security headers.
+* HTTPS.
+* Cookie configuration.
+* CSRF protection إذا كانت مناسبة للـarchitecture.
+* Error handling.
+* Production configuration.
+* Debug mode.
+
+10. لا تخرب التطبيق
+
+أثناء الإصلاح:
+
+* لا تغير UI بدون سبب أمني.
+* لا تغير الـdesign.
+* لا تحذف functionality.
+* لا تغير database schema إلا إذا كان ضروريًا.
+* لا تعيد بناء أجزاء كاملة من التطبيق بدون حاجة.
+* لا تعمل refactor كبير لمجرد تحسين الكود.
+* أصلح الثغرة بأقل تغيير ممكن.
+* حافظ على جميع الوظائف الحالية.
+
+11. طريقة العمل المطلوبة
+
+اعمل الموضوع كـ Security Audit حقيقي:
+
+المرحلة الأولى: افحص المشروع بالكامل وافهم architecture والـfrontend والـbackend والـdatabase والـauthentication.
+
+المرحلة الثانية: ابحث عن الثغرات المحتملة واختبرها بشكل آمن داخل بيئة التطبيق.
+
+المرحلة الثالثة: لكل ثغرة حقيقية تجدها، أصلحها.
+
+المرحلة الرابعة: بعد الإصلاح، أعد اختبار نفس الثغرة للتأكد أنها لم تعد تعمل.
+
+المرحلة الخامسة: افحص إذا كان الإصلاح نفسه سبب مشاكل في functionality موجودة.
+
+⸻
+
+التقرير النهائي
+
+بعد الانتهاء، أريد منك تقريرًا واضحًا بهذا الشكل:
+
+Security Audit Report
+
+عدد المشاكل التي وجدتها: X
+
+Severity	المشكلة	أين كانت؟	ماذا كان يمكن أن يحدث؟	الإصلاح
+Critical	…	…	…	…
+High	…	…	…	…
+Medium	…	…	…	…
+Low	…	…	…	…
+
+ولكل مشكلة اشرح:
+
+1. ما هي الثغرة؟
+2. كيف اكتشفتها؟
+3. ما الخطر منها؟
+4. ماذا كان يمكن للمهاجم أن يفعل؟
+5. ما التعديل الذي تم عمله لإغلاقها؟
+6. كيف تأكدت أن الثغرة أصبحت مغلقة؟
+7. هل الإصلاح أثر على أي functionality؟
+
+وفي النهاية أعطني:
+
+Security Status:
+
+* Authentication: ✅/⚠️/❌
+* Authorization: ✅/⚠️/❌
+* Database Security: ✅/⚠️/❌
+* Password Security: ✅/⚠️/❌
+* API Security: ✅/⚠️/❌
+* Secrets: ✅/⚠️/❌
+* Input Validation: ✅/⚠️/❌
+* Rate Limiting: ✅/⚠️/❌
+* Production Configuration: ✅/⚠️/❌
+
+مهم: لا تقل لي “كل شيء آمن” بدون فحص فعلي. إذا لم تستطع التحقق من شيء، قل لي بوضوح أنه لم يتم التحقق منه بدل التخمين.
+
+الهدف النهائي: أريد نسخة التطبيق بعد Security Hardening، مع تقرير واضح بكل الثغرات التي تم العثور عليها وإصلاحها، بدون العبث بباقي النظام.
