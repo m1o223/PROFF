@@ -1,1 +1,280 @@
+TASK — Add Native Face ID Lock/Login for iOS with EU/GDPR-safe implementation
 
+Implement optional Face ID support for BlueMind on iOS.
+
+IMPORTANT: This app will be distributed in Europe. The implementation must be privacy-first and must NOT collect, transmit, log, or store biometric face data.
+
+1. Face ID location in the UI
+
+Add Face ID ONLY to the Get Started screen.
+
+Existing entry methods:
+
+* Continue with Google
+* Continue with Apple
+* Login
+* Create Account
+
+Add:
+
+* Continue with Face ID
+
+Do NOT add Face ID buttons inside:
+
+* Login
+* Create Account
+* Forgot Password
+* Verify Reset Code
+* Reset Password
+
+Face ID is only an optional shortcut / application lock for a user who has already authenticated previously.
+
+⸻
+
+2. Face ID must NOT create or authenticate a new account by itself
+
+Face ID must never bypass BlueMind authentication.
+
+A user may use Face ID only when:
+
+* The user previously logged into BlueMind successfully.
+* The device has a securely stored BlueMind session.
+* The backend session is still valid.
+* Face ID was explicitly enabled by the user.
+
+If there is no previous authenticated BlueMind account on the device and the user taps Continue with Face ID, explain that they must log in normally once before Face ID can be enabled.
+
+⸻
+
+3. First-time setup
+
+After the user successfully logs in for the first time, offer:
+
+Enable Face ID for BlueMind?
+
+Explain briefly:
+
+“Use Face ID to unlock BlueMind faster on this device.”
+
+Options:
+
+* Enable Face ID
+* Not Now
+
+Ask only once unless the user later changes the setting.
+
+Do NOT repeatedly ask every time the app opens.
+
+⸻
+
+4. What happens when Face ID is enabled
+
+If Face ID Lock is ON:
+
+Every time BlueMind is launched from a closed/background state where re-authentication is required:
+
+1. Keep BlueMind private content hidden.
+2. Immediately request authentication using Apple’s native Face ID interface.
+3. User looks at the iPhone.
+4. iOS performs Face ID.
+5. If authentication succeeds, unlock BlueMind.
+
+The user should NOT need to press another login button first.
+
+⸻
+
+5. Failed / cancelled Face ID
+
+If Face ID:
+
+* fails,
+* is cancelled,
+* is unavailable,
+* becomes locked,
+
+do NOT expose private BlueMind content.
+
+Provide:
+
+* Try Face ID Again
+* Use Login
+
+Never treat Face ID failure as logout unless authentication/session itself is invalid.
+
+⸻
+
+6. Persistent login
+
+Keep the existing persistent-login system.
+
+Closing BlueMind must NOT automatically log the user out.
+
+Face ID should act as an additional privacy lock on top of the existing session.
+
+Therefore:
+
+Valid session + Face ID enabled = Face ID unlock
+
+Valid session + Face ID disabled = open normally
+
+Invalid/expired session = normal login required
+
+⸻
+
+7. Manual Logout
+
+Manual Logout is different.
+
+When the user presses Log Out:
+
+* revoke/clear the local authenticated session,
+* clear relevant refresh/access tokens,
+* remove biometric-protected session material from Keychain,
+* prevent Face ID from reopening that account.
+
+After logout, the user must authenticate normally again.
+
+Face ID must NEVER bypass an intentional Logout.
+
+⸻
+
+8. Keychain security
+
+Use the native iOS Keychain.
+
+Never store:
+
+* plaintext passwords,
+* raw passwords,
+* Face ID data,
+* biometric templates,
+* biometric images.
+
+Only store the minimum authentication/session material required.
+
+Protect the relevant Keychain item using biometric/device authentication where appropriate.
+
+The backend must remain the source of truth for whether the session is valid.
+
+⸻
+
+9. Native Apple implementation
+
+Use Apple’s native:
+
+LocalAuthentication framework
+
+Do NOT build a fake/custom Face ID screen.
+
+Use the real iOS Face ID system UI.
+
+Add the correct NSFaceIDUsageDescription to the iOS configuration.
+
+Suggested message:
+
+“BlueMind uses Face ID to securely unlock your account on this device.”
+
+⸻
+
+10. EU / GDPR privacy requirements
+
+BlueMind must NOT receive biometric information from Face ID.
+
+Apple/iOS performs biometric matching locally.
+
+BlueMind should receive only the authentication result.
+
+Do NOT:
+
+* send biometric data to BlueMind backend,
+* send biometric data to analytics,
+* save biometric information in database,
+* log biometric data,
+* attempt to identify the user’s face ourselves.
+
+Store only:
+
+* whether Face ID Lock is enabled,
+* required secure session material.
+
+Do not label or claim that BlueMind “stores your Face ID”.
+
+In privacy-related documentation, describe this as:
+
+“Biometric authentication is performed locally by your device. BlueMind does not receive or store your biometric data.”
+
+⸻
+
+11. Settings
+
+Add a setting:
+
+Security & Login
+
+Inside:
+
+Face ID Lock
+On / Off
+
+Turning it ON:
+
+* require native Face ID confirmation.
+
+Turning it OFF:
+
+* require Face ID/device authentication first so another person holding an unlocked phone cannot silently disable it.
+
+⸻
+
+12. Face ID changes on the device
+
+Handle cases where:
+
+* Face ID is disabled in iOS Settings,
+* biometrics change,
+* device passcode changes,
+* Keychain biometric protection becomes invalid,
+* Face ID hardware is unavailable.
+
+Do not crash or create an authentication loop.
+
+Fall back safely to normal BlueMind login.
+
+⸻
+
+13. Required tests
+
+Test all of these on a real iPhone:
+
+1. Login normally → enable Face ID.
+2. Close app → reopen → Face ID unlocks.
+3. Face ID succeeds.
+4. Face ID fails.
+5. User cancels Face ID.
+6. Face ID unavailable.
+7. App force-closed and reopened.
+8. Session expired on backend.
+9. Refresh token revoked.
+10. User manually logs out.
+11. User logs in as another account.
+12. Face ID disabled from iPhone Settings.
+13. Biometrics/device security settings changed.
+14. Internet offline while session is still locally available.
+15. App reopened after several days.
+
+⸻
+
+14. Security report
+
+After implementation, report:
+
+* Which files were changed.
+* How Face ID is implemented.
+* What is stored in Keychain.
+* What is NOT stored.
+* How manual Logout invalidates Face ID access.
+* How expired sessions are handled.
+* How EU/GDPR privacy requirements were respected.
+* Results of every test above.
+
+Do not modify unrelated UI, authentication behavior, or other BlueMind features while implementing this.
