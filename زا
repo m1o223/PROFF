@@ -1,1 +1,217 @@
+TASK: Redesign ONLY the main AI Plans list screen to match the existing BlueMind iOS design system.
 
+IMPORTANT:
+- Do NOT change the AI plan generation logic yet.
+- Do NOT redesign the inside of an AI Plan yet.
+- Do NOT change backend behavior unless it is required only to support naming/searching existing plans.
+- Do NOT remove any currently working functionality.
+- Reuse the existing native/iOS-style components already used in Schedule, Reminders, and other BlueMind sections.
+- The goal is visual consistency, clean iOS behavior, and a professional layout.
+
+SCREEN TO UPDATE:
+AI Plans main page / AI Plans list screen.
+
+1. TOP NAVIGATION
+Keep:
+- Back button on the left.
+- “BlueMind AI” small label.
+- “AI Plans” title.
+- Plus button on the right.
+
+Change both Back and Plus buttons to use the SAME native circular iOS glass style already used in Schedule:
+- Same size.
+- Same blur/material.
+- Same border.
+- Same shadow.
+- Same icon weight.
+- Same press animation.
+- Same spacing from screen edges.
+Do not create a different button style for this screen.
+
+2. AI PLANS NOTIFICATIONS CARD
+Keep the notifications section and its functionality.
+
+Redesign it so it looks cleaner and more consistent with BlueMind:
+- Use the BlueMind dark blue accent instead of the current bright/light blue.
+- Reduce excessive visual weight.
+- Keep the bell icon.
+- Keep all currently working notification controls.
+- Use the same spacing, radius, glass/material treatment, and typography style as the other iOS cards.
+- Do not remove Enable or any existing working notification actions.
+
+3. SEARCH BAR
+Replace the current AI Plans search field styling with the SAME search bar component/design used in Schedule.
+
+Requirements:
+- Same height.
+- Same corner radius.
+- Same border/background.
+- Same placeholder typography.
+- Same horizontal margins.
+- Same focus behavior.
+- No horizontal movement or overflow.
+- Search must actually filter AI Plans by plan name.
+- If descriptions are already searchable safely, that can remain, but plan name search is mandatory.
+
+4. PLAN CARDS
+Redesign each AI Plan card.
+
+Do NOT use the current oversized plain card style.
+
+Each card should:
+- Use the same dark/gray iOS card style as Schedule.
+- Have consistent padding and rounded corners.
+- Show the plan name clearly as the primary title.
+- Show useful secondary information below, such as created date and optionally progress if already available.
+- Avoid unnecessary empty vertical space.
+- Keep the card visually compact and professional.
+- Cards must never overlap each other.
+- Cards must not move left/right or cause horizontal screen scrolling.
+- The whole list must use fixed safe horizontal padding.
+
+5. THREE-DOT MENU
+The three-dot button on each card must:
+- Be a circular native-style glass button.
+- Use the same visual style as Schedule.
+- Work reliably when tapped.
+
+When tapped, show the same iOS-style context menu used in Schedule.
+
+Menu actions should be:
+- Open
+- Rename
+- Delete
+
+Behavior:
+- Open opens that exact AI Plan.
+- Rename opens a native/iOS-style rename prompt with the current name prefilled.
+- Delete is red/destructive and must show a native/iOS-style confirmation before deleting.
+- Do not use a custom random popup style.
+- Do not position the menu outside the card or detached from the selected plan.
+
+6. EMPTY STATE
+If the user has no AI Plans:
+- Do NOT show a large empty card.
+- Show a clean centered empty state directly on the page.
+
+Suggested content:
+Title:
+“No AI plans yet”
+
+Subtitle:
+“Create a plan and let BlueMind help you organize it.”
+
+Then show a clear “Create AI Plan” action using the BlueMind iOS style.
+
+7. PLUS BUTTON FLOW
+This is very important.
+
+When the user taps the Plus button:
+DO NOT immediately open the AI chat.
+DO NOT immediately start the AI plan builder.
+
+First show a native/iOS-style naming prompt/sheet.
+
+Title:
+“New AI Plan”
+
+Prompt:
+“What would you like to name this plan?”
+
+Include:
+- One text field for the plan name.
+- Cancel.
+- Continue.
+
+Example:
+User enters:
+“Math Exam Plan”
+
+Then save/use that name for the plan.
+
+Only AFTER the user confirms the plan name may the app continue to the next AI Plan creation stage.
+
+For this task, do not redesign or modify that second stage yet.
+
+8. PLAN NAME PERSISTENCE
+The user-selected name must be used consistently:
+- On the AI Plans card.
+- In search.
+- In the plan header.
+- When renaming.
+- When reopening the plan.
+
+Do not automatically rename every plan to “Study Plan”.
+
+9. DESIGN CONSISTENCY
+Reuse existing BlueMind iOS design components wherever possible.
+
+Specifically reuse:
+- Native glass circular buttons.
+- Existing iOS sheet/prompt architecture.
+- Existing context menu architecture.
+- Existing search bar design.
+- Existing card spacing and radius system.
+- Existing typography hierarchy.
+
+Do not create a second design system specifically for AI Plans.
+
+10. LAYOUT / RESPONSIVENESS
+Fix all spacing so:
+- Nothing overlaps.
+- Nothing clips.
+- No element can push the screen horizontally.
+- No horizontal page scrolling.
+- Safe-area spacing works correctly on real iPhones.
+- Dynamic Island/notch area remains respected.
+- Cards stay inside the viewport.
+- Text wraps correctly.
+- Long AI Plan names do not break the layout.
+
+11. COLORS
+Use the existing BlueMind color system:
+- Black main background.
+- Dark gray/glass surfaces.
+- White primary text.
+- Gray secondary text.
+- BlueMind dark blue for active/accent states.
+- Avoid the current bright light-blue appearance unless it is already part of an intentional system state.
+
+12. DO NOT TOUCH
+Do not modify yet:
+- AI Plan Builder questions.
+- AI-generated phases.
+- AI-generated tasks.
+- Recommendations.
+- Improve with AI.
+- Progress logic.
+- Study / Website / Programming plan generation.
+- AI chat inside a plan.
+- Backend AI prompting logic.
+
+Those will be handled in the next phase.
+
+13. TEST AFTER IMPLEMENTATION
+After finishing, verify on the real iPhone:
+
+A. Open AI Plans.
+B. Back and Plus buttons look and behave like Schedule.
+C. Search bar matches Schedule.
+D. Existing plans appear as clean gray iOS cards.
+E. Three-dot menu opens correctly from the selected card.
+F. Open/Rename/Delete work on the correct plan.
+G. Plus opens the “New AI Plan” naming prompt.
+H. Entering a name and continuing preserves that exact name.
+I. Empty state looks clean when no plans exist.
+J. No overlap, clipping, horizontal movement, or horizontal scrolling.
+
+Do not stop after modifying the source only.
+Make sure the updated production build is synced to iOS and verify that the new AI Plans main screen is actually the version appearing on the connected iPhone.
+
+When finished, report:
+1. Which files were changed.
+2. Which existing iOS components were reused.
+3. What changed visually.
+4. How plan naming now works.
+5. Whether search, rename, delete, and open were tested.
+6. Confirmation that the updated screen was verified on the connected iPhone.
