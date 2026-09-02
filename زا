@@ -1,1 +1,286 @@
+The Projects implementation is already in the source code.
 
+DO NOT redesign Projects.
+DO NOT recreate Projects.
+DO NOT add new Projects features right now.
+
+The main problem is:
+
+The code is being updated,
+but the REAL CONNECTED IPHONE is still showing the old screen:
+
+Projects
+Coming Soon
+
+I need you to investigate WHY the latest code is not reaching the iPhone.
+
+====================================================
+MAIN GOAL
+====================================================
+
+Find the exact reason why:
+
+CODE CHANGES
+→ appear in the repository
+→ but do NOT appear on the physical iPhone.
+
+Do not assume the problem is UI code.
+
+Trace the entire path from source code to the installed iOS app.
+
+====================================================
+1. CHECK THE EXACT PROJECTS SCREEN USED BY IOS
+====================================================
+
+Search the entire repository for:
+
+"Projects"
+"Coming Soon"
+
+Find every old placeholder implementation.
+
+Then trace:
+
+Menu → Projects → actual rendered component
+
+I want to know exactly which component/view the physical iPhone opens.
+
+Verify whether the iPhone is still loading:
+
+- an old placeholder component
+- an old route
+- an old bundled frontend
+- another implementation
+- another worktree
+- another branch
+- another local copy of BlueMind
+
+Do not guess.
+
+Prove which file is actually used at runtime.
+
+====================================================
+2. CHECK BRANCH / WORKTREE / REPOSITORY PATH
+====================================================
+
+Verify:
+
+- current Git branch used by Codex
+- current Git worktree used by Codex
+- exact absolute repository path being modified
+- exact repository/project path opened by Xcode
+- exact source path used by the iOS build
+
+I specifically want you to check if this is happening:
+
+Codex edits:
+BlueMind copy A
+
+while Xcode builds:
+BlueMind copy B
+
+or:
+
+Codex edits one branch
+while Xcode builds another branch.
+
+If there are multiple BlueMind folders/worktrees, list them and identify which one Xcode actually uses.
+
+====================================================
+3. CHECK WHETHER IOS USES A GENERATED WEB BUNDLE
+====================================================
+
+Determine how the iOS application receives the frontend.
+
+If the iOS app uses:
+
+- Capacitor
+- bundled web assets
+- generated dist/build folder
+- copied frontend assets
+- a native bridge
+- any synchronization step
+
+verify that the latest Projects source is actually being copied into the iOS bundle.
+
+Do not assume editing React/JS source automatically updates the iPhone.
+
+Check the generated iOS assets themselves.
+
+Search inside the final bundled assets for:
+
+"Coming Soon"
+
+If the old placeholder text still exists in the generated iOS bundle, identify exactly which build/sync step is missing.
+
+====================================================
+4. CHECK BUILD CACHE / STALE OUTPUT
+====================================================
+
+Investigate whether stale output is being reused.
+
+Check relevant:
+
+- frontend build cache
+- dist/build output
+- Capacitor sync output
+- Xcode DerivedData
+- old installed app bundle
+- stale native assets
+
+Clean only what is necessary.
+
+Then regenerate everything from the current source.
+
+====================================================
+5. CHECK BUNDLE ID / INSTALLED APP
+====================================================
+
+Verify the physical iPhone is launching the SAME app target you just built.
+
+Check:
+
+- bundle identifier
+- scheme
+- target
+- configuration
+- app installed on the connected iPhone
+
+Make sure there is not an older BlueMind build installed with a different bundle identifier.
+
+Confirm the new build actually replaces the app I am opening.
+
+====================================================
+6. CHECK BACKEND ENVIRONMENT
+====================================================
+
+The new Projects implementation uses new backend endpoints.
+
+Verify which backend environment the iOS app is pointing to.
+
+Check:
+
+- API base URL
+- production/staging/local environment
+- Projects endpoints availability
+
+The new Projects backend module must be deployed to the environment actually used by the iPhone.
+
+Confirm these routes work from that environment:
+
+/api/projects
+
+and the other new project endpoints.
+
+However:
+
+Even if the backend is unavailable, the iPhone should NOT still be rendering the old "Coming Soon" placeholder if the new frontend bundle is installed.
+
+So separate:
+
+FRONTEND DEPLOYMENT PROBLEM
+
+from
+
+BACKEND API AVAILABILITY PROBLEM.
+
+====================================================
+7. PERFORM A FRESH IOS PIPELINE
+====================================================
+
+After identifying the problem, run the complete correct pipeline.
+
+Example only — use the actual commands for this repository:
+
+source
+→ frontend production build
+→ native/iOS sync
+→ Xcode build
+→ install on physical iPhone
+
+Do not skip steps.
+
+====================================================
+8. INSTALL ON THE REAL IPHONE
+====================================================
+
+Use the currently connected physical iPhone.
+
+Build the current iOS target from the correct source.
+
+Install it.
+
+Launch BlueMind.
+
+Open:
+
+Menu → Projects
+
+The old screen:
+
+Projects
+Coming Soon
+
+must no longer appear.
+
+====================================================
+9. IF YOU CANNOT INSTALL TO THE IPHONE
+====================================================
+
+If your environment cannot directly access/install to the physical iPhone:
+
+DO NOT stop at "I cannot test it."
+
+Instead give me the EXACT local steps I must perform on this Mac.
+
+Tell me exactly:
+
+1. which directory to open
+2. which branch to be on
+3. which build command to run
+4. which sync command to run
+5. which Xcode workspace/project to open
+6. which scheme to select
+7. how to select the connected iPhone
+8. how to build/install
+9. how to verify the correct bundle was installed
+
+Do not give generic instructions.
+
+Use this repository's real paths and commands.
+
+====================================================
+10. ROOT-CAUSE REPORT
+====================================================
+
+When finished, give me a short technical report:
+
+1. Exact reason the new Projects code was not appearing on the iPhone.
+2. Exact source file used by the new Projects screen.
+3. Exact old placeholder file/route if one existed.
+4. Codex repository/worktree path.
+5. Xcode repository/build path.
+6. Git branch used by each.
+7. Whether the generated iOS bundle was stale.
+8. Whether build cache contributed.
+9. Whether the wrong app target/bundle ID was being launched.
+10. Which backend environment the iPhone uses.
+11. Exact fix performed.
+12. Confirmation whether the NEW Projects UI is now visible on the physical iPhone.
+
+====================================================
+IMPORTANT
+====================================================
+
+Do not make unrelated code changes.
+
+Do not redesign the Projects UI again.
+
+Do not add more features.
+
+This task is specifically:
+
+INVESTIGATE WHY CHANGES ARE NOT REACHING THE IPHONE
+→ find the real root cause
+→ fix the deployment/sync path
+→ verify the latest code on the physical device.
