@@ -1,16 +1,1 @@
-Do not make any more changes right now.
 
-The Face ID implementation is done for this step. I want to test exactly what is currently implemented on the real connected iPhone.
-
-Please:
-
-1. Do NOT redesign or modify the Face ID UI.
-2. Do NOT change the Get Started screen.
-3. Do NOT change any other part of the app.
-4. Build the current iOS version exactly as it is now.
-5. Install/deploy the latest build to the connected iPhone.
-6. Launch it on the iPhone so I can personally test the Face ID flow and see exactly how it appears on the real device.
-
-Before installing, make sure the build contains the latest Face ID changes we just implemented.
-
-For now, only build + install + launch on the connected iPhone. No additional code or UI changes.
