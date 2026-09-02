@@ -1,1 +1,139 @@
+STOP making UI changes for now.
 
+There is a deployment/synchronization problem that must be diagnosed first.
+
+The Projects feature has already been modified in the code, but the real connected iPhone is STILL showing the OLD Projects screen:
+
+"Projects"
+"Coming Soon"
+
+This means the latest implementation is not reaching the actual iOS build/device.
+
+DO NOT redesign Projects again.
+DO NOT recreate the Projects UI.
+DO NOT make unrelated changes.
+
+I want you to trace exactly why the latest code is not appearing on the connected iPhone.
+
+STEP 1 — VERIFY THE SOURCE CODE
+
+Find the exact component/view currently responsible for the Projects screen shown by the iOS app.
+
+Search the entire repository for:
+
+"Coming Soon"
+
+and determine which file is actually rendering this old Projects screen.
+
+Then verify whether the new Projects implementation is in:
+
+- the same component,
+- another component,
+- another route,
+- another branch,
+- another iOS-specific implementation,
+- or code that is currently not being used.
+
+Do not assume the modified Projects file is the one the iPhone actually renders.
+
+STEP 2 — VERIFY ROUTING
+
+Trace the complete runtime path:
+
+Menu → Projects → actual rendered Projects component.
+
+Confirm exactly which component the iOS application loads when I tap Projects.
+
+If an old placeholder route/component is still being used, connect the route to the new Projects implementation.
+
+Do NOT delete working code blindly.
+
+STEP 3 — VERIFY CURRENT BRANCH / WORKTREE
+
+Check:
+
+- current Git branch
+- current worktree
+- uncommitted changes
+- whether Xcode is building the same repository/worktree Codex is modifying
+
+Make sure there are not two copies of BlueMind where:
+
+Codex edits copy A
+
+but
+
+Xcode builds copy B.
+
+This is extremely important because this problem has happened repeatedly.
+
+STEP 4 — VERIFY IOS BUILD INPUT
+
+Confirm that the modified frontend/source files are actually included in the iOS build.
+
+If the iOS app requires a frontend build/sync step, run the required production build and iOS synchronization process.
+
+Do not assume source edits automatically reach the native iOS bundle.
+
+Verify the generated/bundled assets contain the NEW Projects implementation and NOT the old "Coming Soon" placeholder.
+
+STEP 5 — REMOVE STALE BUILD OUTPUT
+
+Clean only the necessary stale build/cache output.
+
+Then perform a fresh iOS build.
+
+Make sure Xcode is not reusing an old web bundle or old compiled application.
+
+STEP 6 — INSTALL THE NEW BUILD
+
+Install the newly built application onto the currently connected physical iPhone.
+
+Make sure the installation actually replaces the old BlueMind build.
+
+Launch BlueMind on the physical iPhone.
+
+Open:
+
+Menu → Projects
+
+STEP 7 — VISUAL VERIFICATION
+
+The physical iPhone must NOT show:
+
+Projects
+Coming Soon
+
+if that placeholder was already replaced.
+
+Verify that the NEW Projects UI is actually visible on the real iPhone.
+
+Do not stop at:
+
+"Build succeeded."
+
+I need runtime verification on the connected physical device.
+
+STEP 8 — REPORT THE ROOT CAUSE
+
+After fixing it, tell me specifically:
+
+1. Which file was rendering the old Projects screen.
+2. Which file contained the new Projects implementation.
+3. Whether routing was wrong.
+4. Whether Codex and Xcode were using different worktrees/branches.
+5. Whether an old frontend bundle was embedded in iOS.
+6. Whether build cache was involved.
+7. What exact change fixed the problem.
+8. Confirmation that the new Projects screen is now visible on the connected iPhone.
+
+IMPORTANT:
+
+Do not modify the design again until this deployment problem is solved.
+
+The goal of this task is ONLY:
+
+CODE CHANGES
+→ correct iOS build
+→ correct physical iPhone installation
+→ verify the latest UI is visible.
