@@ -1,23 +1,39 @@
-STOP all UI/design work. The iOS app now installs and launches on the iPhone, but the actual BlueMind UI does not render. I only see a black screen/native shell with the BlueMind top logo.
+Face ID authentication now works correctly, but the session flow is wrong.
 
-Diagnose this runtime problem first. Do not redesign or recreate anything.
+Current bug:
 
-1. Reproduce the launch and inspect the Xcode runtime console for the FIRST real error after app startup.
-2. Check whether the Capacitor WKWebView successfully loads the current production web bundle.
-3. Verify that the latest frontend/dist was actually copied into the iOS app (ios/App/App/public) and that the JS/CSS asset hashes in the installed iOS bundle match the latest production build.
-4. Check for missing JS assets, 404s, runtime JavaScript exceptions, import/chunk failures, invalid routes, authentication redirect loops, or a failed app initialization.
-5. Verify that the app is not loading an old/stale Capacitor bundle or another worktree/branch.
-6. Check the initial route and authenticated-session restore. Make sure an auth/session error cannot leave the app on an empty black screen.
-7. Check all startup network/API calls, but a backend failure must show an error state — it must never prevent the entire UI from rendering.
-8. The Xcode warnings about deprecated kSecUse... APIs are not enough to explain the blank screen; identify the actual runtime failure.
-9. There is also a MobileCal quit unexpectedly report. Determine whether BlueMind is triggering Calendar/EventKit at startup. If unrelated, clearly say so and leave it alone.
+1. I open the app.
+2. The app sends me to the Sign In screen.
+3. I enter my email.
+4. Face ID appears and succeeds.
+5. It says authentication succeeded.
+6. But instead of restoring my existing session and entering BlueMind, it starts the login flow again from the beginning.
 
-Do not guess. Trace the exact failure from app launch until React renders.
+Fix ONLY this authentication/session bug. Do not redesign the login UI.
 
-When you find it, fix only the root cause, rebuild + npx cap sync ios, and then tell me very simply:
+Required behavior:
 
-* what was broken,
-* what you changed,
-* and exactly what I should press in Xcode to test it again.
+* If the user already has a valid authenticated session/token stored, reopening the app should NOT show the Sign In screen.
+* If Face ID protection is enabled, app launch should show Face ID first.
+* After Face ID succeeds, immediately restore the existing authenticated session and navigate to the app/home/chat.
+* Do NOT ask for the email again unless there is no saved account/session.
+* Face ID must act as a local unlock for an existing signed-in account, not as a new login method that restarts authentication.
+* If the access token expired but a valid refresh token exists, refresh the session in the background after Face ID succeeds.
+* Only send the user to Sign In if there is genuinely no valid session/refresh token, the account was signed out, or session restoration fails.
+* Do not clear auth storage when the app goes to background or is closed normally.
 
-Do not make unrelated changes.
+Trace these exact states:
+Face ID success → read stored auth/session → validate/refresh token → restore user → navigate into app.
+
+Check for any redirect loop between the Face ID gate, Sign In page, auth provider, and app initialization.
+
+After fixing it, test this exact case:
+
+1. Sign in normally once.
+2. Enable Face ID.
+3. Fully close the app.
+4. Reopen it.
+5. Face ID should appear immediately.
+6. After successful Face ID, BlueMind should open directly without asking for email/password.
+
+Then tell me exactly what was causing the loop and what you changed.
