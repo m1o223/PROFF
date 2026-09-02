@@ -1,1 +1,587 @@
 
+TASK: Build the BlueMind Projects feature step by step.
+
+IMPORTANT:
+Do NOT redesign unrelated parts of the app.
+Do NOT touch Chat, Reminders, Schedule, Settings, Login, or other existing features unless a shared component is absolutely required.
+
+For now, work only on Projects.
+
+====================================================
+GOAL
+====================================================
+
+I do NOT want Projects to be just a folder that contains chats.
+
+BlueMind Projects should feel like a dedicated AI workspace for one specific goal or topic.
+
+Example projects:
+
+- BlueMind iOS
+- Dark Word
+- Autism App
+- School
+- Personal Business
+
+Each project should become its own workspace where the user can keep:
+
+- project-related chats
+- project files/images
+- notes
+- tasks
+- important project information
+- AI context related specifically to that project
+
+Eventually, BlueMind should understand the project as a whole.
+
+But DO NOT build everything at once.
+
+We will build this feature in stages.
+
+====================================================
+PHASE 1 — PROJECTS MAIN PAGE
+====================================================
+
+Start by replacing the current:
+
+Projects
+Coming Soon
+
+screen.
+
+Build a real Projects home screen.
+
+The design should be:
+
+- modern
+- minimal
+- premium
+- iOS-first
+- visually clean
+- dark mode friendly
+- simple like ChatGPT, but with BlueMind’s own identity
+
+Do NOT make the screen crowded.
+
+====================================================
+HEADER
+====================================================
+
+Top header:
+
+Left:
+native-style iOS back button using the same BlueMind/iOS glass component used elsewhere.
+
+Center/left title:
+Projects
+
+Right:
+circular native-style iOS glass + button.
+
+The + button creates a new project.
+
+Use the same visual language already established in BlueMind:
+- dark charcoal surfaces
+- smooth corners
+- subtle glass only on interactive controls
+- no bright random colors
+
+====================================================
+PROJECT LIST
+====================================================
+
+Show user projects as clean cards.
+
+Example:
+
+BlueMind iOS
+Building the BlueMind iOS application
+Updated today
+
+12 chats · 6 files · 3 tasks
+
+•••
+
+Dark Word
+AR horror game project
+Updated yesterday
+
+8 chats · 2 files · 4 tasks
+
+•••
+
+Each project card should contain:
+
+- Project name
+- Optional short description
+- Last updated time/date
+- Small project stats if available:
+  chats
+  files
+  tasks
+- Three-dot action button
+
+Cards should be dark gray / charcoal.
+
+Do NOT use bright blue cards.
+
+Use BlueMind accent color only for small highlights if needed.
+
+Cards must have:
+- consistent spacing
+- fixed layout
+- smooth rounded corners
+- no horizontal movement
+- no overlapping elements
+- stable responsive sizing
+
+====================================================
+THREE-DOT MENU
+====================================================
+
+When tapping the three-dot button:
+
+Use the native iOS-style action menu / sheet style already used elsewhere in the application.
+
+Actions:
+
+- Open
+- Rename
+- Delete
+
+Delete must be destructive/red.
+
+Do NOT build a custom random popup if a native iOS-compatible action sheet/menu already exists in the app.
+
+====================================================
+PHASE 2 — CREATE PROJECT
+====================================================
+
+When tapping +:
+
+Open a native-style iOS sheet.
+
+Do NOT open a complicated full form.
+
+First version should be very simple.
+
+Fields:
+
+Project Name
+required
+
+Description
+optional
+
+Example:
+
+Project Name:
+BlueMind iOS
+
+Description:
+Build and finish the BlueMind iOS application.
+
+Buttons:
+
+Cancel
+Create Project
+
+Use the existing BlueMind/iOS input style.
+
+Inputs must:
+- have stable dimensions
+- not move while typing
+- support long text properly
+- use dark charcoal appearance
+- have smooth rounded corners
+- use correct keyboard handling
+
+Create Project should only become active when Project Name is valid.
+
+====================================================
+PROJECT CREATION LOGIC
+====================================================
+
+After Create Project:
+
+1. Create the project in the correct backend/database location.
+2. Associate it with the authenticated user.
+3. Return to the Projects list.
+4. Show the new project immediately.
+5. Persist it after app restart.
+6. Do NOT create duplicate projects accidentally from repeated taps.
+
+Every project must have a unique project ID.
+
+Do NOT identify projects by display name only.
+
+====================================================
+PROJECT DATA MODEL
+====================================================
+
+Prepare a clean project model.
+
+At minimum:
+
+id
+userId
+name
+description
+createdAt
+updatedAt
+
+Also prepare clean future-ready support for:
+
+chatCount
+fileCount
+taskCount
+
+Do not hardcode fake counts.
+
+If those systems are not connected yet, show zero or hide the counts.
+
+====================================================
+PHASE 3 — PROJECT WORKSPACE
+====================================================
+
+After Phase 1 and Phase 2 are stable, create the project detail/workspace screen.
+
+When the user taps a project card:
+
+Open that specific project.
+
+Header example:
+
+BlueMind iOS
+
+Back button
+
+•••
+
+The project workspace should NOT initially be crowded.
+
+The main idea is:
+
+This project is a dedicated AI workspace.
+
+====================================================
+PROJECT OVERVIEW
+====================================================
+
+At the top of the project workspace, create a clean Overview area.
+
+Eventually this area should show information like:
+
+Goal
+Finish BlueMind iOS
+
+Current focus
+Projects UI
+
+Recent activity
+Schedule redesign
+
+Next step
+Security testing
+
+BUT:
+
+Do not fake AI-generated project state yet.
+
+For the first implementation, structure the UI so this can be added later.
+
+Use placeholder data only if clearly marked as development/demo data.
+
+====================================================
+PROJECT CONTENT SECTIONS
+====================================================
+
+Prepare sections for:
+
+Chats
+Files
+Tasks
+Notes
+
+Do NOT implement complex functionality for all four at once.
+
+For the first pass, create their navigation/structure only.
+
+Example:
+
+Project Content
+
+Chats
+Files
+Tasks
+Notes
+
+Each row should be a clean iOS-style row with icon, label and chevron.
+
+====================================================
+PROJECT CHAT IDEA
+====================================================
+
+Prepare the architecture so the project can eventually have its own AI chat.
+
+The project chat should be context-aware.
+
+Meaning:
+
+If the user is inside:
+
+Project: BlueMind iOS
+
+and asks:
+
+“What should I work on next?”
+
+the AI should eventually be able to use:
+
+- project chats
+- project notes
+- project files
+- project tasks
+- project metadata
+
+to answer.
+
+For now, do NOT create fake project intelligence.
+
+Just structure the project architecture correctly so this can be added safely later.
+
+====================================================
+IMPORTANT FUTURE CONCEPT:
+PROJECT MEMORY
+====================================================
+
+We will later add a Project Memory / Project Brain system.
+
+The purpose:
+
+BlueMind should understand important persistent information about that specific project.
+
+Possible future data:
+
+- project goal
+- important decisions
+- completed work
+- current work
+- pending work
+- user preferences
+- attached files
+- project-specific AI instructions
+
+DO NOT build this full AI memory engine yet.
+
+But make sure the database/project architecture will not block it later.
+
+====================================================
+DESIGN LANGUAGE
+====================================================
+
+The Projects feature must visually match the newer BlueMind iOS design.
+
+Use:
+
+- black background
+- dark charcoal cards
+- subtle borders
+- smooth large corner radius
+- correct iOS spacing
+- clean white text
+- secondary gray text
+- BlueMind accent only where appropriate
+
+Avoid:
+
+- bright blue blocks everywhere
+- unnecessary gradients
+- excessive glass
+- excessive animation
+- huge empty components
+- random color icons
+- Android-style UI
+- web-dashboard appearance
+
+The goal is:
+
+simple
+premium
+native-feeling
+modern
+professional
+
+====================================================
+ANIMATIONS
+====================================================
+
+Keep animations minimal.
+
+Only use natural iOS transitions.
+
+No bouncing.
+No scaling cards on every tap.
+No layout-shifting animations.
+
+Opening a project:
+clean navigation transition.
+
+Opening create project:
+native sheet transition.
+
+Closing:
+native sheet dismissal.
+
+====================================================
+DATA SEPARATION
+====================================================
+
+This is critical.
+
+Each project must be completely separated by project ID.
+
+Example:
+
+BlueMind iOS chats must NOT appear inside Dark Word.
+
+Dark Word files must NOT appear inside Autism App.
+
+Every future object associated with a project must use:
+
+projectId
+
+Never rely on project name as the relation key.
+
+====================================================
+USER OWNERSHIP / SECURITY
+====================================================
+
+Every project request must verify the authenticated user owns the project.
+
+A user must NOT be able to access another user's project by changing:
+
+- URL
+- route
+- projectId
+- API request
+
+Backend authorization must enforce ownership.
+
+Frontend hiding is NOT enough.
+
+====================================================
+EMPTY STATE
+====================================================
+
+If user has no projects:
+
+Do NOT show a giant bordered empty card.
+
+Use a clean native empty state.
+
+Example:
+
+Projects icon
+
+No projects yet
+
+Create a project to keep your chats,
+files and plans organized in one place.
+
+Create Project
+
+Keep it simple.
+
+====================================================
+SEARCH — PREPARE ONLY
+====================================================
+
+Do not overbuild search yet.
+
+But structure the Projects page so a search bar can be added later.
+
+Eventually search should find projects by:
+
+- project name
+- project description
+
+Do not search across private project content yet unless specifically implemented later.
+
+====================================================
+PHASE ORDER
+====================================================
+
+Implement in exactly this order:
+
+PHASE 1
+Projects main page
+
+PHASE 2
+Create Project flow
+
+PHASE 3
+Persistent project storage/backend connection
+
+PHASE 4
+Open project workspace
+
+PHASE 5
+Basic Chats / Files / Tasks / Notes navigation structure
+
+STOP after those phases.
+
+Do NOT begin Project Brain, AI memory, automatic project summaries, AI task extraction, or other advanced features yet.
+
+I want to review the real iPhone UI first.
+
+====================================================
+REAL IPHONE TESTING
+====================================================
+
+After implementation:
+
+Build the iOS app.
+
+Install the latest build on the connected real iPhone.
+
+Test:
+
+1. Open Projects.
+2. Create a project.
+3. Close the app.
+4. Reopen.
+5. Confirm project still exists.
+6. Create a second project.
+7. Confirm projects remain separated.
+8. Rename one project.
+9. Delete one project.
+10. Confirm only the selected project is deleted.
+11. Open a project.
+12. Confirm correct project ID/data loads.
+13. Verify no unrelated BlueMind screens were broken.
+
+====================================================
+FINAL REPORT
+====================================================
+
+When finished, report:
+
+1. Files changed.
+2. New project UI components created.
+3. Backend/database project model.
+4. Create project flow.
+5. Project ownership/security checks.
+6. Project deletion behavior.
+7. Persistence behavior.
+8. Project workspace routing.
+9. Real iPhone test results.
+10. Anything that is still placeholder/not implemented.
+
+IMPORTANT:
+
+Do not tell me only “build passes”.
+
+I want the actual Projects feature working on the connected iPhone.
+
+And do not add unrelated features or redesign other parts of BlueMind.
