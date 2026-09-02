@@ -1,1 +1,23 @@
+STOP all UI/design work. The iOS app now installs and launches on the iPhone, but the actual BlueMind UI does not render. I only see a black screen/native shell with the BlueMind top logo.
 
+Diagnose this runtime problem first. Do not redesign or recreate anything.
+
+1. Reproduce the launch and inspect the Xcode runtime console for the FIRST real error after app startup.
+2. Check whether the Capacitor WKWebView successfully loads the current production web bundle.
+3. Verify that the latest frontend/dist was actually copied into the iOS app (ios/App/App/public) and that the JS/CSS asset hashes in the installed iOS bundle match the latest production build.
+4. Check for missing JS assets, 404s, runtime JavaScript exceptions, import/chunk failures, invalid routes, authentication redirect loops, or a failed app initialization.
+5. Verify that the app is not loading an old/stale Capacitor bundle or another worktree/branch.
+6. Check the initial route and authenticated-session restore. Make sure an auth/session error cannot leave the app on an empty black screen.
+7. Check all startup network/API calls, but a backend failure must show an error state — it must never prevent the entire UI from rendering.
+8. The Xcode warnings about deprecated kSecUse... APIs are not enough to explain the blank screen; identify the actual runtime failure.
+9. There is also a MobileCal quit unexpectedly report. Determine whether BlueMind is triggering Calendar/EventKit at startup. If unrelated, clearly say so and leave it alone.
+
+Do not guess. Trace the exact failure from app launch until React renders.
+
+When you find it, fix only the root cause, rebuild + npx cap sync ios, and then tell me very simply:
+
+* what was broken,
+* what you changed,
+* and exactly what I should press in Xcode to test it again.
+
+Do not make unrelated changes.
