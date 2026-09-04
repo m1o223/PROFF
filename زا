@@ -1,1 +1,272 @@
+TASK: Clean up AI Plan UI duplication and make AI Plan chat use the same modern BlueMind iOS chat system already implemented in Writing Mode.
 
+Do not redesign unrelated screens.
+Do not touch backend AI logic unless required for wiring existing UI.
+
+==================================================
+1. REMOVE DUPLICATE / OLD BUTTONS
+==================================================
+
+There are currently old buttons/components still rendering underneath or behind the new iOS glass buttons.
+
+Remove the OLD duplicated controls completely.
+
+Keep ONLY the new iOS glass controls.
+
+There must not be:
+- two versions of the same action
+- old controls visible underneath new ones
+- hidden/ghost buttons
+- overlapping click targets
+- duplicate AI buttons
+
+Inspect the DOM/component tree and remove the obsolete implementation instead of only hiding it with CSS.
+
+==================================================
+2. REMOVE OLD “IMPROVE WITH AI” UI
+==================================================
+
+There is an older AI improvement UI/modal/section still present.
+
+The app now has the newer AI interaction design.
+
+Remove the OLD AI improvement interface.
+
+There should be only ONE AI interaction flow for the plan.
+
+Do not keep:
+- old “Improve with AI” form
+- duplicate AI modal
+- duplicate AI update screen
+- duplicate AI textarea
+- old legacy buttons
+
+If an existing backend action is useful, reuse the backend logic but connect it to the new UI.
+
+==================================================
+3. AI PLAN CHAT MUST USE THE NEW CHAT DESIGN
+==================================================
+
+When the user talks to AI inside AI Plan, use the SAME current BlueMind chat UI system used by the newly redesigned Writing Mode.
+
+Reuse the shared components.
+
+The AI Plan chat must use:
+
+- same chat composer
+- same input layout
+- same + button
+- same microphone button
+- same send button
+- same multiline behavior
+- same keyboard behavior
+- same safe-area handling
+- same message spacing
+- same user/assistant message styling
+- same scroll behavior
+- same iOS glass styling
+
+Do NOT create another separate AI Plan chat design.
+
+AI Plan should only change the content/context, not the chat foundation.
+
+==================================================
+4. AI PLAN ATTACHMENT MENU
+==================================================
+
+The + button inside AI Plan chat must use the same compact attachment popup as Writing Mode.
+
+Show ONLY:
+
+- Files
+- Photos
+- Camera
+
+No:
+- Search
+- Create Images
+- Write/Edit
+- other general chat tools
+
+The popup must appear ABOVE the composer and the composer must stay visible.
+
+Reuse the same attachment menu component if possible.
+
+==================================================
+5. NATIVE IOS ALERTS / CONFIRMATIONS
+==================================================
+
+For simple confirmations, warnings, and destructive actions, use native iOS-style alerts/actionsheets instead of large custom in-app cards where possible.
+
+Examples:
+
+Delete plan:
+Use native-style confirmation:
+Title:
+Delete this plan?
+
+Message:
+“Study Plan” will be removed from AI Plans.
+
+Actions:
+Cancel
+Delete
+
+Delete should be destructive/red.
+
+Other simple states like:
+- confirmation
+- failure
+- permission needed
+- cancel/continue
+
+should use native iOS alert/action-sheet presentation where appropriate.
+
+Do NOT show a giant custom modal for a simple confirmation.
+
+If native iOS APIs/components already exist in the project, reuse them.
+
+==================================================
+6. PLAN AI BUTTON
+==================================================
+
+Keep only ONE AI button in the Study Plan header.
+
+The new sparkle/AI button should open the NEW AI chat interaction.
+
+Do not open the old “Improve with AI” interface.
+
+Expected:
+
+Tap AI button
+→ open AI Plan chat using the shared modern chat UI
+→ user talks naturally with BlueMind
+→ AI can help modify/refine the plan
+
+==================================================
+7. EDIT BUTTON
+==================================================
+
+Keep the edit button if it is still part of the intended design.
+
+Do not duplicate it.
+
+Do not render an old edit control underneath.
+
+==================================================
+8. DELETE BUTTON
+==================================================
+
+Keep one delete button.
+
+On tap:
+show native iOS-style destructive confirmation.
+
+If confirmed:
+perform existing delete logic.
+
+If cancelled:
+do nothing.
+
+==================================================
+9. REMOVE LEGACY UI FROM DOM
+==================================================
+
+Important:
+
+Do not solve this only with:
+display:none
+opacity:0
+visibility:hidden
+
+Remove obsolete legacy components from render flow.
+
+There should be one current source of truth for:
+- AI action
+- edit action
+- delete action
+- chat composer
+- attachment menu
+
+==================================================
+10. CHAT EMPTY / ACTIVE STATE
+==================================================
+
+When AI Plan chat opens:
+
+Before messages:
+show a clean AI Plan-specific welcome state.
+
+After first message:
+collapse the welcome content and show normal conversation.
+
+Use the same behavior as Writing Mode.
+
+==================================================
+11. NATIVE IOS LOOK
+==================================================
+
+All active controls should follow one BlueMind iOS design system:
+
+- thin glass borders
+- native-looking spacing
+- consistent corner radius
+- same icon weights
+- same press feedback
+- same safe-area behavior
+
+Do not mix old custom UI with the new glass system.
+
+==================================================
+12. DO NOT CHANGE
+==================================================
+
+Do not change:
+
+- plan data model
+- backend AI provider
+- auth
+- Projects
+- Normal Chat
+- Writing Mode behavior
+- other unrelated modules
+
+Only reuse shared components where needed.
+
+==================================================
+13. PHYSICAL IPHONE TEST
+==================================================
+
+Test on physical iPhone:
+
+1. Open Study Plan.
+2. Verify no duplicate buttons exist.
+3. Verify only one AI button exists.
+4. Tap AI button.
+5. Verify new shared chat UI opens.
+6. Verify composer matches Writing Mode.
+7. Tap +.
+8. Verify only Files / Photos / Camera appear.
+9. Verify composer remains visible.
+10. Send a message.
+11. Verify message layout is correct.
+12. Tap delete.
+13. Verify native iOS-style destructive confirmation.
+14. Cancel delete.
+15. Confirm delete on second test.
+16. Verify no app restart or route reset.
+
+==================================================
+14. FINAL REPORT
+==================================================
+
+After implementation, report:
+
+- which duplicate/legacy components were removed
+- which AI flow remains
+- which shared chat components are reused
+- which attachment component is reused
+- how delete confirmation is presented
+- whether any old Improve with AI UI remains
+- physical iPhone test result
+- files changed
