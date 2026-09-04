@@ -1,1 +1,45 @@
+IMPORTANT VISUAL CORRECTION:
 
+For Hidden Chat and Private Chat, do NOT use a solid dark background.
+
+Use the EXACT same dark translucent glass surface already used in the app for:
+- AI selector
+- Settings cards / sheets
+- iOS glass menus
+- existing dark glass controls
+
+I want the same material, same opacity, same blur, same border, same highlight.
+
+The surface should feel like:
+dark translucent glass
+NOT solid black
+NOT flat dark gray
+NOT bright blue
+
+Requirements:
+
+- reuse the existing shared glass surface/component
+- same background opacity
+- same backdrop blur
+- same thin border/stroke
+- same inner highlight if already used
+- same corner radius family
+- same shadow style
+- same dark translucent appearance
+
+Do not invent a new color value if the correct shared token/component already exists.
+
+The Hidden Chat and Private Chat sheets should visually match the Settings / AI selector glass style exactly.
+
+Also apply the same glass styling to:
+- sheet background
+- close button
+- Cancel button
+- primary action button base
+- private-chat rows
+- ellipsis buttons
+
+Primary actions can keep a subtle accent, but the base material must remain the same dark translucent iOS glass.
+
+Main goal:
+Everything should look like it belongs to the SAME BlueMind iOS glass system.
