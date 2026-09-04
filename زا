@@ -1,1 +1,546 @@
+TASK: Redesign and restructure Writing Mode on iOS into a clean chat-based writing experience.
 
+CURRENT PROBLEM:
+The current Writing Mode screen is too complex and crowded.
+It currently looks like a dashboard with:
+- large Writing Mode title
+- long description
+- oversized prompt box
+- writing category cards
+- Personal Writing Style card
+- multiple large sections
+
+This makes the screen feel cluttered and unlike the rest of BlueMind.
+
+GOAL:
+Writing Mode should feel like a NORMAL BlueMind chat screen, but with specialized writing capabilities.
+
+Think:
+“Normal Chat + Writing Intelligence”
+
+Do NOT make it look like a dashboard.
+
+==================================================
+1. CORE SCREEN STRUCTURE
+==================================================
+
+Rebuild the Writing Mode screen using the SAME general layout structure as the normal BlueMind Chat screen.
+
+Top:
+- normal iOS/BlueMind header
+- title: Writing Mode
+- writing pen icon
+- optional compact writing-type selector
+
+Middle:
+- normal conversation area
+- user messages
+- AI responses
+- scrolling conversation
+
+Bottom:
+- normal BlueMind chat composer
+- attachment +
+- text input
+- microphone
+- send button
+
+The user should immediately understand how to use it because it behaves like Chat.
+
+==================================================
+2. HEADER
+==================================================
+
+Use the same header proportions and spacing as the normal Chat screen.
+
+Do NOT use the current oversized:
+“WRITING MODE”
+“Writing Mode”
+large description block.
+
+Instead:
+
+Title:
+Writing Mode
+
+Optional subtitle should be minimal or omitted.
+
+Use the existing BlueMind iOS glass header controls.
+
+If back/menu behavior already exists in normal Chat, reuse it.
+
+Do not invent a separate navigation system.
+
+==================================================
+3. WRITING TYPE SELECTOR
+==================================================
+
+Writing Mode needs special writing categories, but they must NOT occupy a large horizontal dashboard section.
+
+Supported types can include existing categories:
+- Email
+- Report
+- Essay
+- Story
+- Professional writing
+- Other
+
+Preferred UX:
+Use one compact selector in or under the header.
+
+Example:
+[ Email ▾ ]
+
+Tapping it should open a native-style iOS selection sheet/menu.
+
+The menu can show:
+- Email
+- Report
+- Essay
+- Story
+- Professional
+- Other
+
+When selected:
+- update the current writing mode
+- AI should use the selected type as context
+- close the sheet
+
+Do NOT show all categories permanently across the page.
+
+==================================================
+4. CHAT EXPERIENCE
+==================================================
+
+The actual Writing Mode should behave like a specialized chat.
+
+Example:
+
+User:
+“Write an email to my teacher saying I will miss class tomorrow.”
+
+AI:
+generates the email.
+
+Then user can continue naturally:
+“Make it shorter.”
+“Make it more formal.”
+“Translate it to Swedish.”
+
+Conversation must persist like a normal chat where appropriate.
+
+Do not force the user through forms for every writing task.
+
+==================================================
+5. WRITING-SPECIFIC AI CONTEXT
+==================================================
+
+The Writing Mode AI should know:
+
+- selected writing type
+- current conversation context
+- user's Personal Writing Style if enabled
+- requested tone/language
+- previous edits in the same conversation
+
+Do not send unnecessary UI state to the model.
+
+Use the existing backend/AI architecture where possible.
+
+==================================================
+6. RESPONSE ACTIONS
+==================================================
+
+Writing Mode should have useful writing actions directly under AI-generated text.
+
+After a writing response, show compact actions such as:
+
+- Improve
+- Shorter
+- Longer
+- Professional
+- Simpler
+- Rewrite
+- Translate
+
+Use compact Apple/BlueMind glass controls.
+
+Do NOT use giant cards.
+
+These actions should act on the relevant generated text.
+
+Example:
+Press “Shorter”
+-> ask the writing AI to shorten the current answer.
+
+Press “Professional”
+-> rewrite the same content professionally.
+
+==================================================
+7. PERSONAL WRITING STYLE
+==================================================
+
+The current large “Personal Writing Style” card should be removed from the main screen.
+
+Do NOT delete the feature.
+
+Move it into a compact Writing Tools / settings control.
+
+Possible placement:
+- small pen/settings icon in header
+- or inside writing type menu
+- or a compact “Writing Style” action
+
+When opened:
+show a native-style iOS sheet.
+
+The sheet can allow:
+- view current writing style
+- create style
+- edit style
+- enable/disable style
+
+Do not keep the current huge card visible all the time.
+
+==================================================
+8. PERSONAL STYLE BEHAVIOR
+==================================================
+
+If Personal Writing Style is enabled:
+Writing Mode should automatically use it when generating content.
+
+The user should NOT need to select it every time.
+
+If disabled:
+use normal BlueMind writing behavior.
+
+Preserve existing saved style data.
+
+Do not wipe or recreate user style records unnecessarily.
+
+==================================================
+9. COMPOSER
+==================================================
+
+Reuse the SAME composer architecture as Normal Chat.
+
+Expected structure:
+
+[ + ] [ Ask BlueMind to write... ] [ mic ] [ send ]
+
+or preserve existing placeholder if there is already a global composer system.
+
+Do NOT use the current giant writing prompt box.
+
+The composer should:
+- grow naturally for multiline text
+- handle keyboard safely
+- respect iOS safe area
+- not overlap content
+- use current Apple/BlueMind glass style
+
+==================================================
+10. PLACEHOLDER
+==================================================
+
+Use a writing-specific placeholder, for example:
+
+“Ask BlueMind to write...”
+
+or:
+“What would you like to write?”
+
+Keep it short.
+
+Do not use a huge instructional paragraph.
+
+==================================================
+11. EMPTY STATE
+==================================================
+
+When there are no messages yet, show a clean lightweight empty state.
+
+Example:
+
+Writing Mode
+“Write, rewrite, improve, or translate anything.”
+
+Optional compact suggestion chips:
+- Write an email
+- Improve text
+- Rewrite professionally
+- Translate
+
+Do not turn this into a large dashboard.
+
+Once conversation begins, the suggestions should disappear.
+
+==================================================
+12. IOS / APPLE GLASS
+==================================================
+
+Use the existing BlueMind iOS glass system.
+
+Apply it to:
+- header buttons
+- writing type selector
+- Writing Tools
+- composer buttons
+- response actions
+- native sheets/menus
+
+Do NOT create a new fake CSS glass system.
+
+Reuse existing native-backed components where available.
+
+==================================================
+13. WRITING TYPE SHEET
+==================================================
+
+The type selector should use a compact iOS-style sheet/menu.
+
+Do not create a giant custom panel.
+
+Use:
+- native-like spacing
+- clean rows
+- selected checkmark
+- correct dismissal behavior
+
+==================================================
+14. WRITING TOOLS SHEET
+==================================================
+
+Add a compact Writing Tools sheet/menu if needed.
+
+Potential actions:
+- Personal Writing Style
+- Change writing type
+- Tone
+- Language
+- Start new writing chat
+
+Keep this lightweight.
+
+Do not overload it with unrelated settings.
+
+==================================================
+15. TONE
+==================================================
+
+If tone control already exists or is appropriate, support compact tone options such as:
+
+- Neutral
+- Professional
+- Friendly
+- Formal
+- Casual
+
+Tone should be optional.
+
+Do not force the user to choose before writing.
+
+==================================================
+16. LANGUAGE
+==================================================
+
+Writing Mode should support multilingual writing naturally.
+
+At minimum:
+- English
+- Arabic
+- Swedish
+- mixed-language prompts
+
+Do not break RTL Arabic layout.
+
+AI should infer language by default unless user explicitly chooses another language.
+
+==================================================
+17. NORMAL CHAT VS WRITING MODE
+==================================================
+
+Do NOT merge the two features.
+
+Normal Chat remains Normal Chat.
+
+Writing Mode uses the same UI structure but different AI behavior and writing tools.
+
+Visually:
+similar architecture
+
+Functionally:
+Writing Mode is specialized for writing.
+
+==================================================
+18. DO NOT TOUCH
+==================================================
+
+Do NOT modify:
+- Projects
+- AI Plans
+- Search
+- Hidden Chat
+- Private Chat
+- Face ID
+- Schedule
+- Reminders
+- unrelated Settings
+- normal Chat behavior
+
+Only reuse shared Chat components where necessary.
+
+==================================================
+19. STATE AND NAVIGATION
+==================================================
+
+When leaving Writing Mode and returning:
+preserve the current writing conversation where appropriate.
+
+Do not reset the Writing Mode screen unnecessarily.
+
+Do not trigger app restart.
+
+Do not trigger Face ID again unless the global security policy requires it.
+
+==================================================
+20. KEYBOARD
+==================================================
+
+Test keyboard behavior carefully.
+
+When keyboard opens:
+- composer sits directly above keyboard
+- no duplicate input bars
+- no overlap
+- conversation remains scrollable
+- last message remains reachable
+
+When keyboard closes:
+layout returns smoothly.
+
+==================================================
+21. RESPONSE EDITING FLOW
+==================================================
+
+When the user selects:
+Improve
+Shorter
+Longer
+Professional
+Simpler
+Rewrite
+Translate
+
+Apply the action to the correct most recent writing output.
+
+Do not create disconnected random responses.
+
+Maintain context.
+
+==================================================
+22. BACKEND / AI LOGIC
+==================================================
+
+Inspect existing Writing Mode backend/AI logic before adding new code.
+
+Reuse:
+- current AI provider
+- current chat/session architecture
+- saved writing style
+- auth/session handling
+
+Avoid duplicate AI pipelines.
+
+If Writing Mode currently uses a different prompt builder, preserve its useful logic but connect it to the new chat-based UI.
+
+==================================================
+23. PERSISTENCE
+==================================================
+
+If Writing Mode conversations are intended to persist:
+ensure they save and reload correctly.
+
+If they use the existing chat model:
+reuse it with a writing-mode flag/type.
+
+Do not create an unnecessary parallel database system.
+
+==================================================
+24. IOS REAL DEVICE TEST
+==================================================
+
+Test on the connected real iPhone.
+
+Test:
+
+A.
+Open Writing Mode.
+
+Expected:
+clean chat-style screen, no dashboard clutter.
+
+B.
+Select Email.
+
+C.
+Enter:
+“Write an email to my teacher saying I will be absent tomorrow.”
+
+D.
+Confirm AI generates the email.
+
+E.
+Tap:
+Shorter
+
+Expected:
+email becomes shorter.
+
+F.
+Tap:
+Professional
+
+Expected:
+professional rewrite.
+
+G.
+Open Writing Type selector and change to Essay.
+
+H.
+Open Personal Writing Style sheet.
+
+I.
+Close and reopen keyboard several times.
+
+J.
+Leave Writing Mode and return.
+
+Expected:
+no layout reset or broken state.
+
+K.
+Take a screenshot.
+
+Expected:
+app does NOT restart.
+
+==================================================
+25. FINAL REPORT
+==================================================
+
+When finished report:
+
+1. UI files changed.
+2. Shared Chat components reused.
+3. Writing Mode-specific components created.
+4. How writing type selection works.
+5. How Personal Writing Style was moved.
+6. How response actions work.
+7. Backend/AI changes.
+8. Persistence behavior.
+9. Real-iPhone test results.
+10. Any unfinished Writing Mode functionality.
+
+IMPORTANT FINAL REQUIREMENT:
+The final Writing Mode must feel like a BlueMind Chat specialized for writing, NOT like a dashboard.
