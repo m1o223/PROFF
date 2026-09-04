@@ -1,1 +1,221 @@
+FIX HIDDEN CHAT + PRIVATE CHAT ROUTING AND HEADER LAYOUT
 
+There are two clear issues.
+
+==================================================
+1. HIDDEN CHAT / PRIVATE CHAT ARE USING THE OLD CHAT UI
+==================================================
+
+Current bug:
+
+When I enter Hidden Chat or Private Chat,
+the app routes me back to the OLD chat interface.
+
+This is wrong.
+
+Hidden Chat and Private Chat must use the SAME MODERN CHAT UI SYSTEM we are using now for:
+
+- Normal Chat
+- Writing Mode
+- AI Plan chat
+
+Do NOT render the legacy chat screen.
+
+Do NOT route to the old chat component.
+
+Reuse the current shared modern chat components.
+
+The Hidden/Private chat should have:
+
+- same modern header system
+- same shared composer
+- same + button
+- same microphone
+- same send button
+- same keyboard behavior
+- same iOS glass design
+- same message layout
+- same safe-area handling
+- same scroll behavior
+
+Only the MODE/BEHAVIOR changes.
+
+Hidden Chat:
+temporary conversation
+not saved to history/search
+
+Private Chat:
+protected/private conversation
+
+The visual chat foundation must remain the new modern one.
+
+==================================================
+2. REMOVE LEGACY CHAT ROUTING
+==================================================
+
+Inspect navigation/router logic.
+
+Find where Hidden Chat and Private Chat currently navigate.
+
+If they navigate to a legacy route/component such as:
+
+old Chat
+legacy ChatView
+old MobileChat
+old composer implementation
+
+replace that with the current shared modern chat screen.
+
+Do not duplicate another chat screen.
+
+There should be one modern chat foundation.
+
+==================================================
+3. HIDDEN MODE STATUS IS BEHIND THE HEADER BUTTONS
+==================================================
+
+Current layout bug:
+
+The text/status:
+
+"Hidden Mode"
+and
+"Exit Hidden Chat"
+
+is rendered behind/under the top header controls.
+
+It becomes partially hidden by:
+
+- menu button
+- Work AI selector
+- compose button
+- top safe area
+
+This must be fixed.
+
+==================================================
+4. CORRECT HEADER STRUCTURE
+==================================================
+
+Top layout should be:
+
+TOP SAFE AREA
+
+[ Menu ]      [ Work AI ▼ ]      [ Compose ]
+
+then BELOW that row:
+
+[ Hidden Mode                    Exit Hidden Chat ]
+
+Do NOT place Hidden Mode on the same visual layer behind the buttons.
+
+The Hidden Mode status row must have its own vertical space.
+
+==================================================
+5. HIDDEN MODE ROW
+==================================================
+
+Create a dedicated compact status row below the main header.
+
+Example:
+
+👓 Hidden Mode                    Exit Hidden Chat
+
+Requirements:
+
+- always visible
+- always tappable
+- no overlap
+- enough top/bottom spacing
+- respect safe area
+- does not scroll behind header
+- does not sit underneath Work AI control
+
+"Exit Hidden Chat" must remain tappable at all times.
+
+Use the same BlueMind dark translucent iOS glass / typography system.
+
+Do not make it bright blue.
+
+==================================================
+6. PRIVATE CHAT HEADER
+==================================================
+
+For Private Chat use a similar mode/status structure if needed:
+
+🔒 Private Chat
+
+But do not create duplicate giant headers.
+
+Keep the main modern chat header intact.
+
+==================================================
+7. COMPOSER
+==================================================
+
+The bottom composer in Hidden and Private chat must be the CURRENT shared composer.
+
+Do not use the large old input implementation.
+
+Use exactly the same modern composer component and configuration already used elsewhere.
+
+==================================================
+8. DO NOT CHANGE LOGIC
+==================================================
+
+Do not change:
+
+- Hidden Chat deletion rules
+- Private Chat protection logic
+- backend chat system
+- authentication
+- Work AI selector logic
+
+Only fix:
+
+- routing/component choice
+- modern chat UI reuse
+- header/status layout
+
+==================================================
+9. TEST ON PHYSICAL IPHONE
+==================================================
+
+Hidden Chat test:
+
+1. Open Hidden Chat.
+2. Verify it opens the NEW modern chat UI.
+3. Verify legacy chat does not appear.
+4. Verify Hidden Mode row is BELOW the main header.
+5. Verify Exit Hidden Chat is fully visible.
+6. Tap Exit Hidden Chat.
+7. Verify it works.
+8. Re-enter Hidden Chat.
+9. Verify composer is the modern shared composer.
+10. Verify keyboard does not overlap mode row/composer.
+
+Private Chat test:
+
+1. Open Private Chat.
+2. Verify new modern chat UI opens.
+3. Verify old chat UI never appears.
+4. Verify shared composer is used.
+5. Verify state remains private/protected.
+
+==================================================
+10. IMPORTANT
+==================================================
+
+Do not hide the old UI with CSS.
+
+Remove the legacy route/component from this flow.
+
+Hidden Chat and Private Chat must both be powered by the current shared modern chat screen.
+
+FINAL REPORT:
+
+- old route/component that was being used
+- new shared modern chat component used
+- files changed
+- how Hidden Mode row positioning was fixed
+- physical iPhone test result
