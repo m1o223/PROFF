@@ -1,1 +1,234 @@
+TASK: Redesign ONLY Hidden Chat and Private Chat presentation to use a true iOS-style sheet / alert interaction.
 
+Do not change the underlying Hidden Chat or Private Chat logic.
+Do not change backend behavior.
+Do not redesign the main home screen.
+
+CURRENT PROBLEM:
+Hidden Chat and Private Chat are currently shown as large custom cards/sheets with oversized empty space and custom buttons.
+They do not feel like native iOS UI.
+
+GOAL:
+Make both flows feel like Apple-native sheets / alerts using the existing iOS/native-backed design system.
+
+==================================================
+1. PRESENTATION STYLE
+==================================================
+
+Use native iOS sheet / pageSheet / presentationDetents if available through the current native bridge.
+
+Preferred:
+- compact or medium sheet
+- content-sized where possible
+- rounded top corners
+- system dimmed background
+- native drag/dismiss gesture when appropriate
+- native blur/material
+- no giant empty vertical space
+- no fake full-screen CSS modal
+
+Do NOT simulate an Apple sheet with a huge custom div if a native/native-backed component exists.
+
+==================================================
+2. HIDDEN CHAT
+==================================================
+
+Hidden Chat should be very simple.
+
+Content:
+
+Title:
+Hidden Chat
+
+Description:
+This chat is temporary. Messages are not saved, do not appear in History or Search, and are deleted when you leave.
+
+Actions:
+Cancel
+Start Hidden Chat
+
+Layout:
+- compact
+- centered title/description
+- one primary action
+- one secondary cancel action
+- no oversized footer
+- no large empty area under buttons
+- no unnecessary X if the native sheet already supports dismissal
+
+If an X is kept:
+use the same iOS circular glass close button used elsewhere.
+
+Primary button:
+Start Hidden Chat
+
+Secondary:
+Cancel
+
+Use Apple-like button sizing and spacing.
+
+==================================================
+3. PRIVATE CHAT
+==================================================
+
+Private Chat should use a medium iOS sheet.
+
+Content:
+
+Title:
+Private Chat
+
+Description:
+Open or create a protected private chat inside your account.
+
+Then show existing private chats/accounts as iOS-style rows.
+
+Each row:
+[lock icon] [name/email] [optional ellipsis]
+
+Use:
+- compact row height
+- subtle separators or grouped-card style
+- no huge blank spacing
+- same iOS typography hierarchy
+
+Bottom actions:
+Cancel
+Create Private Chat
+
+Create Private Chat is the primary action.
+
+Do not place giant blue buttons floating in lots of empty space.
+
+==================================================
+4. BUTTON DESIGN
+==================================================
+
+All buttons must use the same iOS/native-backed system already used in the newer BlueMind UI.
+
+Use:
+- glass/material background
+- thin border if needed
+- native corner radius
+- correct pressed state
+- system-like spacing
+- compact sizing
+
+Avoid:
+- oversized bright blue custom rectangles
+- inconsistent pill shapes
+- custom shadows that do not match the rest of the app
+
+==================================================
+5. COLORS
+==================================================
+
+Respect current dark mode.
+
+Use:
+- system dark material
+- white primary text
+- secondary gray text
+- BlueMind accent only for the primary action
+- destructive red only where destructive behavior actually exists
+
+Do not overuse blue.
+
+==================================================
+6. SHEET HEIGHT
+==================================================
+
+Hidden Chat:
+Prefer compact/content-height or small/medium detent.
+
+Private Chat:
+Prefer medium detent, expandable only if the list needs more room.
+
+Do not make either sheet occupy almost the full screen unless content requires it.
+
+==================================================
+7. BACKGROUND
+==================================================
+
+When sheet is open:
+- main screen remains visible behind it
+- use standard iOS dimming
+- do not blur/darken excessively
+- do not freeze or restart underlying screen
+
+==================================================
+8. STATE PRESERVATION
+==================================================
+
+Opening or closing these sheets must NOT:
+- reload React
+- reset current Work AI selection
+- reset carousel position
+- restart app
+- trigger Face ID again
+- return to splash
+- lose current chat state
+
+==================================================
+9. ACCESSIBILITY
+==================================================
+
+Use:
+- native accessibility labels
+- correct button roles
+- Dynamic Type where possible
+- VoiceOver-readable row labels
+- sufficient hit targets
+
+==================================================
+10. REUSE COMPONENTS
+==================================================
+
+Inspect existing components for:
+- native/native-backed sheet
+- glass buttons
+- grouped iOS rows
+- circular close button
+
+Reuse them instead of creating another custom modal system.
+
+==================================================
+11. TEST ON PHYSICAL IPHONE
+==================================================
+
+Verify:
+
+Hidden Chat:
+1. Open sheet.
+2. Sheet size matches content.
+3. No giant empty space.
+4. Cancel works.
+5. Start Hidden Chat works.
+6. Underlying screen state is preserved.
+
+Private Chat:
+1. Open sheet.
+2. List rows are compact and readable.
+3. Ellipsis works if present.
+4. Cancel works.
+5. Create Private Chat works.
+6. Sheet height is appropriate.
+7. No layout overflow.
+8. No app restart.
+
+==================================================
+FINAL RESULT
+==================================================
+
+Hidden Chat and Private Chat should feel like Apple-native iOS sheets, not custom web modals.
+
+Same logic.
+Same functionality.
+Only redesign the presentation and controls to match the BlueMind iOS glass/native design system.
+
+After implementation, report:
+- which sheet component was used
+- whether native presentationDetents/pageSheet was used
+- which shared button/row components were reused
+- files changed
+- physical iPhone test result
