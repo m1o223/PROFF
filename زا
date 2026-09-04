@@ -1,1 +1,104 @@
+TASK: Convert Hidden Chat and Private Chat entry flows to clean native-style iOS sheets.
 
+IMPORTANT:
+Do NOT redesign the whole Work AI page.
+Do NOT change chat logic unless required for opening these modes.
+Do NOT show the normal chat composer on top of these sheets.
+
+HIDDEN CHAT:
+
+When the user taps Hidden Chat:
+- Open a native/iOS-style bottom sheet or modal.
+- Do NOT show the current large inline card.
+- Use the same BlueMind iOS glass/material design used elsewhere.
+
+Sheet content:
+Title: Hidden Chat
+
+Message:
+“This chat is temporary. Messages are not saved, do not appear in History or Search, and are deleted when you leave.”
+
+Actions:
+- Cancel
+- Start Hidden Chat
+
+Use a clear Hidden Chat icon.
+The primary action should be visually emphasized using BlueMind accent.
+Cancel should remain neutral.
+
+When Start Hidden Chat is pressed:
+- Close the sheet.
+- Open the actual Hidden Chat mode.
+- Keep the normal chat composer only AFTER entering the hidden chat.
+
+PRIVATE CHAT:
+
+When the user taps Private Chat:
+- Open a native/iOS-style sheet.
+- Do NOT show the current large inline panel.
+- Do NOT show the normal composer over the sheet.
+
+Sheet content:
+Title: Private Chat
+
+Message:
+“Open or create a protected private chat inside your account.”
+
+Show existing private chat/account entries cleanly inside the sheet.
+Each entry can have:
+- lock icon
+- account/chat name
+- three-dot menu if already supported
+
+Primary action:
+Create Private Chat
+
+Secondary action:
+Close / Cancel
+
+If additional protection like Face ID or PIN is already supported, use a second native iOS sheet for that step instead of placing everything in one screen.
+
+IOS DESIGN REQUIREMENTS:
+
+Both Hidden Chat and Private Chat sheets must:
+- use rounded iOS sheet corners
+- use dark translucent material / glass
+- have correct safe-area spacing
+- dim the background
+- use a circular glass X/close button
+- not overlap the header
+- not overlap the keyboard
+- not show duplicate composer controls
+- not allow the underlying page to scroll while the sheet is active
+
+VERY IMPORTANT:
+While either sheet is open, hide:
+- Ask anything...
+- attachment button
+- microphone button
+- send button
+- any chat composer toolbar
+
+The composer returns only after the user actually enters a chat mode.
+
+TEST ON REAL IPHONE:
+
+1. Open Work AI.
+2. Tap Hidden Chat.
+3. Confirm native-style sheet opens.
+4. Confirm no composer appears behind/on top of it.
+5. Cancel and confirm normal page returns.
+6. Open Hidden Chat again and start it.
+7. Confirm composer appears only after entering the chat.
+8. Repeat the same flow for Private Chat.
+9. Confirm no overlap, clipping, duplicated controls, or broken keyboard behavior.
+
+Do not change unrelated screens.
+
+When finished, report:
+- files changed
+- existing iOS/glass components reused
+- how Hidden Chat flow changed
+- how Private Chat flow changed
+- confirmation that composer is hidden while sheets are open
+- confirmation of real-iPhone testing
