@@ -1,1 +1,564 @@
+TASK: Redesign and complete the BlueMind Search experience.
 
+GOAL:
+Build a premium BlueMind Universal Search experience.
+
+IMPORTANT:
+Do NOT copy ChatGPT visually.
+Use the search UX principles only:
+- organized categories
+- useful results
+- compact search while typing
+- clear result types
+- easy navigation
+
+The final design must clearly look like BlueMind:
+- black background
+- BlueMind green identity where appropriate
+- existing Apple/iOS glass components
+- existing native glass circular buttons
+- BlueMind spacing, typography and interaction style
+
+==================================================
+1. SEARCH HEADER
+==================================================
+
+The Search screen should have a clean iOS header.
+
+Top area:
+- circular glass Back button on the left
+- centered title: “Search”
+- circular glass X button on the right
+
+BACK:
+- returns to the previous screen/state
+- does NOT reset unrelated navigation
+
+X:
+- completely exits Search
+- closes keyboard
+- clears temporary search UI state
+- returns to the screen from which Search was opened
+
+Back and X must have different behavior.
+
+Use the existing BlueMind native Apple-glass buttons.
+Do not create fake CSS circles if reusable native glass controls already exist.
+
+==================================================
+2. UNIVERSAL SEARCH CATEGORIES
+==================================================
+
+Search should NOT be limited to conversations.
+
+Add horizontally scrollable filters:
+
+All
+Chats
+Images
+Documents
+Projects
+
+Potential future categories can be added later without redesigning the screen.
+
+Default:
+All
+
+Selected tab:
+- clear BlueMind glass selected state
+- subtle animation
+- do not use oversized solid pills
+
+Unselected tabs:
+- minimal and readable
+
+When selecting a category, update results immediately.
+
+==================================================
+3. SEARCH FIELD
+==================================================
+
+Search field placeholder:
+
+“Search BlueMind…”
+
+Use a premium Apple-glass search field.
+
+Include:
+- search icon
+- typed text
+- clear X button when text exists
+
+Behavior:
+- tapping field opens iOS keyboard
+- search updates while typing
+- use sensible debounce to avoid excessive backend requests
+- clearing text returns to initial/recent state
+- preserve Unicode correctly
+
+Search must work properly with:
+- English
+- Arabic
+- Swedish
+- numbers
+- emojis
+- mixed-language queries
+
+Do NOT break RTL Arabic text.
+
+Do NOT display URL-encoded filenames such as:
+%C3%A4
+%20
+etc.
+
+Decode filenames before displaying them.
+
+==================================================
+4. KEYBOARD / ACTIVE SEARCH MODE
+==================================================
+
+When the keyboard is CLOSED:
+Keep the normal BlueMind Search layout.
+
+When the user starts typing and keyboard OPENS:
+transition into a compact search mode.
+
+The results should receive maximum usable vertical space.
+
+The search field may move into a compact floating position immediately above the keyboard.
+
+If implemented:
+- animate the transition smoothly
+- keep correct iOS safe-area spacing
+- never overlap the keyboard
+- never overlap results
+- never duplicate the search field
+
+IMPORTANT:
+This is Search mode, NOT Chat mode.
+
+While Search is active NEVER show:
+- Ask anything composer
+- chat attachment +
+- microphone from chat composer
+- send button
+- chat navigation toolbar
+
+Only the Search field belongs above the keyboard.
+
+==================================================
+5. SEARCH RESULTS
+==================================================
+
+Results should be clean and information-dense.
+
+Every result should contain:
+
+LEFT:
+Type-specific icon/thumbnail.
+
+CENTER:
+Title
++
+one short contextual preview/snippet.
+
+OPTIONAL:
+small metadata when useful.
+
+Examples:
+
+CHAT
+[chat icon]
+“AI Plan Design”
+“...we changed the plan builder to…”
+
+DOCUMENT
+[document icon]
+“CV_Rokaia_Ghaith_4.docx”
+Document
+
+IMAGE
+[thumbnail/icon]
+“BlueMind UI Concept”
+Image
+
+PROJECT
+[project icon]
+“University App”
+Project • updated recently
+
+Do not show unnecessary technical information.
+
+==================================================
+6. RESULT TYPE ICONS
+==================================================
+
+Use a consistent BlueMind icon system:
+
+Chats:
+conversation bubble
+
+Images:
+real thumbnail when available;
+otherwise image icon
+
+Documents:
+document/file icon appropriate to type
+
+Projects:
+project/folder icon
+
+Icons should use BlueMind's existing visual language.
+
+Do not use emojis as UI icons.
+
+==================================================
+7. RESULT ORDERING
+==================================================
+
+For “All”, rank results intelligently.
+
+Priority should consider:
+1. exact title match
+2. strong title match
+3. content match
+4. recent relevant items
+5. weaker matches
+
+Do NOT simply dump database order.
+
+Searching:
+“Python”
+
+should prioritize:
+“Python Study Plan”
+before an unrelated conversation that happens to contain “Python” once.
+
+==================================================
+8. SEARCH MATCH HIGHLIGHTING
+==================================================
+
+Highlight the matching part subtly.
+
+Example:
+
+Search:
+Python
+
+Result:
+Learn [Python] Easily
+
+Use a subtle BlueMind accent/glass treatment.
+
+Do not use aggressive bright highlighting.
+
+Support highlighting inside snippets where practical.
+
+==================================================
+9. CHAT RESULTS
+==================================================
+
+When a Chat result is tapped:
+- open that exact conversation
+- restore its messages
+- exit Search correctly
+
+Search result menus may use the existing native iOS three-dot menu if actions already exist.
+
+Do not invent duplicate chat actions.
+
+==================================================
+10. IMAGE RESULTS
+==================================================
+
+When an Image result is tapped:
+- open the correct existing BlueMind image viewer
+- preserve the image reference/context
+
+Use actual thumbnails where available.
+
+Avoid large thumbnails that waste vertical space.
+
+==================================================
+11. DOCUMENT RESULTS
+==================================================
+
+Documents should display:
+- decoded filename
+- document type/icon
+- useful metadata where available
+
+Tap:
+open the existing document/file viewer.
+
+Do not expose internal storage paths.
+
+==================================================
+12. PROJECT RESULTS
+==================================================
+
+Projects must appear in Universal Search.
+
+Display:
+- project name
+- optional short description
+- useful small metadata
+
+Tap:
+open the exact Project by projectId.
+
+Do NOT identify Projects by display name.
+
+==================================================
+13. EMPTY SEARCH STATE
+==================================================
+
+If no results exist:
+
+Show a clean BlueMind empty state.
+
+Example:
+
+“No results found”
+
+“Try another word or search another category.”
+
+Do not leave a completely blank screen.
+
+==================================================
+14. INITIAL STATE
+==================================================
+
+Before the user types, show useful content.
+
+Prefer:
+- Recent Searches
+and/or
+- Recent items
+
+Keep this lightweight.
+
+Do NOT fabricate fake recent searches.
+
+Only show real user data if available.
+
+==================================================
+15. LOADING STATE
+==================================================
+
+Do not flash old results while a new query is loading.
+
+Use a subtle BlueMind loading state.
+
+Avoid large spinners.
+
+Search should feel immediate.
+
+==================================================
+16. SEARCH BACKEND
+==================================================
+
+Inspect the current backend before creating anything new.
+
+Reuse existing search capabilities where possible.
+
+Universal Search should support authenticated searching across:
+- user's chats
+- user's images
+- user's documents/files
+- user's projects
+
+SECURITY:
+Every result MUST belong to the authenticated user.
+
+Never trust a userId supplied by the client.
+
+Use server-side authenticated identity.
+
+A user must NEVER be able to search another user's:
+- chats
+- files
+- images
+- projects
+
+==================================================
+17. SEARCH RESULT DATA MODEL
+==================================================
+
+Normalize results so the frontend receives a predictable structure.
+
+Conceptually:
+
+{
+  id,
+  type,
+  title,
+  snippet,
+  thumbnail,
+  metadata,
+  updatedAt
+}
+
+Do not expose sensitive internal fields.
+
+Use existing project architecture rather than creating unnecessary duplicate models.
+
+==================================================
+18. PERFORMANCE
+==================================================
+
+Search must remain fast with large histories.
+
+Implement:
+- debounce
+- result limits/pagination where necessary
+- efficient database queries
+- appropriate indexes if required
+
+Do not download the user's entire history to the iPhone and filter everything locally if server-side search is appropriate.
+
+==================================================
+19. IOS GLASS DESIGN
+==================================================
+
+Apply the existing BlueMind Apple/iOS glass system to INTERACTIVE controls:
+
+- Back
+- X
+- Search field
+- category filters
+- clear-search control
+- result menus
+- any filter/action controls
+
+Do not make every result card excessively blurry.
+
+Content must remain easy to read.
+
+Use glass to communicate interaction, not as decoration everywhere.
+
+==================================================
+20. MOTION
+==================================================
+
+Use subtle native-feeling transitions for:
+
+- opening Search
+- focusing Search
+- keyboard appearing
+- category switching
+- clearing query
+- opening results
+- exiting Search
+
+No excessive animations.
+
+Respect the existing BlueMind Animations setting if applicable.
+
+==================================================
+21. SEARCH STATE
+==================================================
+
+Search state must behave correctly.
+
+If user:
+Searches -> opens result -> presses Back
+
+return to Search with:
+- previous query
+- selected category
+- scroll position where practical
+
+If user presses X:
+exit Search completely.
+
+==================================================
+22. REAL IPHONE TEST
+==================================================
+
+Test this on the connected physical iPhone.
+
+Test:
+
+A.
+Open Search.
+
+B.
+Search English:
+Python
+
+C.
+Search Swedish:
+elektronik
+
+D.
+Search Arabic:
+التوحد
+
+E.
+Search mixed language:
+AI خطة
+
+F.
+Search emoji if indexed content contains emoji.
+
+G.
+Switch:
+All -> Chats -> Images -> Documents -> Projects
+
+H.
+Open one result from every supported category.
+
+I.
+Open keyboard and verify:
+- no chat composer
+- no duplicated bars
+- no overlap
+- results remain scrollable
+- search field remains usable
+
+J.
+Press Back from a result and verify search state restoration.
+
+K.
+Press X and verify Search closes completely.
+
+L.
+Take a screenshot while Search is open and confirm the app does NOT restart or reset.
+
+==================================================
+23. DO NOT TOUCH
+==================================================
+
+Do NOT modify unrelated:
+- Face ID
+- login/auth UI
+- AI Plans
+- Schedule
+- Projects UI
+- normal Chat composer
+- Hidden Chat
+- Private Chat
+- Writing Mode
+- unrelated backend modules
+
+Only modify shared code when necessary for Universal Search.
+
+==================================================
+24. FINAL REPORT
+==================================================
+
+When finished report:
+
+1. Search UI files changed.
+2. Backend/search files changed.
+3. Search categories implemented.
+4. Ranking logic used.
+5. How multilingual/Arabic search is handled.
+6. How result ownership/security is enforced.
+7. How Back differs from X.
+8. How keyboard active-search mode works.
+9. How chat/image/document/project results open.
+10. Performance/index changes.
+11. Real-iPhone test results.
+12. Any search functionality that remains unfinished.
