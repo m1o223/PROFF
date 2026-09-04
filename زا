@@ -1,1 +1,148 @@
+FINAL CLEANUP PASS — AI PLAN ONLY
 
+We are finishing the AI Plan section now.
+DO NOT redesign it and DO NOT touch unrelated pages.
+
+There are legacy UI elements still rendering together with the new AI Plan UI.
+
+1. REMOVE DUPLICATE / LEGACY TOP CONTROLS
+
+The AI Plan page already has the new top controls:
+- AI button (sparkles)
+- Edit button
+- Delete button
+
+There are old controls/elements still rendered underneath or behind these new buttons.
+
+Remove the OLD duplicate controls completely from the render tree.
+
+Do NOT hide them with opacity, z-index, clipping or CSS.
+Find the legacy JSX/component and stop rendering it.
+
+There must be only ONE set of AI / Edit / Delete controls.
+
+2. FIX AI PLAN CHAT
+
+When the new AI button is pressed, the AI Plan chat currently opens with an old internal header/card:
+
+BlueMind AI
+Study Plan
+X
+
+This is legacy UI and must be removed.
+
+The AI Plan chat must use our CURRENT modern shared chat design.
+
+Do not place a second header inside the chat.
+
+The existing AI Plan page header remains the main header.
+
+Chat content should begin directly below it.
+
+3. USE CURRENT SHARED CHAT COMPOSER
+
+The AI Plan chat must use the exact current composer system already approved for the new BlueMind chat UI:
+
+- same dark iOS glass material
+- same rounded input
+- + attachment button
+- microphone
+- send button
+- expanding multiline input
+- correct keyboard avoidance
+- correct bottom safe-area
+- same attachment menu behavior
+
+Placeholder:
+"Ask about Study Plan..."
+
+Do NOT use the old large AI Plan composer.
+
+4. CHAT SHOULD FEEL LIKE PART OF THE PLAN
+
+Opening AI should NOT feel like navigating into an old separate application screen.
+
+It is the AI assistant for THIS plan.
+
+The AI assistant must know/use the current plan context, but visually use the shared modern chat foundation.
+
+5. REMOVE OLD AI PLAN UI
+
+Search the AI Plan implementation for old/duplicate:
+- AI headers
+- old Improve with AI UI
+- duplicate AI buttons
+- legacy chat wrapper
+- old composer
+- old close/X header
+- old modal/chat panel
+- duplicate action controls
+
+If a new replacement already exists, remove the old version from rendering.
+
+Do not leave two implementations active.
+
+6. KEEP THE ACTUAL PLAN PAGE
+
+Do NOT redesign:
+- Study Plan title
+- description
+- progress
+- phases
+- tasks
+- phase cards
+- task checkboxes
+- AI Recommendations
+- completed-task styling
+
+Those are already approved.
+
+7. FINAL EXPECTED RESULT
+
+Normal AI Plan view:
+
+[Back]        Study Plan        [AI] [Edit] [Delete]
+
+Plan content...
+
+When AI is opened:
+
+[Back]        Study Plan        [AI] [Edit] [Delete]
+
+AI conversation/messages
+
+[ + ] Ask about Study Plan... [mic] [send]
+
+NO:
+- second Study Plan header
+- BlueMind AI card header
+- duplicate X
+- duplicate old buttons
+- old composer
+- legacy AI Plan chat UI
+
+8. VERIFY BEFORE STOPPING
+
+Test both states on the physical iPhone:
+
+A. Normal AI Plan
+- exactly 3 action buttons at top
+- no old buttons behind them
+
+B. AI Plan chat
+- modern shared chat UI
+- no duplicate header
+- no legacy controls
+- composer works
+- keyboard works
+- + attachments work
+- mic/send remain aligned
+- closing AI returns to the SAME plan and preserves its state
+
+Do not report completion until both states are visually clean.
+
+At the end report:
+- which legacy components were removed
+- which shared chat/composer component is now used
+- files changed
+- physical iPhone test result
