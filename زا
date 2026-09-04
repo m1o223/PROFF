@@ -1,1 +1,119 @@
+CRITICAL SCROLLING BUG — FIX THE ROOT CAUSE
 
+I tested this on the physical iPhone.
+
+Several BlueMind screens with content taller than the viewport cannot be
+scrolled vertically.
+
+Example:
+AI Plan / Study Plan clearly contains more content below the visible area
+(AI Recommendations and additional sections), but vertical swipe gestures
+do not move the page correctly.
+
+This is NOT a content problem.
+This is a touch/scroll/container problem.
+
+IMPORTANT:
+Do not patch AI Plan with arbitrary extra height.
+Find and fix the root cause.
+
+Investigate:
+
+1. parent wrappers using:
+   overflow: hidden
+   overflow-y: hidden
+
+2. fixed viewport containers such as:
+   height: 100vh
+   height: 100dvh
+   position: fixed
+
+3. absolute/fixed overlays covering the page and intercepting touch events
+
+4. invisible backdrop layers with pointer-events enabled
+
+5. touch handlers / gesture handlers calling preventDefault()
+
+6. WebView scrolling restrictions
+
+7. nested scroll containers fighting each other
+
+8. body/html/root overflow configuration
+
+9. iOS momentum scrolling behavior
+
+The correct architecture should be:
+
+FIXED / SAFE HEADER
+        ↓
+VERTICALLY SCROLLABLE CONTENT AREA
+        ↓
+safe bottom spacing
+
+For chat screens:
+
+FIXED HEADER
+        ↓
+SCROLLABLE MESSAGE AREA
+        ↓
+FIXED/STICKY MODERN COMPOSER
+
+For pages such as AI Plan:
+
+HEADER
+        ↓
+ONE PRIMARY VERTICAL SCROLL CONTAINER
+        ↓
+ALL PLAN CONTENT
+
+The user must be able to swipe anywhere in the normal content area and
+scroll smoothly to the very bottom.
+
+Use proper iOS scrolling behavior, including:
+- overflow-y: auto where appropriate
+- -webkit-overflow-scrolling: touch
+- correct min-height / flex behavior
+- min-height: 0 on flex children where required
+- safe-area bottom padding
+
+Do NOT:
+- add fake height
+- duplicate scroll containers
+- use JavaScript scrolling hacks
+- hide overflowing content
+- change the visual design
+
+Also inspect the shared layout because the same problem appears in more
+than one screen.
+
+After fixing the shared/root cause, verify at minimum:
+
+- AI Plan
+- AI Plan chat
+- Writing Mode
+- Normal Chat
+- Hidden Chat
+- Private Chat
+- Projects
+- Settings
+- Subscription/payment screens
+- side menu if its content exceeds screen height
+
+PHYSICAL IPHONE TEST:
+
+For every long page:
+1. swipe upward
+2. page moves smoothly
+3. reach the absolute bottom
+4. swipe downward
+5. return to the top
+6. no frozen area
+7. no invisible overlay blocking gestures
+8. header behaves as intended
+9. bottom composer stays correctly positioned on chat screens
+10. keyboard opening/closing does not break scrolling
+
+Do not mark this complete until AI Plan can visibly scroll from the top
+all the way past AI Recommendations to the final content.
+
+Report the exact root cause and shared component/layout that caused it.
