@@ -1,1 +1,242 @@
+FIX TWO IOS ISSUES IN WRITING MODE ATTACHMENTS
 
+Do not redesign Writing Mode.
+Do not change the composer style.
+Do not change backend behavior.
+
+There are two specific iOS UX bugs to fix.
+
+==================================================
+BUG 1 — ATTACHMENT MENU HIDES THE COMPOSER
+==================================================
+
+Current behavior:
+When I tap the + button, the attachment popup appears and the bottom composer/input disappears or becomes covered.
+
+This is wrong.
+
+Expected behavior:
+
+The existing composer must remain visible and completely unchanged.
+
+The attachment popup must appear ABOVE the composer, anchored to the + button.
+
+Visual structure:
+
+        [ Files  ]
+        [ Photos ]
+        [ Camera ]
+            ↑
+[ + | Ask BlueMind to write… | mic | send ]
+
+Requirements:
+
+- Composer stays rendered.
+- Composer does not move.
+- Composer does not disappear.
+- Composer does not get replaced by the popup.
+- Popup must not cover the input.
+- Popup should visually originate from the + button.
+- Keep a small gap between popup and composer.
+- If keyboard is open, popup must still appear safely above the composer.
+- Tapping outside closes the popup.
+- Selecting an item closes the popup.
+- Do not resize the page when opening the popup.
+
+Use the same BlueMind iOS glass/popover style already established.
+
+Do not use a centered modal.
+
+==================================================
+BUG 2 — PHOTOS/CAMERA/FILES ARE OPENING LIKE WEB/SAFARI
+==================================================
+
+Current behavior:
+When tapping Photos or Camera, the experience looks like a Safari/web file picker.
+
+This is not acceptable for the iOS app.
+
+These actions must use native iOS presentation inside the app.
+
+Do NOT rely on:
+<input type="file">
+browser file picker
+Safari/WebView navigation
+external browser-style UI
+
+Use native/native-backed Capacitor/iOS APIs already available in the project, or add the appropriate native bridge if needed.
+
+==================================================
+PHOTOS
+==================================================
+
+Photos must open the native iOS Photos picker.
+
+Preferred behavior:
+- native PHPicker / PhotosUI equivalent
+- presented inside the app
+- native iOS sheet presentation
+- not Safari
+- not full browser page
+
+Presentation should feel like modern iOS apps:
+partial-height sheet / system picker presentation where supported.
+
+The user should be able to select image(s) and return directly to Writing Mode.
+
+Do not reload the app.
+
+Do not reset navigation.
+
+Do not trigger Face ID again.
+
+==================================================
+CAMERA
+==================================================
+
+Camera must open the native iOS camera capture flow.
+
+Use the native iOS camera / existing Capacitor camera implementation.
+
+Presentation should stay inside the app.
+
+Do not open Safari.
+Do not navigate away from the app.
+
+After taking a photo:
+- return to Writing Mode
+- keep current conversation state
+- attach the image
+- keep composer state if possible
+
+==================================================
+FILES
+==================================================
+
+Files must open the native iOS document picker.
+
+Use UIDocumentPickerViewController or the existing native/native-backed document picker implementation.
+
+Again:
+- inside app
+- native iOS UI
+- no Safari
+- no WebView file page
+
+Prefer native sheet/page-sheet presentation if supported.
+
+After selection:
+return to Writing Mode without resetting the page.
+
+==================================================
+IOS PRESENTATION STYLE
+==================================================
+
+For Photos / Camera / Files:
+
+Use native iOS presentation.
+
+Preferred presentation:
+- sheet / pageSheet / system picker presentation
+- partial-height where appropriate
+- system-native transitions
+- system-native dismissal gesture when available
+
+Do NOT simulate the sheet using CSS.
+
+Do NOT build a fake photo library inside the WebView.
+
+==================================================
+STATE PRESERVATION
+==================================================
+
+Very important:
+
+Opening or closing Camera / Photos / Files must NOT:
+
+- restart the app
+- remount the entire React app
+- reset the route
+- clear the current chat
+- reset selected Writing Type
+- trigger login again
+- trigger Face ID again
+- return to splash screen
+
+Preserve current Writing Mode state.
+
+==================================================
+WRITING MODE + MENU
+==================================================
+
+The Writing Mode + menu must still contain ONLY:
+
+Files
+Photos
+Camera
+
+No:
+- Search
+- Create Images
+- Write/Edit
+- other tools
+
+==================================================
+IMPLEMENTATION CHECK
+==================================================
+
+Before changing code:
+
+1. Inspect how the current Photos/Camera/Files actions are implemented.
+2. Determine whether they currently use HTML file inputs or browser/WebView behavior.
+3. Inspect any existing Capacitor/native camera/photo/document plugins already installed.
+4. Reuse native implementations if available.
+5. Only add native bridging if genuinely necessary.
+
+==================================================
+PHYSICAL IPHONE TEST
+==================================================
+
+Test on the connected physical iPhone.
+
+Verify all of these:
+
+1. Tap +:
+   composer stays visible.
+2. Popup appears directly above +.
+3. Tap Photos:
+   native iOS Photos picker opens.
+4. Photos picker does not look like Safari.
+5. Select a photo:
+   return to Writing Mode with state preserved.
+6. Tap Camera:
+   native camera opens.
+7. Take/cancel photo:
+   return to same Writing Mode state.
+8. Tap Files:
+   native iOS Files/document picker opens.
+9. Cancel any picker:
+   return correctly.
+10. No app restart.
+11. No route reset.
+12. No Face ID re-trigger.
+13. No splash screen.
+14. No duplicate composer.
+15. No keyboard/layout corruption.
+
+==================================================
+FINAL REPORT
+==================================================
+
+After fixing, report:
+
+- how + popup anchoring was changed
+- why composer was disappearing
+- whether current picker used HTML <input type=file>
+- which native iOS APIs/plugins are now used for:
+  - Photos
+  - Camera
+  - Files
+- how presentation is configured
+- how app state is preserved
+- physical iPhone test result
