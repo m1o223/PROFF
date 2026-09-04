@@ -1,1 +1,235 @@
+TASK: Polish the Subscription + Payment flow UI only.
 
+IMPORTANT:
+This is NOT a redesign.
+Do NOT rebuild these screens from scratch.
+Do NOT change the navigation flow.
+Do NOT change payment logic.
+Do NOT change subscription logic.
+
+Keep the current structure, layout concept, and overall visual identity.
+
+Goal:
+Make the current payment flow feel more premium, cleaner, more consistent, and closer to the BlueMind iOS glass design system.
+
+==================================================
+1. SUBSCRIPTION SCREEN
+==================================================
+
+Keep the current Subscription page design.
+
+Only refine:
+
+- slightly reduce excessive top spacing
+- keep the title centered
+- keep current Plus / Pro cards
+- make the cards feel a little more premium with subtle dark translucent glass
+- do NOT radically change card layout
+- keep current content and hierarchy
+- preserve current buttons
+
+Do not redesign the entire pricing screen.
+
+==================================================
+2. CHOOSE PAYMENT METHOD
+==================================================
+
+Current page is good.
+
+Only polish it:
+
+- reduce title size slightly so "Choose Payment Method" feels cleaner
+- improve vertical spacing
+- make payment option cards slightly more compact
+- reduce excessive card height by around 10–15%
+- keep Visa / Mastercard / Apple Pay / Google Pay / Klarna
+- keep current structure
+- align icons and text more precisely
+- use consistent border radius and glass/border style
+
+Do NOT replace the screen with a totally different checkout layout.
+
+==================================================
+3. SAVED PAYMENT METHOD CARD
+==================================================
+
+The saved Mastercard card currently feels too gray compared to the rest of the app.
+
+Refine it:
+
+- darken it
+- use the same dark translucent glass material as the rest of BlueMind
+- keep the Mastercard logo
+- keep saved method label
+- keep last four digits
+- preserve current layout concept
+- do not remove it
+
+Goal:
+Make it look integrated with the rest of the app instead of like a separate gray card.
+
+==================================================
+4. CARD ENTRY SCREEN
+==================================================
+
+This is the screen that needs the most visual refinement.
+
+Keep the current form and fields.
+
+Do NOT rebuild the whole page.
+
+Refine:
+
+- make the card preview slightly smaller
+- reduce the heavy gray appearance
+- use a darker premium glass/card material
+- keep the live card preview concept
+- improve spacing between card preview and input fields
+- slightly tighten vertical spacing between form fields
+- keep card holder name
+- keep card number
+- keep expiry
+- keep CVV
+- preserve current card preview interaction
+
+The goal is to make the card preview feel more premium and less visually heavy.
+
+==================================================
+5. PROCESSING SCREEN
+==================================================
+
+Keep the Processing screen almost exactly as it is.
+
+Only change:
+
+- spinner/accent color should match BlueMind better
+- prefer BlueMind green or neutral white/glass instead of strong blue
+- preserve layout
+- preserve text
+- preserve centered loading state
+
+Do not redesign it.
+
+==================================================
+6. SUCCESS SCREEN
+==================================================
+
+The Success screen is already good.
+
+Do NOT redesign it.
+
+Only inspect:
+
+- spacing
+- alignment
+- button consistency
+- safe area
+
+Keep:
+- green success icon
+- Payment Successful title
+- subscription activated message
+- Continue button
+
+If the Continue button is currently using a blue color inconsistent with the rest of the new BlueMind glass system, refine it subtly, but do not make the screen look different.
+
+==================================================
+7. TOP-RIGHT GREEN CLIPPED ELEMENT
+==================================================
+
+Inspect the small green clipped element visible at the top-right of several payment screens.
+
+Determine whether it is:
+- a broken logo fragment
+- clipped UI element
+- overflow artifact
+- safe-area bug
+
+If it is unintended, remove/fix it completely.
+
+Do not affect the main BlueMind logo elsewhere.
+
+==================================================
+8. GLASS CONSISTENCY
+==================================================
+
+Use the same dark translucent glass language already established in BlueMind.
+
+Reuse existing shared design tokens/components where possible:
+
+- translucent dark background
+- subtle blur
+- thin border
+- soft highlight
+- consistent corner radius
+- same icon stroke weight
+- same button press feedback
+
+Do not invent another design system.
+
+==================================================
+9. KEEP CURRENT FLOW
+==================================================
+
+The flow must remain:
+
+Subscription
+→ Choose Payment Method
+→ Payment Details
+→ Processing
+→ Success
+
+Do not change this sequence.
+
+==================================================
+10. DO NOT TOUCH
+==================================================
+
+Do not change:
+
+- backend
+- payment provider
+- subscription state logic
+- account logic
+- pricing logic
+- route structure
+- auth
+- unrelated settings pages
+
+==================================================
+11. PHYSICAL IPHONE CHECK
+==================================================
+
+After the polish pass, test on physical iPhone:
+
+1. Subscription page
+2. Payment method list
+3. Saved card view
+4. Mastercard details screen
+5. Processing
+6. Success
+
+Verify:
+
+- no clipped elements
+- no overlap
+- no layout jumps
+- no safe-area issues
+- no keyboard overlap
+- no app restart
+- consistent glass style
+
+==================================================
+FINAL REPORT
+==================================================
+
+Report only:
+
+- visual refinements made
+- components/tokens reused
+- top-right green artifact root cause
+- files changed
+- physical iPhone test result
+
+This is a polish pass only.
+Do not redesign or rebuild the payment flow.
