@@ -1,1 +1,472 @@
+TASK: Redesign the AI Plan screen so it uses the same BlueMind iOS chat design system and interaction structure already established in Writing Mode.
 
+IMPORTANT:
+Do not change backend logic.
+Do not change AI provider.
+Do not change authentication.
+Do not redesign unrelated screens.
+Do not create a separate visual language for AI Plan.
+
+The AI Plan should use the SAME shared BlueMind chat foundation as Writing Mode and Normal Chat, but with AI Plan-specific content and controls.
+
+==================================================
+1. MAIN GOAL
+==================================================
+
+AI Plan must feel like a specialized planning chat.
+
+It should NOT feel like:
+- a landing page
+- a dashboard
+- a static form
+- a completely separate app
+
+Use the Writing Mode screen as the visual reference for:
+- header structure
+- glass controls
+- composer
+- quick actions
+- popup menus
+- spacing
+- keyboard handling
+
+But replace Writing-specific content with AI Plan-specific content.
+
+==================================================
+2. HEADER
+==================================================
+
+Use the same header layout structure as Writing Mode.
+
+Expected structure:
+
+[Back/Menu]   [AI Plan · Selected Type ▼]   [AI Tools]
+
+For example:
+
+[←]   [AI Plan · Study ▼]   [✨]
+
+or when no type is selected:
+
+[←]   [AI Plan ▼]   [✨]
+
+The center selector must use the same iOS glass component used in Writing Mode.
+
+The right-side AI Tools button must also use the same circular BlueMind iOS glass style.
+
+Do not create a new header style.
+
+==================================================
+3. PLAN TYPE SELECTOR
+==================================================
+
+Replace the old permanent middle chips with a proper Plan Type selector.
+
+The AI Plan type selector should work similarly to Writing Type in Writing Mode.
+
+When tapped, show a compact iOS-style glass menu/sheet.
+
+Plan types can include:
+
+- Study
+- Website
+- Programming
+- Design
+- AI Project
+- Personal
+- Other
+
+Do not permanently display all of these in the middle of the screen.
+
+The selected type should appear in the header.
+
+Example:
+
+AI Plan · Study
+
+or:
+
+Study Plan
+
+Keep the menu architecture flexible so more plan types can be added later.
+
+==================================================
+4. AI TOOLS BUTTON
+==================================================
+
+The right-side AI Tools button should open a compact iOS glass menu similar to Writing Tools.
+
+Possible temporary items:
+
+- Improve Plan
+- Change Plan Type
+- Start New AI Plan
+- Refine Goal
+
+Do not overcomplicate this now.
+
+The important part is the UI architecture and style.
+
+Use the same popup/menu system as Writing Mode.
+
+==================================================
+5. EMPTY STATE
+==================================================
+
+Before the first message, keep a simple centered AI Plan identity.
+
+Use:
+
+BlueMind AI logo
+
+Title:
+AI Plan
+
+Subtitle:
+Build, organize, and improve your plan with BlueMind.
+
+Or:
+Tell BlueMind what you want to organize.
+
+Do NOT use a huge landing-page layout.
+
+Do NOT leave large unnecessary gaps.
+
+The empty state should disappear/collapse once conversation messages exist.
+
+==================================================
+6. QUICK ACTIONS
+==================================================
+
+Move AI Plan quick actions directly ABOVE the composer, like Writing Mode.
+
+Examples:
+
+[ Study ]
+[ Website ]
+[ Programming ]
+[ Personal ]
+
+These are only quick shortcuts.
+
+They should NOT dominate the center of the screen.
+
+Use:
+- compact chips
+- lightweight glass
+- same BlueMind iOS button system
+- horizontal scrolling if necessary
+
+The chips should visually sit directly above the composer.
+
+Once the chat starts, they may collapse or disappear.
+
+==================================================
+7. COMPOSER
+==================================================
+
+Use the EXACT same shared chat composer component already used by Writing Mode / Normal Chat.
+
+Do not make a new AI Plan input.
+
+It must use the same:
+
+- glass material
+- border/stroke
+- corner radius
+- + button
+- microphone
+- send button
+- multiline behavior
+- keyboard behavior
+- safe area
+- icon sizing
+- internal padding
+- active/disabled send state
+
+Use AI Plan-specific placeholder:
+
+“Tell BlueMind what you want to plan…”
+
+or:
+
+“What do you want to organize?”
+
+Preferred:
+“Tell BlueMind what you want to plan…”
+
+The composer should start compact and grow only as text becomes multiline.
+
+==================================================
+8. AI PLAN CHAT BEHAVIOR
+==================================================
+
+Once the user sends the first message:
+
+- collapse/remove the large center logo/title
+- allow messages to occupy the main content area
+- keep header fixed
+- keep composer fixed above keyboard/safe area
+- keep plan-specific controls available
+
+The page should behave like a real chat.
+
+==================================================
+9. PLUS BUTTON / ATTACHMENT MENU
+==================================================
+
+VERY IMPORTANT:
+
+The + button in AI Plan must use the SAME compact anchored attachment menu style as Writing Mode.
+
+Do NOT open the full general Chat menu.
+
+Do NOT show:
+- Search
+- Create Images
+- Write/Edit
+- unrelated tools
+
+For AI Plan, the + menu must contain ONLY:
+
+1. Camera
+2. Photos
+3. Files
+
+That is all.
+
+==================================================
+10. ATTACHMENT MENU STYLE
+==================================================
+
+The attachment menu must visually match the Writing Mode attachment popup exactly.
+
+When the user taps +:
+
+Show a small iOS glass popup anchored directly ABOVE the + button.
+
+Expected idea:
+
+[ Camera  ]
+[ Photos  ]
+[ Files   ]
+     ↑
+    [+]
+
+Do not show a centered modal.
+
+Do not show a giant card.
+
+Do not use a full-screen sheet.
+
+Use:
+- same BlueMind iOS glass
+- same thin border
+- same blur/material
+- same radius
+- same icon style
+- same row height
+- same press state
+- same dismissal behavior
+
+Tap outside -> close.
+
+Select option -> close.
+
+==================================================
+11. CAMERA
+==================================================
+
+Camera should open the existing camera capture flow.
+
+Do not create a new camera implementation if one already exists.
+
+Reuse the existing handler.
+
+==================================================
+12. PHOTOS
+==================================================
+
+Photos should open the existing iOS photo library picker.
+
+Reuse current implementation.
+
+==================================================
+13. FILES
+==================================================
+
+Files should open the existing iOS document/file picker.
+
+Reuse current implementation.
+
+The AI Plan may accept relevant documents later, but do not change backend upload processing in this task.
+
+==================================================
+14. DO NOT SHOW EXTRA ATTACHMENT ACTIONS
+==================================================
+
+AI Plan + menu must NOT include:
+
+- Create Images
+- Search
+- Write/Edit
+- Web
+- Tools
+- Templates
+- other general chat actions
+
+Only:
+
+Camera
+Photos
+Files
+
+==================================================
+15. GLASS DESIGN CONSISTENCY
+==================================================
+
+Use ONE design system.
+
+AI Plan header controls,
+plan type selector,
+AI Tools button,
+quick action chips,
+attachment menu,
+composer,
+send button,
+mic button,
++ button
+
+must all use the same BlueMind iOS/native-backed glass language already used in Writing Mode.
+
+Do not approximate the style with new custom CSS if shared/native-backed components already exist.
+
+==================================================
+16. LAYOUT TARGET
+==================================================
+
+BEFORE CHAT:
+
+[Back]       [AI Plan · Study ▼]       [AI Tools]
+
+                 BlueMind logo
+
+                    AI Plan
+
+       Build and organize your plan with BlueMind.
+
+[Study] [Website] [Programming] [Personal]
+
+[ + | Tell BlueMind what you want to plan… | mic | send ]
+
+
+AFTER CHAT STARTS:
+
+[Back]       [AI Plan · Study ▼]       [AI Tools]
+
+[user message]
+
+[AI response]
+
+[more conversation]
+
+[quick actions if still useful]
+
+[ + | Tell BlueMind what you want to plan… | mic | send ]
+
+==================================================
+17. KEYBOARD
+==================================================
+
+Test keyboard behavior on physical iPhone.
+
+When keyboard opens:
+
+- composer stays directly above keyboard
+- quick actions stay above composer
+- no overlap
+- no duplicate composer
+- no giant vertical gap
+- no layout jump
+- chat content remains scrollable
+
+==================================================
+18. SAFE AREA
+==================================================
+
+Respect:
+
+- Dynamic Island
+- top safe area
+- bottom home indicator
+- keyboard
+- different iPhone sizes
+
+Do not hardcode for one device.
+
+==================================================
+19. REUSE SHARED COMPONENTS
+==================================================
+
+Please inspect and reuse:
+
+- Writing Mode header controls
+- Writing Mode type selector menu
+- Writing Mode tools popup
+- shared chat composer
+- Writing Mode attachment popup
+- BlueMind glass button components
+
+Do not duplicate these components unnecessarily.
+
+AI Plan should be mostly configuration/content differences on top of shared UI primitives.
+
+==================================================
+20. DO NOT CHANGE
+==================================================
+
+Do NOT modify:
+
+- Writing Mode
+- Normal Chat
+- backend AI logic
+- API routes
+- authentication
+- Projects
+- Search
+- Private Chat
+- Hidden Chat
+- settings
+- Android
+
+Only change shared components if needed to allow configuration without breaking other screens.
+
+==================================================
+21. FINAL REPORT
+==================================================
+
+After implementation, report:
+
+1. AI Plan files changed
+2. shared composer reused
+3. shared glass components reused
+4. Plan Type selector implementation
+5. AI Tools menu implementation
+6. attachment popup implementation
+7. confirmation that + menu contains ONLY Camera / Photos / Files
+8. whether existing camera/photo/file handlers were reused
+9. keyboard test result on physical iPhone
+10. safe-area test result
+11. anything intentionally left unchanged
+
+FINAL RULE:
+
+AI PLAN MUST LOOK AND FEEL LIKE THE SAME BLUE MIND IOS CHAT FAMILY AS WRITING MODE.
+
+Same foundation.
+Same glass.
+Same composer.
+Same popup behavior.
+
+Different content:
+AI PLANNING.
