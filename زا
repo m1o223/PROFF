@@ -1,1 +1,77 @@
+The current Hidden Chat and Private Chat modals are NOT what I requested.
 
+You interpreted “iOS design” as a custom dark card with rounded corners and blue buttons. That is not the goal.
+
+I want these interactions to look and behave like a REAL NATIVE iOS modal/sheet — the same visual language as Apple’s own system dialogs and sheets.
+
+Do not simply restyle the current large cards. Replace this presentation.
+
+For both Hidden Chat and Private Chat:
+
+* Present a compact floating iOS-style sheet/modal ABOVE the current screen.
+* The underlying Work AI screen must remain visible but properly dimmed/blurred.
+* The modal must NOT look like a section of the webpage.
+* It must have separation from the screen edges and feel physically elevated.
+* Use Apple’s native material/blur appearance where the current native bridge allows it.
+* Use proper iOS corner radius, spacing, typography hierarchy, separators, button sizing and press behavior.
+* Opening and closing must use an iOS-style spring/sheet transition.
+* The circular X should use the SAME existing native Apple-glass control already used elsewhere in BlueMind.
+
+Hidden Chat
+
+Make this compact. Do not create the huge bottom card currently shown.
+
+Layout:
+
+* Hidden Chat icon + Hidden Chat
+* Short explanation
+* Native-style actions:
+    Cancel
+    Start Hidden Chat
+
+The primary action should use the application’s accent only where appropriate. Do not turn the entire modal into large blue web-style buttons.
+
+Private Chat
+
+Same native iOS presentation.
+
+Header:
+Private Chat
+
+Subtitle:
+Open or create a protected private chat inside your account.
+
+Existing private chats appear as compact native iOS rows with:
+
+* lock icon
+* name
+* native trailing menu/action
+
+Then provide Create Private Chat as the primary action and Cancel.
+
+The current Loading private chats... box must NOT remain permanently visible. Show a subtle native loading indicator only while data is actually loading, then remove it completely.
+
+CRITICAL IMPLEMENTATION REQUIREMENT
+
+Before implementing, inspect the project for the existing native iOS glass/sheet/popup bridge/components already used by BlueMind. REUSE them.
+
+Do not build another CSS imitation of iOS.
+
+If a truly native UIKit/Swift presentation is already supported by the BlueMind iOS bridge, use that implementation. If a particular part cannot be native because the content is dynamic React content, use the closest existing native-backed sheet/material architecture rather than inventing another web card.
+
+Do not modify Work AI, chat behavior, Hidden Chat logic, Private Chat logic, backend, or other screens.
+
+Test both presentations on the physical iPhone and verify:
+
+* modal floats above the page
+* background dims/blurs
+* proper margins around modal
+* native-feeling material
+* native animation
+* no composer visible through/over the modal
+* no oversized webpage-like card
+* no permanent loading placeholder
+
+Before finishing, tell me explicitly whether the resulting presentation is native UIKit/Swift, native-backed, or CSS/WebView only. Do not call it native iOS if it is only CSS.
+
+والنقطة الأخيرة مهمة جدًا: خليه يقول لك هل عملها Native فعلًا ولا CSS. لأنه إذا بس غير blur والـborder وكتب لك “iOS glass”، رح نرجع لنفس النتيجة اللي بالصورة
