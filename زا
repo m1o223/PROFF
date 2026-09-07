@@ -1,1 +1,282 @@
+TASK: Improve image selection and attachment behavior in the BlueMind chat composer.
 
+This task has TWO specific changes:
+
+1. Number selected images in the media picker.
+2. Show selected images INSIDE the chat composer/input, not outside it.
+
+Do not redesign unrelated chat UI.
+Do not change backend message logic unless required to preserve attachment order.
+
+==================================================
+1. MULTI-IMAGE SELECTION WITH ORDER NUMBERS
+==================================================
+
+When the user taps recent photos inside the + media sheet:
+
+Allow selecting multiple images.
+
+Each selected image must display its selection ORDER as a number.
+
+Example:
+
+First selected image:
+1
+
+Second selected image:
+2
+
+Third selected image:
+3
+
+and so on.
+
+The selection badge should appear in the top-right corner of each thumbnail.
+
+Requirements:
+- use a circular iOS-style selection badge
+- Blue/iOS accent is fine for the selected badge
+- white number inside
+- unselected image shows normal empty selection circle if appropriate
+- preserve the exact order in which the user selected the images
+
+If the user deselects one image:
+recalculate the order correctly.
+
+Example:
+Selected:
+1, 2, 3
+
+User deselects image 2.
+
+Remaining selected images should become:
+1, 2
+
+Do not leave:
+1, 3
+
+==================================================
+2. CONFIRM SELECTION
+==================================================
+
+Do not immediately close the media sheet after every photo tap.
+
+Allow the user to select multiple photos first.
+
+Then provide a clear confirmation control:
+
+✓
+
+or an iOS-style Done action.
+
+When user confirms:
+- close the media sheet
+- attach all selected images to the current chat
+- preserve selection order
+
+If user cancels/closes without confirming:
+do not attach unintended images.
+
+==================================================
+3. SELECTED IMAGES MUST APPEAR INSIDE THE COMPOSER
+==================================================
+
+Current/undesired behavior:
+attachments appear outside or above the composer as a separate floating section.
+
+Change this.
+
+Selected image attachments must become part of the SAME composer container.
+
+The composer should expand vertically to contain them.
+
+Conceptually:
+
+┌──────────────────────────────────┐
+│ [img 1] [img 2] [img 3]         │
+│                                  │
+│ Ask anything...                  │
+│                                  │
+│ [+]                         [mic][↑]
+└──────────────────────────────────┘
+
+The images belong INSIDE the rounded/glass composer.
+
+Do not place the attachment row outside the input.
+
+==================================================
+4. COMPOSER EXPANSION
+==================================================
+
+When no images are attached:
+composer uses normal compact height.
+
+When one or more images are attached:
+composer expands upward automatically.
+
+Inside the composer:
+
+TOP:
+attachment preview row
+
+BOTTOM:
+text input + controls
+
+The composer should remain one unified BlueMind iOS glass component.
+
+Do not create a separate card above it.
+
+==================================================
+5. IMAGE PREVIEWS
+==================================================
+
+Image previews should:
+
+- use compact thumbnails
+- rounded corners
+- preserve aspect ratio/crop cleanly
+- have consistent spacing
+- support horizontal scrolling if many images are attached
+- remain fully inside composer bounds
+
+Each attachment preview should have a small remove X.
+
+Tapping X:
+- removes that specific attachment
+- does not clear the others
+- composer resizes naturally
+
+==================================================
+6. ORDER
+==================================================
+
+The attachment preview row must preserve selection order.
+
+If selected:
+photo A = 1
+photo B = 2
+photo C = 3
+
+Composer preview order must be:
+
+A, B, C
+
+Do not reorder by filename, timestamp, or photo-library position after confirmation.
+
+==================================================
+7. TEXT + IMAGES
+==================================================
+
+User must be able to:
+
+- select images
+- return to composer
+- type text with the images still attached
+- send text + images together
+
+Example:
+
+[image 1] [image 2]
+
+"Explain the difference between these two designs."
+
+Send:
+one message request containing both the text and ordered attachments.
+
+==================================================
+8. KEYBOARD
+==================================================
+
+When composer contains images and keyboard opens:
+
+- composer stays directly above keyboard
+- attachments remain inside composer
+- composer can grow but must not cover the whole screen
+- message area above remains scrollable
+- no overlap
+- no duplicate composer
+
+If necessary, limit attachment preview row height and use horizontal scrolling.
+
+==================================================
+9. IOS / GLASS STYLE
+==================================================
+
+Preserve the current BlueMind iOS / Liquid Glass composer design.
+
+The expanded composer must still use:
+
+- same translucent glass
+- same border
+- same radius
+- same + button
+- same microphone
+- same send button
+
+Do not turn the expanded composer into a flat gray rectangle.
+
+==================================================
+10. CAMERA / FILES
+==================================================
+
+This attachment-inside-composer behavior should also support future/current Camera and Files attachments where appropriate.
+
+For this task, ensure Photos work correctly first.
+
+Do not break Camera or Files.
+
+==================================================
+11. DO NOT TOUCH
+==================================================
+
+Do not change:
+
+- normal message styling
+- AI mode selector
+- header
+- backend AI behavior
+- Projects
+- Search
+- Writing Mode layout
+- unrelated screens
+
+Only change:
+- photo multi-select UX
+- selection numbering
+- confirmation
+- attachment preview placement inside composer
+
+==================================================
+12. PHYSICAL IPHONE TEST
+==================================================
+
+Test on real iPhone:
+
+1. Tap +.
+2. Select first photo.
+   -> shows 1.
+3. Select second photo.
+   -> shows 2.
+4. Select third photo.
+   -> shows 3.
+5. Deselect second photo.
+   -> remaining badges recalculate correctly.
+6. Confirm selection.
+7. Media sheet closes.
+8. Selected images appear INSIDE the composer.
+9. Composer expands naturally.
+10. Type text.
+11. Remove one image.
+12. Remaining images stay.
+13. Send text + images.
+14. Confirm attachment order is preserved.
+15. Keyboard does not overlap composer.
+16. Composer returns to compact height after attachments are cleared/sent.
+
+FINAL REPORT:
+- files changed
+- how selection order is stored
+- how selection confirmation works
+- how attachments are rendered inside the shared composer
+- how remove/reorder behavior works
+- physical iPhone test result
