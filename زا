@@ -1,1 +1,55 @@
+TASK: Restore the missing BlueMind AI selector options inside the CURRENT iOS/Liquid Glass menu.
 
+IMPORTANT:
+Do NOT redesign the selector.
+Do NOT bring back the old visual style.
+Keep the current new iOS-style floating menu exactly as the visual base.
+
+The goal is only to restore the options that used to exist.
+
+The menu must contain these sections:
+
+BLUEMIND MODELS
+- BlueMind 3.0
+- BlueMind 3.5
+- BlueMind 4.0
+- BlueMind 4.5
+- BlueMind 5.0
+  - show a small "NEW" label next to 5.0
+
+AI MODES
+- General AI
+- Study AI
+- Research AI
+- Work AI
+- Writing AI
+- Coding AI
+
+THINKING
+- Enable Thinking
+
+Design requirements:
+- keep the current iOS / Liquid Glass style
+- same translucent dark glass background
+- same rounded container
+- same spacing
+- same icon style
+- same typography
+- same checkmark style for the active selection
+- same smooth vertical scrolling
+- do not create a second popup
+- do not use the old rectangular menu design
+- do not add extra options that were not already part of this selector
+
+Behavior:
+- currently selected model gets a checkmark
+- currently selected AI mode gets a checkmark
+- tapping another model updates the selected model
+- tapping another AI mode updates the selected mode
+- Enable Thinking should work as the existing thinking toggle/state
+- menu must remain scrollable on physical iPhone
+- no overlap with the input/composer underneath
+
+Also make sure the selector remains visually consistent with the rest of BlueMind's current iOS UI.
+
+This is a restoration of missing options inside the new design, not a redesign.
