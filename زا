@@ -1,1 +1,305 @@
+TASK: Fix three specific UI/UX issues in the current BlueMind attachment flow.
 
+DO NOT redesign unrelated parts.
+
+DO NOT change the current dark color/material.
+
+Only fix width, multi-photo selection, and composer attachment placement.
+
+==================================================
+
+1. MAKE THE BOTTOM SHEET FULL-WIDTH
+
+==================================================
+
+CURRENT PROBLEM:
+
+The attachment bottom sheet is too narrow and looks like a centered card.
+
+CHANGE:
+
+Make the bottom sheet span nearly the full width of the iPhone screen.
+
+Requirements:
+
+- extend from near the left screen edge to near the right screen edge
+
+- only keep a very small safe horizontal inset
+
+- keep rounded TOP corners
+
+- keep it visually attached to the bottom
+
+- preserve the current dark translucent/glass material
+
+- do NOT change the current color
+
+- do NOT make it taller just because width changes
+
+Target:
+
+It should feel like a native iOS bottom sheet, not a floating centered card.
+
+==================================================
+
+2. FIX PHOTO SELECTION
+
+==================================================
+
+CURRENT PROBLEM:
+
+Tapping a photo immediately opens/attaches it.
+
+This is wrong.
+
+CHANGE:
+
+Allow multi-photo selection inside the sheet first.
+
+When user taps a photo:
+
+- do NOT close the sheet
+
+- do NOT immediately attach/send it
+
+- show a numbered selection badge on the photo
+
+Selection order:
+
+first selected photo = 1
+
+second selected photo = 2
+
+third selected photo = 3
+
+etc.
+
+Badge:
+
+- circular
+
+- top-right of thumbnail
+
+- iOS blue accent
+
+- white number
+
+- clear selected state
+
+If user deselects a photo:
+
+- remove it from selection
+
+- recalculate numbering continuously
+
+Example:
+
+1, 2, 3
+
+remove 2
+
+remaining should become 1, 2
+
+==================================================
+
+3. ADD A CONFIRMATION BUTTON
+
+==================================================
+
+When one or more photos are selected, show a confirmation action at the bottom of the sheet.
+
+Use something clear like:
+
+Done
+
+or:
+
+Add 3
+
+Preferred behavior:
+
+- if 1 selected: Add 1
+
+- if 2 selected: Add 2
+
+- etc.
+
+The button should:
+
+- stay visible while selecting
+
+- use iOS blue accent
+
+- not overlap the tool list
+
+- respect bottom safe area
+
+Only after user taps Done/Add:
+
+- close the sheet
+
+- attach the selected photos to the composer
+
+- preserve selection order
+
+==================================================
+
+4. ATTACHMENTS MUST BE INSIDE THE COMPOSER
+
+==================================================
+
+CURRENT PROBLEM:
+
+Selected image preview is rendered outside/above the composer.
+
+This is wrong.
+
+CHANGE:
+
+Selected attachments must render INSIDE the same rounded composer/input container.
+
+The composer should expand vertically.
+
+Desired structure:
+
+┌─────────────────────────────┐
+
+│ [image thumbnail] [image]   │
+
+│                             │
+
+│ Ask anything...             │
+
+│                             │
+
+│ +                  mic  send│
+
+└─────────────────────────────┘
+
+Important:
+
+- images must be inside the composer bounds
+
+- composer background/glass must wrap around images and input together
+
+- do not create a separate attachment card above composer
+
+- do not position preview absolutely outside the composer
+
+==================================================
+
+5. COMPOSER RESIZING
+
+==================================================
+
+No attachments:
+
+- normal compact composer height
+
+With attachments:
+
+- composer grows upward
+
+- attachment preview row appears at top inside composer
+
+- text area remains below
+
+- controls remain aligned at bottom
+
+When attachments are removed/sent:
+
+- composer shrinks back to normal
+
+==================================================
+
+6. ATTACHMENT PREVIEWS
+
+==================================================
+
+Inside the composer:
+
+- compact rounded thumbnails
+
+- horizontal row
+
+- horizontal scrolling if many
+
+- preserve selection order
+
+- small X/remove control per image
+
+- removing one image must not remove the others
+
+==================================================
+
+7. DO NOT CHANGE
+
+==================================================
+
+Do not change:
+
+- current sheet color
+
+- current sheet transparency unless necessary for layout
+
+- AI mode selector
+
+- header
+
+- tool names
+
+- message rendering
+
+- backend
+
+- chat navigation
+
+Only fix:
+
+1. sheet width
+
+2. numbered multi-select
+
+3. Done/Add confirmation
+
+4. attachments inside composer
+
+==================================================
+
+PHYSICAL IPHONE TEST
+
+==================================================
+
+Test this exact flow:
+
+1. tap +
+
+2. sheet opens nearly full-width
+
+3. tap first image -> badge 1
+
+4. tap second -> badge 2
+
+5. tap third -> badge 3
+
+6. sheet remains open
+
+7. tap Done/Add 3
+
+8. sheet closes
+
+9. all 3 images appear INSIDE composer
+
+10. composer grows upward
+
+11. type text
+
+12. remove one image
+
+13. remaining images stay
+
+14. send message
+
+15. composer returns to compact size
+
+Report exactly which files were changed.
