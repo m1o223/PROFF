@@ -1,1 +1,161 @@
+TASK: Integrate “Ask BlueMind” into the native iOS text-selection menu.
 
+REFERENCE BEHAVIOR:
+When text is selected in ChatGPT on iPhone, the app does NOT show a separate custom floating bubble above Apple’s menu.
+
+Instead, “Ask ChatGPT” appears directly inside the native iOS text-selection context menu alongside actions like:
+- Copy
+- Select All
+- Look Up
+- Translate
+- More
+
+I want the same interaction pattern for BlueMind.
+
+CURRENT PROBLEM:
+BlueMind currently shows TWO menus:
+1. a custom BlueMind menu with “Ask BlueMind”
+2. the native iOS menu underneath with Copy / Look Up / Translate
+
+This is wrong.
+
+There must be ONLY ONE menu.
+
+==================================================
+DESIRED RESULT
+==================================================
+
+When the user selects any text inside BlueMind:
+
+Show the native iOS text-selection menu only.
+
+Add a BlueMind action into that same native menu:
+
+✨ Ask BlueMind
+
+So the menu should conceptually look like:
+
+[ Ask BlueMind ] [ Copy ] [ Select All ] [ > ]
+
+or follow whatever ordering iOS determines naturally.
+
+Do NOT create a custom HTML/CSS overlay.
+
+Do NOT place another bubble above or below the iOS menu.
+
+==================================================
+IMPLEMENTATION DIRECTION
+==================================================
+
+Because BlueMind runs inside React + Capacitor/WebView:
+
+Inspect the current custom selection-menu implementation.
+
+Remove/disable the custom floating BlueMind selection menu.
+
+Implement “Ask BlueMind” through the native iOS text-edit menu integration where possible.
+
+For the native iOS layer, use the appropriate modern UIKit text editing/menu APIs supported by the deployment target, such as the system edit menu configuration / responder actions, instead of reproducing the menu visually with CSS.
+
+The final rendered menu must be the REAL iOS context menu.
+
+==================================================
+ASK BLUEMIND ACTION
+==================================================
+
+When the user taps “Ask BlueMind”:
+
+1. capture the currently selected text exactly
+2. preserve RTL/LTR text correctly
+3. open the current BlueMind chat flow
+4. prefill/send the selected text into BlueMind using the existing Ask BlueMind behavior
+5. do not lose the selected text because the menu closes
+6. do not restart the app
+7. do not navigate through Safari
+
+Keep the existing BlueMind functionality behind this action; only change how the action is exposed.
+
+==================================================
+IMPORTANT UI RULES
+==================================================
+
+Do NOT style the menu manually.
+
+Do NOT hardcode:
+- menu background
+- blur
+- radius
+- shadow
+- font
+- padding
+
+Let iOS render all of that natively.
+
+The system must control:
+- Liquid Glass/material appearance
+- menu size
+- rounded corners
+- animation
+- accessibility
+- dark/light appearance
+- positioning
+
+==================================================
+DO NOT BREAK
+==================================================
+
+Keep native actions working:
+
+- Copy
+- Select All
+- Look Up
+- Translate
+- Share / More if iOS provides them
+
+Do not replace Apple’s menu.
+
+Do not intercept normal copy/paste behavior unnecessarily.
+
+==================================================
+EXPECTED FINAL BEHAVIOR
+==================================================
+
+User long-presses/selects text
+↓
+ONLY ONE native iOS menu appears
+↓
+Menu contains “Ask BlueMind” alongside Apple actions
+↓
+Tap Ask BlueMind
+↓
+Selected text is passed into BlueMind
+
+No duplicate menus.
+No custom overlay.
+No fake iOS menu.
+
+==================================================
+PHYSICAL IPHONE TEST
+==================================================
+
+Test on a real iPhone:
+
+1. select English text
+2. verify only one context menu appears
+3. verify Ask BlueMind appears
+4. verify Copy still works
+5. verify Select All still works
+6. verify Look Up / Translate still work when available
+7. test Arabic RTL selection
+8. tap Ask BlueMind
+9. verify selected text reaches BlueMind correctly
+10. verify no second custom bubble appears
+11. verify dark mode appearance is native iOS
+12. verify no WebView/Safari navigation occurs
+
+At the end, report:
+- native iOS API used
+- files changed
+- old custom menu code removed/disabled
+- how selected text is bridged from iOS to React/Capacitor
+- physical iPhone test result
