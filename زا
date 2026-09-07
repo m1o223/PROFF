@@ -1,2 +1,247 @@
- 
+ TASK: Refine the BlueMind + tools Bottom Sheet so it matches the REFERENCE interaction/layout much more closely, while keeping BlueMind branding and BlueMind-specific tools.
+
+IMPORTANT:
+This is a refinement of the existing Bottom Sheet.
+DO NOT redesign the whole chat.
+DO NOT change the composer.
+DO NOT create a new visual system.
+
+Use the current BlueMind sheet as the base, but adjust it to match the reference structure and feel much more closely.
+
+==================================================
+1. SHEET BACKGROUND / MATERIAL
+==================================================
+
+CURRENT:
+The BlueMind sheet looks too solid, too gray, and too heavy.
+
+CHANGE:
+Make the sheet feel more like a dark iOS glass panel.
+
+Requirements:
+- darker translucent background
+- visible background blur
+- subtle transparency
+- soft iOS-style material feel
+- avoid a flat solid gray block
+- keep rounded corners smooth and premium
+- use a subtle border/highlight only if needed
+
+The chat/home content behind the sheet should still be faintly visible through the material.
+
+Do NOT make it identical in color to the reference app.
+Use BlueMind’s darker visual language.
+
+==================================================
+2. HEADER
+==================================================
+
+Keep:
+
+Left:
+BlueMind
+
+Right:
+All Photos
+
+But change All Photos to an iOS blue accent.
+
+It should feel tappable and lightweight.
+
+Do not use white for All Photos.
+
+==================================================
+3. TOP MEDIA ROW
+==================================================
+
+The media row should visually follow this structure:
+
+[ Camera tile ] [ recent photo ] [ recent photo ] [ recent photo ] ...
+
+The Camera tile should be the first item.
+
+IMPORTANT:
+Remove the visible text label "Camera".
+
+The Camera tile should contain:
+- large camera icon
+- centered
+- no text underneath
+
+It should look like a clean media tile, not a settings button.
+
+==================================================
+4. FILES / PDF
+==================================================
+
+Do not keep Files as another oversized top tile if it makes the media row look heavy.
+
+Instead:
+- integrate Files/PDF more subtly
+- either as a compact tool entry below the media row
+OR
+- if it remains in the media row, make it visually much lighter and closer to the media tile style
+
+Do NOT let Camera + Files become two large heavy cards that dominate the row.
+
+The recent photos should remain visually important.
+
+==================================================
+5. RECENT PHOTOS
+==================================================
+
+Improve the recent photo thumbnails.
+
+Requirements:
+- larger thumbnails
+- tighter spacing
+- rounded corners
+- better crop
+- consistent sizing
+- horizontally scrollable
+- show the selection circle in the top-right corner
+- selection indicator should feel iOS-native
+
+The photo thumbnails should visually occupy most of the media row.
+
+==================================================
+6. DIVIDER
+==================================================
+
+Keep a subtle divider between:
+- media section
+and
+- tools list
+
+Make it thin and low contrast.
+
+==================================================
+7. TOOL LIST BELOW
+==================================================
+
+CURRENT:
+BlueMind uses right chevrons on every tool row, making the list feel like Settings.
+
+CHANGE:
+Remove the chevrons unless a specific tool truly opens a secondary page.
+
+For normal immediate actions, use:
+
+[ icon ]  Title
+          small description
+
+No arrow.
+
+Keep the rows clean and minimal.
+
+Tools include:
+- Create Image
+- Web Search
+- Research
+- Write / Edit
+- Files / PDF if moved here
+- any existing BlueMind tools already supported
+
+==================================================
+8. TYPOGRAPHY
+==================================================
+
+Use:
+- white main labels
+- muted gray descriptions
+- slightly stronger title weight
+- cleaner vertical spacing
+- no oversized text
+
+The sheet should feel compact and premium.
+
+==================================================
+9. SPACING
+==================================================
+
+Tighten the layout slightly.
+
+Current BlueMind spacing feels too large/heavy.
+
+Adjust:
+- less empty padding around media tiles
+- tighter distance between thumbnails
+- cleaner spacing between tool rows
+- more balanced top/bottom padding
+
+Do not make it cramped.
+
+==================================================
+10. SHEET WIDTH / POSITION
+==================================================
+
+The sheet should feel more like a native bottom sheet and less like a centered card.
+
+Make it:
+- wider
+- closer to screen edges
+- still respecting safe horizontal margins
+- rounded at top corners
+- visually anchored to the bottom
+
+Keep the drag handle at the top.
+
+==================================================
+11. ANIMATION
+==================================================
+
+Keep smooth iOS-like opening/closing.
+
+- slide up from bottom
+- soft spring motion
+- swipe down to dismiss
+- tap outside to dismiss
+
+Do not change navigation.
+
+==================================================
+12. BLUE ACCENT
+==================================================
+
+Use iOS-style blue ONLY for small interactive accents such as:
+- All Photos
+- selected states
+- active controls if appropriate
+
+Do not make the whole sheet blue.
+
+==================================================
+13. DO NOT TOUCH
+==================================================
+
+Do not change:
+- top AI mode selector
+- carousel cards
+- main composer
+- chat input
+- message rendering
+- backend
+- tools functionality
+
+This task is visual refinement of the + Bottom Sheet only.
+
+==================================================
+FINAL TARGET
+==================================================
+
+The result should feel like:
+
+- dark translucent iOS glass sheet
+- BlueMind on the left
+- blue All Photos on the right
+- first tile = Camera icon only, no "Camera" text
+- recent photos immediately visible and visually dominant
+- cleaner media row
+- minimal tools list underneath
+- icon + title + description
+- no unnecessary chevrons
+- wider, lighter, more native-feeling bottom sheet
+- still clearly BlueMind, not a literal clone
+
+Please compare the current BlueMind implementation against the reference before making changes and refine rather than rebuild.
 
