@@ -1,1 +1,162 @@
+Task: Adjust ONLY the background appearance of the BlueMind iOS attachment/tools bottom sheet.
 
+The current layout, spacing, icons, camera tile, photos, divider, typography, tool rows, and all functionality are already correct.
+
+Do NOT redesign anything else.
+
+I only want the sheet background itself to be improved.
+
+⸻
+
+What I want changed
+
+The current sheet background is too flat/solid gray.
+
+I want it to become:
+
+* darker;
+* more transparent;
+* more native-looking on iOS;
+* slightly glass-like;
+* with the content behind the sheet subtly visible through it.
+
+The final feeling should be:
+
+dark iOS glass / dark translucent material
+
+not:
+
+* solid gray;
+* light gray;
+* fake transparent black;
+* overly blurry;
+* overly transparent.
+
+⸻
+
+Important visual direction
+
+Keep the sheet visually dark.
+
+I do NOT want a bright glass effect.
+
+The background should remain close to black/dark charcoal, but with enough transparency and native blur/material so that the screen behind it can be seen very subtly.
+
+Think:
+
+dark premium iOS sheet
+
+rather than:
+
+opaque dark card
+
+⸻
+
+Native iOS behavior
+
+If the current iOS implementation supports native iOS material/blur, use the proper native iOS approach instead of simply setting:
+
+background-color: rgba(...)
+
+I do not want a fake glass effect made only with opacity.
+
+Use the most appropriate native iOS/Capacitor-compatible blur/material implementation available in the current architecture.
+
+The result should:
+
+* blur the content behind the sheet;
+* preserve readability;
+* preserve dark appearance;
+* look natural in iOS Dark Mode;
+* react correctly when the background content changes.
+
+⸻
+
+Transparency level
+
+Do not make it too transparent.
+
+The content behind the sheet should be visible only subtly.
+
+Text and icons inside the sheet must remain easy to read.
+
+I want:
+
+dark dominant foreground + subtle background visibility
+
+not:
+
+see-through glass where the background becomes distracting.
+
+⸻
+
+Do NOT change
+
+Do not change:
+
+* sheet size;
+* corner radius;
+* drag handle;
+* header;
+* BlueMind title;
+* All Photos;
+* camera tile;
+* photo thumbnails;
+* divider;
+* tool spacing;
+* icons;
+* text sizes;
+* descriptions;
+* scrolling;
+* animations;
+* tap actions;
+* sheet height;
+* layout;
+* any web code.
+
+This task is ONLY about the background surface/material of the iOS sheet.
+
+⸻
+
+Web protection
+
+BlueMind also has a web implementation.
+
+Do not modify the website.
+
+If the background style is currently shared between Web and iOS, do not change the shared style globally.
+
+Instead:
+
+* create an iOS-specific background/material override;
+* keep the web appearance exactly as it is.
+
+Do not delete shared web styles.
+
+⸻
+
+Final target
+
+Current:
+
+solid dark gray sheet
+
+Desired:
+
+darker, translucent, native iOS glass/material sheet
+
+The difference should be noticeable, but subtle and premium.
+
+The sheet should still clearly belong to BlueMind’s dark design.
+
+⸻
+
+After implementation
+
+Tell me:
+
+1. Which file was changed.
+2. What exact background/material implementation was used.
+3. Whether native blur/material is being used or a fallback.
+4. Confirmation that no layout or functionality was changed.
+5. Confirmation that the web version was not modified.
