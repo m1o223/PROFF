@@ -1,1 +1,400 @@
+Task: Redesign the BlueMind iOS attachment/tools bottom sheet to feel like a polished native iOS sheet, based on the attached ChatGPT reference screenshots.
 
+We are working only on the iOS version of BlueMind AI.
+
+Before changing anything, inspect the existing implementation carefully and understand how this bottom sheet currently works.
+
+⸻
+
+VERY IMPORTANT SCOPE RULES
+
+BlueMind originally had a web version before the iOS implementation, so some shared or web-related code may still exist in the project.
+
+Do NOT modify, delete, refactor, or break the website/web implementation.
+
+The web version must remain exactly as it is.
+
+If the current iOS bottom sheet depends on old web/CSS/browser-specific code:
+
+* disconnect that code only from the iOS execution path;
+* keep the web implementation untouched;
+* create or improve an iOS-specific implementation if needed.
+
+If a file is shared between web and iOS, do not remove functionality globally. Separate the iOS behavior safely.
+
+Also:
+
+* Do not change unrelated screens.
+* Do not change the functionality of the existing tools.
+* Do not remove any current BlueMind options.
+* Do not rename features unless explicitly required below.
+* This task is primarily a visual + native iOS UX refinement.
+
+⸻
+
+CURRENT BLUEMIND CONTENT
+
+Keep the existing BlueMind structure and functionality:
+
+Top section:
+
+* BlueMind title
+* All Photos
+* Camera tile
+* Recent photos
+
+Tools section:
+
+* Files / PDF
+* Create Image
+* Web Search
+* Research
+* Write / Edit
+
+Keep all existing tap actions and functionality working exactly as they currently do.
+
+We are changing the presentation, not rebuilding the product logic.
+
+⸻
+
+DESIGN GOAL
+
+The attached ChatGPT screenshot is the visual reference.
+
+The most important thing is not to simply copy dimensions blindly.
+
+Understand what makes the reference feel high-quality:
+
+* Native iOS glass/material appearance
+* Content from behind is subtly visible through the sheet
+* Good spacing
+* Strong visual hierarchy
+* Clearly separated photo section and tools section
+* Camera appears as a proper tappable tile
+* Clean outline icons
+* Comfortable typography
+* Minimal, premium, native iOS feeling
+
+BlueMind should keep its own branding and content while adopting this level of polish.
+
+⸻
+
+STEP 1 — REBUILD THE SHEET SURFACE AS NATIVE iOS GLASS
+
+The current BlueMind sheet looks too much like a heavy opaque gray panel.
+
+I want the bottom sheet itself to use a real native iOS material/glass treatment.
+
+Important:
+
+Do not create a fake glass effect using an arbitrary transparent gray color.
+
+Use the appropriate native iOS blur/material APIs available in the current iOS architecture.
+
+The result should:
+
+* blur the content behind the sheet;
+* allow the underlying screen to remain subtly visible;
+* still have enough contrast for text and icons;
+* feel like a system-level iOS sheet;
+* look correct in Dark Mode.
+
+The glass should be subtle and premium, not overly transparent.
+
+Preserve the rounded top corners and bottom-sheet presentation.
+
+Keep the small drag indicator centered at the top.
+
+⸻
+
+STEP 2 — IMPROVE THE HEADER
+
+At the top of the sheet:
+
+Left:
+
+BlueMind
+
+Right:
+
+All Photos
+
+Keep BlueMind white and visually prominent.
+
+Keep All Photos using the BlueMind/iOS blue accent.
+
+Make sure:
+
+* both items align correctly vertically;
+* horizontal padding is consistent;
+* the header has enough breathing room;
+* it does not feel crowded against the photo row.
+
+⸻
+
+STEP 3 — IMPROVE THE PHOTO SECTION
+
+Keep:
+
+* Camera
+* Recent photos
+
+But refine their presentation.
+
+Camera tile
+
+The camera should not appear like an icon floating by itself.
+
+Create a clearly defined rounded camera tile, similar in concept to the reference.
+
+It should:
+
+* have its own subtle background/material;
+* use large rounded corners;
+* contain a centered outline camera icon;
+* clearly look tappable;
+* visually match the recent photo thumbnails.
+
+Do not make the camera background too bright.
+
+It should integrate naturally with the glass sheet.
+
+Recent photo thumbnails
+
+Keep the current recent-photo behavior.
+
+Make sure:
+
+* all thumbnails use consistent size;
+* corner radius is consistent;
+* spacing between thumbnails is even;
+* selection circles remain clearly visible;
+* horizontal scrolling still works correctly.
+
+Do not alter photo-selection functionality.
+
+⸻
+
+STEP 4 — ADD A CLEAR DIVIDER
+
+This detail is important.
+
+Add a thin horizontal separator between the photo section and the tools section.
+
+It should run horizontally with appropriate left/right margins.
+
+The divider should:
+
+* be subtle;
+* be clearly visible;
+* use a low-contrast iOS-style separator color;
+* visually separate media from AI/tools.
+
+Do not make it bright white.
+
+The user should immediately understand:
+
+Above = camera/photos
+
+Below = BlueMind tools
+
+⸻
+
+STEP 5 — IMPROVE TOOL ROW SPACING
+
+One of the biggest differences between the current BlueMind version and the reference is spacing.
+
+The existing BlueMind rows feel slightly compressed.
+
+Give each tool more breathing room.
+
+Each row should contain:
+
+Icon
+
+Title
+
+Description
+
+Example:
+
+Files / PDF
+Attach a document or file
+
+Create Image
+Generate an image with AI
+
+Web Search
+Search the web for current information
+
+Research
+Get deeper research and structured findings
+
+Write / Edit
+Write, rewrite, improve, or edit text
+
+Increase vertical spacing between rows enough that each option feels like a separate action, but do not make the sheet unnecessarily tall.
+
+Titles should remain visually stronger than descriptions.
+
+Descriptions should use a softer secondary gray.
+
+⸻
+
+STEP 6 — ICON STYLE
+
+Keep a consistent icon family.
+
+All tool icons should:
+
+* use clean outline styling;
+* use consistent visual weight;
+* have similar apparent size;
+* remain white/light gray;
+* not use colorful or filled icon styles.
+
+The goal is a clean Apple/iOS-like visual system.
+
+Do not redesign recognizable BlueMind-specific icons unnecessarily.
+
+⸻
+
+STEP 7 — ALIGNMENT
+
+Carefully align:
+
+* icons;
+* titles;
+* descriptions;
+* header;
+* camera tile;
+* photo thumbnails;
+* divider.
+
+Tool titles should all begin on the same horizontal axis.
+
+Descriptions should align with their respective titles.
+
+Avoid slightly different left offsets between rows.
+
+The final layout should feel intentional and mathematically consistent.
+
+⸻
+
+STEP 8 — SCROLLING AND SAFE AREAS
+
+Make sure this works correctly across different iPhone sizes.
+
+If all tool options cannot fit vertically:
+
+* allow the content inside the sheet to scroll naturally;
+* keep the interaction smooth;
+* respect the bottom safe area/home indicator.
+
+Do not allow content to be hidden underneath the system home indicator.
+
+Do not create nested scrolling problems with the photo carousel.
+
+Photo row = horizontal scrolling.
+
+Main sheet content = vertical scrolling when required.
+
+⸻
+
+STEP 9 — PRESERVE ALL FUNCTIONALITY
+
+After redesigning the UI, verify every existing action:
+
+* Camera opens correctly
+* Photo picker works
+* All Photos works
+* Files / PDF works
+* Create Image works
+* Web Search works
+* Research works
+* Write / Edit works
+* Selected images remain selectable/removable
+* Closing/dismissing the sheet works
+* Drag behavior works if currently supported
+
+Do not introduce regressions.
+
+⸻
+
+STEP 10 — ANIMATION
+
+Keep the sheet feeling native.
+
+Presentation and dismissal should use smooth iOS-style movement.
+
+Avoid:
+
+* excessive bounce;
+* flashy animations;
+* long animations;
+* custom animations that feel unlike iOS.
+
+If the current animation is already native and good, preserve it.
+
+⸻
+
+IMPORTANT DESIGN PRINCIPLE
+
+Do not blindly clone ChatGPT.
+
+Use the reference to understand the quality level:
+
+Native glass + spacing + separator + hierarchy + clean camera tile + polished typography.
+
+The final product should still clearly look like BlueMind AI.
+
+⸻
+
+BEFORE IMPLEMENTATION
+
+First inspect the relevant iOS files and current architecture.
+
+Identify:
+
+1. which component renders this sheet;
+2. whether it contains any legacy web implementation;
+3. which parts are shared with web;
+4. which parts can safely be improved only for iOS.
+
+Then implement the smallest clean change needed.
+
+Do not perform a large refactor unless absolutely necessary.
+
+⸻
+
+ACCEPTANCE CRITERIA
+
+When finished, the iOS bottom sheet should:
+
+* look substantially lighter and more premium;
+* use real native iOS material/glass;
+* visibly but subtly blur/show the content behind it;
+* have a clearly defined camera tile;
+* have clean and evenly spaced recent-photo thumbnails;
+* have a visible thin divider between photos and tools;
+* have noticeably better spacing between tool rows;
+* have consistent outline icons;
+* preserve BlueMind branding;
+* preserve every existing feature;
+* work correctly on different iPhone sizes;
+* leave the entire web version untouched.
+
+⸻
+
+AFTER IMPLEMENTATION
+
+Give me a short report containing:
+
+1. Files changed.
+2. What was changed visually.
+3. Which native iOS material/glass implementation was used.
+4. Whether any old web-specific code was disconnected from iOS.
+5. Confirmation that no web functionality/files were changed or broken.
+6. Confirmation that all existing bottom-sheet actions still work.
+
+If you encounter an architectural conflict or are unsure whether some code belongs to the web or iOS implementation, do not guess and do not delete it. Stop and explain the conflict before making a risky change.
