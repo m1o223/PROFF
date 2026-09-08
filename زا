@@ -1,1 +1,422 @@
+Task: Add a native draggable/resizable chat composer to BlueMind AI on iOS.
 
+We are working only on the iOS version of BlueMind AI.
+
+Before making changes, inspect the current chat composer/input implementation carefully. Understand:
+
+* how the textarea/input currently auto-grows;
+* what currently limits its maximum height;
+* how scrolling starts inside the input;
+* how the keyboard affects its layout;
+* whether any legacy web/CSS/JavaScript textarea-resize logic is still affecting the iOS implementation.
+
+⸻
+
+IMPORTANT: WEB CODE MUST NOT BE MODIFIED
+
+BlueMind originally existed as a web app before the iOS implementation, so some old web-specific input/composer logic may still be shared with or affecting iOS.
+
+Do NOT modify, delete, refactor, or break the website implementation.
+
+The web version must continue to behave exactly as it currently does.
+
+If old web code is influencing the iOS composer:
+
+* disconnect it only from the iOS execution path;
+* leave the website logic untouched;
+* implement the new resizing behavior specifically for iOS;
+* if a file/component is shared, use a clean platform-specific branch/component rather than deleting the shared functionality.
+
+If you are unsure whether a piece of code is required by the website, do not guess and do not delete it. Explain it first.
+
+⸻
+
+DESIGN IDEA
+
+I do NOT want to copy ChatGPT’s exact full-screen composer behavior.
+
+ChatGPT currently allows the composer to grow automatically to a certain height and then provides a control to expand further.
+
+BlueMind should use a different interaction:
+
+The user should be able to manually drag the top edge of the composer upward or downward to resize it.
+
+Think of it like a small native iOS draggable sheet handle built into the top center of the input/composer.
+
+⸻
+
+STEP 1 — KEEP NORMAL AUTO-GROW
+
+When the user begins typing, preserve the normal convenient behavior:
+
+* 1 line → small composer
+* more lines → composer grows automatically
+* continue growing naturally with the content
+
+Do NOT require the user to manually resize the composer for normal short messages.
+
+The composer should initially behave like a normal modern chat input.
+
+⸻
+
+STEP 2 — DEFINE A NORMAL AUTO-GROW LIMIT
+
+Allow the composer to auto-grow until approximately the current useful maximum height / roughly around the middle portion of the available conversation screen.
+
+Do not use a fragile fixed pixel number if the current architecture can calculate this responsively.
+
+It needs to work on different iPhone screen sizes.
+
+Once the normal automatic growth limit is reached:
+
+* stop increasing the outer composer automatically;
+* allow text to scroll internally as necessary;
+* expose the manual resize control described below.
+
+⸻
+
+STEP 3 — ADD A DRAG HANDLE AT THE TOP
+
+Add a small native-looking resize handle centered at the top edge of the composer.
+
+Visually it should contain:
+
+* a small horizontal rounded line / dash;
+* a subtle directional indicator/arrow associated with it so the user understands the composer can be moved vertically.
+
+It should look minimal and polished, similar in spirit to a native iOS sheet grabber.
+
+Do not make it visually heavy.
+
+Do not add a large button.
+
+This is primarily a press-and-drag control.
+
+⸻
+
+STEP 4 — DRAG UP TO EXPAND
+
+When the user presses the handle and drags upward:
+
+* increase the composer height continuously with the finger;
+* keep the animation smooth;
+* do not jump between sizes;
+* keep the keyboard visible;
+* keep the text editable;
+* preserve the current cursor position;
+* keep Plus / Microphone / Send controls correctly positioned.
+
+The composer should be able to expand substantially beyond its normal auto-grow limit.
+
+However, it must stop before colliding with:
+
+* the top navigation;
+* status bar / safe area;
+* other essential UI.
+
+Calculate the maximum height based on available screen space rather than relying on one device-specific number.
+
+⸻
+
+STEP 5 — DRAG DOWN TO COLLAPSE
+
+When the user drags the same handle downward:
+
+* smoothly reduce the composer height;
+* never allow it to become smaller than the normal compact composer;
+* preserve the text;
+* preserve cursor/selection;
+* do not dismiss the keyboard;
+* do not delete or reset attached media.
+
+The user should be able to freely move between:
+
+compact composer → medium composer → large composer
+
+by dragging, without requiring a separate full-screen editor.
+
+The movement itself should be continuous, not limited to only three hardcoded sizes.
+
+⸻
+
+STEP 6 — INTERNAL TEXT SCROLLING
+
+This is important.
+
+Composer size and text scrolling must cooperate correctly.
+
+When text is longer than the currently available composer area:
+
+* the text area should scroll vertically;
+* the composer itself should remain at the user-selected height.
+
+When the user manually makes the composer larger:
+
+* show more of the existing text;
+* do not reset scroll position unnecessarily.
+
+When the user makes it smaller:
+
+* switch naturally back to internal scrolling.
+
+Do not create scroll conflicts between:
+
+1. the conversation;
+2. the text inside the composer;
+3. the resize drag gesture.
+
+Dragging the resize handle must resize.
+
+Dragging inside the text content must scroll/select text normally.
+
+⸻
+
+STEP 7 — GESTURE AREA
+
+The resizing gesture should activate only from the top resize handle area.
+
+Do not make the entire composer draggable.
+
+This prevents conflicts with:
+
+* text selection;
+* cursor movement;
+* scrolling;
+* attachment interaction;
+* microphone/send buttons.
+
+Give the handle a slightly larger invisible hit area than the visible dash so it remains easy to grab.
+
+⸻
+
+STEP 8 — HANDLE VISIBILITY
+
+For the smallest normal composer state, keep the interface clean.
+
+The resize handle can become visible when the composer begins growing significantly / reaches the normal auto-grow region where manual resizing becomes useful.
+
+Once the composer is manually expanded, keep the handle visible so the user understands they can drag it downward again.
+
+Avoid adding unnecessary visual clutter to a one-line message composer.
+
+⸻
+
+STEP 9 — NATIVE IOS FEEL
+
+The resizing should feel native to iOS.
+
+Use:
+
+* smooth interactive movement tied directly to the finger;
+* subtle native spring behavior only when appropriate;
+* no delayed or exaggerated animations;
+* no browser-like textarea resizing;
+* no visible CSS-style resize corner.
+
+The user should feel like they are resizing a native iOS surface, not a webpage.
+
+⸻
+
+STEP 10 — KEYBOARD BEHAVIOR
+
+Test carefully with the iOS keyboard open.
+
+The composer must remain anchored correctly above the keyboard.
+
+Resizing the composer must not:
+
+* dismiss the keyboard;
+* make the keyboard flicker;
+* move the composer behind the keyboard;
+* create large empty gaps;
+* change the safe-area calculation incorrectly.
+
+Also test keyboard language switching.
+
+⸻
+
+STEP 11 — PRESERVE EXISTING COMPOSER FEATURES
+
+Do not break:
+
+* text input;
+* send button;
+* microphone;
+* Plus/attachment button;
+* image attachments;
+* file attachments;
+* selected media preview;
+* transcription;
+* current chat mode;
+* RTL/Arabic text;
+* LTR English/Swedish text;
+* text selection/copy/paste;
+* multiline text;
+* keyboard behavior.
+
+The resizing feature is an enhancement around the existing composer, not a rewrite of unrelated chat functionality.
+
+⸻
+
+STEP 12 — RTL / ARABIC
+
+BlueMind supports Arabic.
+
+Make sure resizing works identically with RTL content.
+
+The resize handle itself should remain centered and should not change position based on RTL/LTR direction.
+
+⸻
+
+STEP 13 — SCREEN ROTATION / SIZE CHANGES
+
+If the device’s available viewport changes:
+
+* recalculate the allowed maximum composer height;
+* clamp the current height safely if it is now too large;
+* do not lose the user’s text.
+
+Also account for different iPhone screen sizes.
+
+⸻
+
+STEP 14 — STATE BEHAVIOR
+
+Manual resizing should not permanently corrupt the normal auto-sizing system.
+
+Suggested behavior:
+
+* Normal typing starts with auto-grow.
+* Once the user manually drags the composer, respect the user’s selected height.
+* If the composer becomes empty/new chat and returns to the normal compact state, it can return to standard auto-grow behavior.
+
+Avoid weird cases where deleting text leaves a giant empty composer forever unless the user intentionally expanded it and the current UX expects that.
+
+Implement the cleanest predictable behavior.
+
+⸻
+
+STEP 15 — PERFORMANCE
+
+Dragging must stay smooth.
+
+Do not cause:
+
+* excessive React re-renders;
+* expensive layout recalculation every frame;
+* conversation list re-rendering continuously;
+* keyboard animation stuttering.
+
+Use the most appropriate native/iOS-capable approach available in the current React/Capacitor architecture.
+
+⸻
+
+IMPORTANT ARCHITECTURE RULE
+
+Do not force the old website textarea/resizing implementation onto iOS simply because it already exists.
+
+If the web implementation uses CSS such as:
+
+* max-height;
+* overflow rules;
+* textarea autosize;
+* DOM measurements;
+* browser resize events;
+
+and these conflict with the desired native iOS interaction, isolate them from iOS and implement an appropriate iOS solution.
+
+Again: do not delete or modify the web implementation itself.
+
+⸻
+
+VISUAL RESULT
+
+Final BlueMind iOS behavior:
+
+1. User opens chat.
+2. Composer begins compact.
+3. User types.
+4. Composer automatically grows naturally.
+5. When it becomes large enough, a small elegant grabber/resize handle appears at the top center.
+6. User presses the handle.
+7. Drag upward → composer grows smoothly.
+8. Drag downward → composer shrinks smoothly.
+9. Long text scrolls inside the composer when needed.
+10. Keyboard and all chat controls remain stable.
+
+No forced full-screen editor is required.
+
+⸻
+
+BEFORE IMPLEMENTING
+
+Inspect and identify:
+
+1. the current iOS composer component;
+2. where its min/max height is controlled;
+3. how textarea auto-grow currently works;
+4. whether any web-specific logic controls that height;
+5. whether the component is shared with the website;
+6. which iOS-specific files/components should be changed.
+
+Make the smallest clean architectural change necessary.
+
+Do not perform unrelated refactors.
+
+⸻
+
+ACCEPTANCE TESTS
+
+Test at minimum:
+
+Test 1: one-line message.
+
+Test 2: multiline message that auto-grows.
+
+Test 3: reach normal max height.
+
+Test 4: drag composer upward.
+
+Test 5: drag composer downward.
+
+Test 6: very long text + internal scrolling.
+
+Test 7: Arabic RTL text.
+
+Test 8: English/Swedish LTR text.
+
+Test 9: text selection while composer is expanded.
+
+Test 10: microphone while composer was previously expanded.
+
+Test 11: image/file attachment.
+
+Test 12: cancel/remove attachment.
+
+Test 13: send message after resizing.
+
+Test 14: repeated expand/collapse.
+
+Test 15: keyboard hide/show.
+
+Test 16: different iPhone screen sizes.
+
+There should be no layout jumps, crashes, lost text, or gesture conflicts.
+
+⸻
+
+AFTER IMPLEMENTATION
+
+Report:
+
+1. Which files were changed.
+2. How the current auto-grow system worked before.
+3. What manual resize system was added.
+4. What min/max-height strategy is used.
+5. How gesture conflicts with text scrolling were prevented.
+6. Whether old web-specific code was affecting iOS.
+7. If yes, exactly how it was isolated from iOS.
+8. Confirmation that no website behavior or web implementation was modified.
+9. Confirmation that existing microphone, attachments, send, and text input still work.
+
+If you find web code that is deeply intertwined with the iOS composer and cannot be safely separated without a broader change, stop before making the risky modification and explain the conflict to me first.
