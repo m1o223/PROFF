@@ -1,1 +1,350 @@
+TASK: Rebuild the BlueMind microphone/voice composer flow to behave like a polished native iOS voice input experience.
 
+IMPORTANT:
+If there is old/broken voice recording code, outdated web recorder code, duplicated waveform logic, or unstable legacy implementation blocking this behavior, remove/replace it cleanly instead of patching around it.
+
+This should be implemented as a proper iOS-style voice composer state.
+
+==================================================
+1. IDLE STATE
+==================================================
+
+Normal composer:
+
+[ + ]   Ask anything...   [ mic ]   [ send ]
+
+When user taps the microphone button:
+- immediately enter voice recording mode
+- do not open a separate page
+- do not open a modal
+- replace the normal composer contents with the voice UI
+
+==================================================
+2. RECORDING STATE
+==================================================
+
+While recording, the composer should become:
+
+[ X ]   LIVE WAVEFORM   [ stop ]   [ send ]
+
+Behavior:
+
+LEFT:
+X button
+- cancels recording immediately
+- deletes temporary recording
+- exits recording state
+- restores the normal text input instantly
+
+CENTER:
+Live waveform
+- must react to actual microphone amplitude
+- quiet voice = small waveform
+- louder voice = larger waveform
+- update smoothly in real time
+- do NOT use a fake looping animation
+
+RIGHT:
+Stop button
+- square stop icon
+- stops recording but does NOT immediately send
+
+Send button
+- sends the voice input flow directly to the chat
+
+==================================================
+3. CANCEL BEHAVIOR
+==================================================
+
+When user taps X:
+
+- stop microphone capture immediately
+- discard temporary audio
+- remove waveform
+- return to the exact normal composer:
+
+[ + ] Ask anything... [ mic ] [ send ]
+
+No loading.
+No confirmation dialog.
+No leftover waveform.
+No stale recording state.
+
+==================================================
+4. SEND WHILE RECORDING
+==================================================
+
+When user taps SEND while still recording:
+
+1. stop recording
+2. process speech recognition
+3. convert speech to text
+4. send the recognized TEXT as a normal chat message
+5. do NOT send an audio bubble
+6. preserve the detected spoken language
+7. clear voice state
+8. return composer to normal
+
+Example:
+User speaks Arabic
+-> send Arabic text
+
+User speaks Swedish
+-> send Swedish text
+
+User speaks English
+-> send English text
+
+Do not force one language manually if automatic language detection is available.
+
+==================================================
+5. STOP BUTTON BEHAVIOR
+==================================================
+
+When user taps STOP:
+
+1. stop recording
+2. show a short processing/loading state
+3. transcribe the recorded speech to text
+4. place the transcribed text into the normal text composer
+5. DO NOT send it automatically
+6. let the user edit the text
+7. user can then press send manually
+
+Desired flow:
+
+Recording
+-> tap Stop
+-> small loader
+-> transcript appears inside input
+-> normal composer returns
+-> user can edit transcript
+-> user sends when ready
+
+==================================================
+6. TRANSCRIPTION
+==================================================
+
+Speech-to-text must:
+- support automatic language detection where possible
+- preserve Arabic
+- preserve Swedish
+- preserve English
+- handle mixed-language speech reasonably
+- return proper Unicode text
+- preserve punctuation where supported
+
+Do not hardcode English.
+
+==================================================
+7. REAL WAVEFORM
+==================================================
+
+The waveform must use live microphone metering.
+
+Requirements:
+- sample actual audio amplitude
+- normalize values
+- animate smoothly
+- avoid abrupt jumps
+- keep FPS reasonable
+- do not block main thread
+
+The waveform should visually grow/shrink with the user's real voice level.
+
+==================================================
+8. NATIVE IOS IMPLEMENTATION
+==================================================
+
+Prefer a native iOS audio recording / speech recognition implementation through the existing Capacitor/native bridge.
+
+Avoid fragile browser-only MediaRecorder behavior if it causes instability.
+
+Use native iOS APIs where appropriate for:
+- microphone permission
+- audio session
+- recording
+- metering
+- speech recognition
+- interruption handling
+
+==================================================
+9. PERMISSION FLOW
+==================================================
+
+First microphone use:
+- request microphone permission normally
+- if denied, show a clean iOS-style explanation
+- do not crash
+- do not repeatedly spam permission dialogs
+
+If speech recognition permission is separately required, handle it properly.
+
+==================================================
+10. STATE MACHINE
+==================================================
+
+Use clear states:
+
+idle
+recording
+processing
+transcriptReady
+
+Do not rely on random booleans spread across components.
+
+Expected transitions:
+
+idle -> recording
+recording -> idle via X
+recording -> processing via Stop
+processing -> transcriptReady
+transcriptReady -> idle after send
+
+Also:
+recording -> processing -> send immediately if user taps Send while recording
+
+==================================================
+11. COMPOSER UI
+==================================================
+
+Keep everything inside the same BlueMind composer container.
+
+Do NOT create:
+- separate popup
+- floating recording card
+- modal
+- second input
+
+The existing composer should morph between text mode and voice mode.
+
+Keep:
+- current BlueMind glass material
+- current rounded shape
+- iOS visual language
+
+==================================================
+12. PROCESSING STATE
+==================================================
+
+After Stop:
+- replace waveform with a small clean loader
+- show subtle processing feedback
+- no long blocking screen
+- no navigation
+
+When transcription finishes:
+- loader disappears
+- transcript is inserted into text input
+
+==================================================
+13. INTERRUPTION HANDLING
+==================================================
+
+Handle:
+- incoming call
+- Siri interruption
+- AirPods disconnect
+- app going background
+- audio session interruption
+
+Do not leave the app stuck in recording mode.
+
+Safest behavior:
+- stop or cancel recording
+- clean up audio session
+- restore composer state
+
+==================================================
+14. REMOVE OLD BROKEN CODE
+==================================================
+
+Inspect the existing voice implementation.
+
+If there is:
+- obsolete recorder code
+- duplicate microphone handlers
+- fake waveform implementation
+- old web-only recording path
+- stale audio state
+- conflicting event listeners
+
+remove/refactor it cleanly.
+
+Do NOT keep broken legacy paths just for compatibility if they interfere with the new implementation.
+
+==================================================
+15. DO NOT CHANGE
+==================================================
+
+Do not modify:
+- chat message design
+- AI mode selector
+- attachment sheet
+- image upload flow
+- header
+- unrelated pages
+- backend endpoints unless transcription specifically requires it
+
+==================================================
+16. EXACT UX TARGET
+==================================================
+
+Tap mic
+-> composer instantly changes to voice mode
+
+[ X ] [ live reactive waveform ] [ stop ] [ send ]
+
+Speak louder
+-> waveform gets taller
+
+Tap X
+-> voice UI disappears immediately
+-> normal input returns
+
+Tap Stop
+-> short processing loader
+-> speech becomes editable text inside input
+
+Tap Send while recording
+-> stop
+-> transcribe
+-> send transcript as text message
+-> return to normal composer
+
+==================================================
+17. PHYSICAL IPHONE TEST
+==================================================
+
+Test on real iPhone:
+
+1. tap mic
+2. speak quietly
+3. verify small waveform
+4. speak loudly
+5. verify larger waveform
+6. tap X
+7. verify instant return to text input
+8. record again
+9. tap Stop
+10. verify loading
+11. verify transcript appears in text input
+12. edit transcript
+13. send it
+14. record again
+15. tap Send while recording
+16. verify transcript is sent directly as text
+17. test Arabic
+18. test Swedish
+19. test English
+20. test AirPods if available
+21. test background/interruption cleanup
+
+At the end report:
+- old voice code removed
+- new native iOS APIs used
+- waveform implementation
+- transcription implementation
+- language detection behavior
+- files changed
+- physical iPhone test results
