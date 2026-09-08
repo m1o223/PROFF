@@ -1,1 +1,191 @@
+TASK: Refine the current BlueMind attachment Bottom Sheet so it feels visually closer to the reference, WITHOUT rebuilding it.
 
+IMPORTANT:
+Do NOT redesign from scratch.
+Do NOT change the current structure or tool set.
+Do NOT blindly tweak CSS values and assume the result is correct.
+
+You must inspect the actual rendered result on a physical iPhone and compare the visual result against the reference.
+
+The goal is a visual refinement, not a code-only task.
+
+==================================================
+1. GLASS / TRANSPARENCY
+==================================================
+
+CURRENT:
+BlueMind still feels slightly too solid and too much like a flat dark-gray panel.
+
+CHANGE:
+Keep the current dark tone, but make the material feel more like dark translucent iOS glass.
+
+Adjust:
+- slightly lower panel opacity
+- slightly stronger backdrop blur
+- preserve dark tone
+- keep text readable
+- keep subtle border/highlight
+- avoid making the sheet washed out or too transparent
+
+Target:
+The content behind the sheet should be faintly visible and softly blurred.
+
+Do NOT just set arbitrary opacity values.
+Render it and visually inspect whether it actually feels like glass.
+
+==================================================
+2. MEDIA ROW SIZE
+==================================================
+
+CURRENT:
+Camera and photo thumbnails feel slightly too large/tall and spaced too far apart.
+
+CHANGE:
+Make the top media row more compact.
+
+Adjust approximately:
+- reduce media tile height slightly
+- reduce thumbnail width slightly
+- reduce horizontal gaps
+- keep rounded corners
+- preserve clear selection circles
+- show more thumbnails within the same screen width
+
+Do not make them tiny.
+
+Target:
+The media row should feel tighter, cleaner, and more efficient.
+
+==================================================
+3. CAMERA TILE
+==================================================
+
+Keep the Camera tile visually consistent with the media thumbnails.
+
+Requirements:
+- camera icon remains large and centered
+- no unnecessary text if current intended style is icon-only
+- same height/radius family as thumbnails
+- should not visually dominate the row
+
+==================================================
+4. TOOL LIST DENSITY
+==================================================
+
+CURRENT:
+The tools section feels slightly too vertically spaced.
+
+CHANGE:
+Compress vertical spacing modestly.
+
+Adjust:
+- less space between rows
+- slightly tighter title/description spacing
+- keep each row comfortably tappable
+- do not make the list cramped
+
+The section should feel more compact and premium.
+
+==================================================
+5. TYPOGRAPHY HIERARCHY
+==================================================
+
+Keep the current font family.
+
+Refine:
+- tool title = clear and strong
+- description = lighter gray and slightly smaller
+- avoid making both title and description equally visually heavy
+
+The title/description hierarchy should be obvious at a glance.
+
+==================================================
+6. BOTTOM EMPTY SPACE
+==================================================
+
+CURRENT:
+There is too much unused empty space after the final tool.
+
+CHANGE:
+Reduce unnecessary bottom padding.
+
+Keep:
+- safe area
+- comfortable bottom breathing room
+
+But do not leave a large empty block below the final item.
+
+==================================================
+7. SHEET SHAPE
+==================================================
+
+Keep the sheet wide and anchored to the bottom.
+
+Do not turn it back into a floating centered card.
+
+Maintain:
+- near full-width layout
+- rounded top corners
+- small safe horizontal inset
+- correct bottom safe area
+
+==================================================
+8. VISUAL VALIDATION IS REQUIRED
+==================================================
+
+DO NOT finish this task after changing values in code.
+
+After implementation:
+
+1. Build/run on a physical iPhone.
+2. Open the attachment sheet.
+3. Compare the actual rendered result visually against the reference.
+4. Check:
+   - does the panel feel translucent enough?
+   - does it still feel too gray/solid?
+   - are thumbnails too large?
+   - are gaps too wide?
+   - is the tools list too tall?
+   - is there too much empty space?
+5. If it does not visually match the intended feel, iterate.
+
+Do not consider the task complete until the rendered UI actually looks correct.
+
+==================================================
+9. DO NOT TOUCH
+==================================================
+
+Do not change:
+- tool functionality
+- photo selection logic
+- multi-select numbering
+- composer
+- AI selector
+- chat messages
+- header
+- backend
+
+Only refine:
+- glass/transparency
+- media row sizing
+- spacing
+- typography hierarchy
+- bottom padding
+
+==================================================
+FINAL TARGET
+==================================================
+
+BlueMind should remain visually its own product, but the attachment sheet should feel:
+
+- darker translucent iOS glass
+- slightly more compact
+- less bulky
+- more visually balanced
+- more premium
+- closer to a native iOS sheet
+
+At the end, report:
+- exact values changed
+- screenshots or visual verification notes from physical iPhone
+- whether a second visual adjustment pass was needed
