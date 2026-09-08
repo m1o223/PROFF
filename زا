@@ -1,1 +1,64 @@
 
+We are now working only on the BlueMind AI iOS microphone / voice-input experience.
+
+Important: this project originally started as a web app before the iOS version was created, so there may still be old web-specific microphone, recording, transcription, UI, event-handling, or browser-related code affecting the iOS implementation.
+
+Before changing anything, inspect the current iOS voice-input flow and identify any web-specific code that is still being used by the iOS version.
+
+Very important scope rules
+
+* Do NOT modify, delete, refactor, or break the website/web implementation.
+* The existing web code must remain untouched and continue working exactly as it does now.
+* Only remove or disconnect web-specific code from the iOS execution path.
+* If a file is shared between Web and iOS, do NOT delete the shared functionality globally. Instead, isolate the iOS behavior and create an iOS-specific implementation where necessary.
+* Do not make unrelated changes anywhere else in the project.
+
+iOS microphone implementation
+
+The iOS microphone experience should be implemented in the cleanest and most appropriate way for iOS.
+
+If the current implementation contains old browser/web logic that causes problems, unnecessary complexity, bad animations, incorrect behavior, or conflicts with iOS, remove that dependency from the iOS version and replace it with a proper iOS implementation.
+
+Do not try to preserve bad legacy code just because it already exists. If rewriting a small part specifically for iOS produces a cleaner and more reliable result, rewrite it.
+
+Desired UX
+
+When the user taps the microphone button:
+
+1. The normal chat composer should smoothly transition into voice-recording mode.
+2. Show a polished live waveform that reacts to the user’s voice.
+3. Left side: X button to cancel the recording.
+4. Center: live waveform while recording.
+5. Stop button: clear circular button containing a stop-square icon.
+6. Send/continue action should remain visually clear.
+7. After recording stops, replace the waveform with a loading indicator and “Transcribing…” while transcription is processing.
+8. When transcription finishes, put the transcribed text back into the normal text input so the user can review/edit it before sending.
+9. Cancel must stop recording, discard the current recording, clean up resources, and return to the normal composer.
+
+The interaction should feel as polished and smooth as the ChatGPT iOS voice-input experience shown in the reference screenshots, but keep BlueMind’s own visual identity, including its existing dark design and BlueMind accent color.
+
+Technical quality
+
+Make sure:
+
+* microphone permissions are handled correctly on iOS;
+* recording starts/stops reliably;
+* recording resources are cleaned up correctly;
+* repeated start → cancel → start → stop cycles work without bugs;
+* the UI does not freeze during transcription;
+* keyboard/composer state remains correct;
+* there are no duplicated listeners, timers, recording sessions, or old web handlers still running on iOS;
+* existing chat functionality is not broken.
+
+If you discover that the current code architecture prevents this from being implemented cleanly, do not improvise large unrelated changes. Explain what is conflicting and make the smallest safe iOS-specific architectural change needed.
+
+After implementation, report:
+
+1. which iOS files were changed;
+2. what old web-related behavior was disconnected from iOS;
+3. what new iOS-specific implementation was added;
+4. confirmation that no web files or website behavior were modified.
+
+هاي الجملة بالذات مهمة جدًا:
+
+“If a file is shared between Web and iOS, do NOT delete the shared functionality globally. Instead, isolate the iOS behavior.”
