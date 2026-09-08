@@ -1,1 +1,490 @@
+Task: Deeply diagnose and repair the entire iOS voice pipeline, remove microphone-start latency, and rebuild the live audio visualization behavior.
 
+We are working on the BlueMind AI iOS voice-input flow only.
+
+There are currently three separate issues:
+
+1. Transcription fails after recording.
+2. Tapping the microphone causes a noticeable delay/freeze before recording becomes active.
+3. The live audio bars are visually wrong: all bars appear together instead of progressing one-by-one over time.
+
+Do not treat this as a cosmetic-only task.
+
+I want a full technical inspection of every file involved in:
+
+* microphone button handling;
+* microphone permission;
+* AVAudioSession;
+* AVAudioRecorder;
+* audio metering;
+* recording lifecycle;
+* local audio file creation;
+* file reading;
+* audio conversion if any;
+* upload;
+* transcription request;
+* API endpoint;
+* backend route;
+* response parsing;
+* composer text insertion;
+* cleanup/error recovery.
+
+⸻
+
+1. FULL TRANSCRIPTION FAILURE DIAGNOSIS
+
+Current user-visible error:
+
+Transcription failed
+
+Do not just replace this message.
+
+Find the exact technical failure.
+
+Trace the pipeline:
+
+tap mic
+→ permission
+→ audio session
+→ recorder
+→ audio file
+→ file finalized
+→ file read
+→ payload created
+→ request sent
+→ backend/API receives it
+→ transcription provider
+→ response
+→ response parsed
+→ text inserted.
+
+Inspect all relevant files and shared hooks.
+
+Check every realistic cause:
+
+* wrong iOS file path;
+* empty/zero-byte recording;
+* reading the file before recorder finalizes it;
+* unsupported audio format;
+* wrong MIME type;
+* wrong filename extension;
+* wrong sample rate/channel settings;
+* broken base64 conversion;
+* broken Blob/File conversion;
+* browser-only code being used on iOS;
+* fetch(file://...) problems;
+* wrong backend endpoint;
+* wrong API path;
+* missing authorization;
+* wrong multipart form field;
+* wrong request headers;
+* wrong model/provider parameters;
+* backend expecting a different format;
+* backend route not receiving the audio;
+* server returning 4xx/5xx;
+* provider error;
+* malformed response;
+* response field name mismatch;
+* race condition;
+* old web implementation still interfering.
+
+Add temporary diagnostic logging where necessary.
+
+I want actual evidence of where it fails.
+
+Do not guess.
+
+⸻
+
+2. READ ALL RELEVANT VOICE FILES
+
+Before rewriting anything, inspect all files responsible for:
+
+* recording;
+* audio session;
+* transcription;
+* API client;
+* backend transcription route;
+* iOS native bridge;
+* shared web/iOS audio hooks;
+* waveform/audio meter.
+
+Build a clear mental map of the current system.
+
+If the existing implementation is badly structured or contains web logic forced into iOS, it is acceptable to rewrite the iOS-specific voice implementation cleanly.
+
+However:
+
+Do not modify or break the web implementation.
+
+If Web and iOS are currently sharing problematic code, split the platform paths safely.
+
+⸻
+
+3. IOS-SPECIFIC REWRITE IS ALLOWED
+
+If you find that the current voice path is unreliable because it was inherited from the website, do not keep patching broken browser logic.
+
+You may create a cleaner iOS-specific implementation using the correct native/Capacitor/iOS APIs.
+
+Prefer a reliable architecture over preserving legacy code.
+
+But:
+
+* do not delete website code;
+* do not globally replace shared web behavior;
+* keep platform-specific code isolated;
+* explain what you rewrote and why.
+
+⸻
+
+4. FIX MICROPHONE START DELAY
+
+Current behavior:
+
+When the user taps the microphone button, the app appears to freeze or pause for roughly one second before recording starts.
+
+This must be fixed.
+
+The microphone interaction should feel immediate.
+
+Investigate the exact source of latency.
+
+Check:
+
+* whether permission is being requested every time;
+* whether AVAudioSession activation is happening synchronously on tap;
+* whether audio recorder initialization is expensive;
+* whether file setup blocks the main thread;
+* whether any bridge call blocks React/UI;
+* whether transcription-related initialization happens before recording;
+* whether audio-route detection causes delay;
+* whether React state updates cause a render stall;
+* whether heavy work is running on main thread.
+
+Desired UX:
+
+The instant the user taps the mic:
+
+* UI should immediately enter recording state;
+* recording indicator should appear instantly;
+* audio capture should start as quickly as technically possible;
+* there should be no visible app freeze.
+
+If some native audio startup has unavoidable tiny latency, the UI must still transition immediately so the app feels responsive.
+
+Do not fake recording before the microphone is actually ready in a way that loses audio.
+
+Prewarm/reuse safe audio infrastructure if appropriate.
+
+⸻
+
+5. LIVE AUDIO VISUALIZATION BEHAVIOR IS CURRENTLY WRONG
+
+The current implementation shows all audio bars across the composer at once.
+
+That is not the behavior I want.
+
+I want the visualization to behave like a time-based live stream.
+
+Imagine the audio meter as a horizontal sequence of recorded moment samples.
+
+Each new moment of microphone input creates one new bar.
+
+That new bar should appear after the previous one.
+
+Over time:
+
+bar 1
+→ bar 2
+→ bar 3
+→ bar 4
+→ etc.
+
+The user should visually feel the recording progressing across the composer.
+
+⸻
+
+6. BAR HEIGHT MUST REPRESENT THAT MOMENT’S AUDIO LEVEL
+
+Each newly created bar’s height should be based on the real microphone amplitude at that moment.
+
+Example:
+
+silence:
+
+·
+
+quiet:
+
+▏
+
+normal:
+
+▌
+
+louder:
+
+▮
+
+The bar should have a controlled maximum height.
+
+Do not create giant peaks.
+
+⸻
+
+7. BARS SHOULD MOVE ACROSS THE AVAILABLE SPACE
+
+The visualization should behave like a moving audio history.
+
+New bars should appear progressively.
+
+Once the available width between Cancel and Stop is filled:
+
+* keep the newest bars visible;
+* shift older bars outward/offscreen smoothly;
+* maintain a fixed visual window of recent audio history.
+
+In other words, the bar sequence should scroll/advance over time.
+
+It should NOT reset every frame.
+
+It should NOT show all bars immediately.
+
+It should NOT animate all bars together as one equalizer.
+
+⸻
+
+8. VISUAL STYLE OF THE BARS
+
+Use:
+
+* narrow vertical rounded bars/capsules;
+* small minimum height;
+* moderate max height;
+* equal horizontal spacing;
+* smooth appearance.
+
+Color can be:
+
+* BlueMind blue;
+* white/light gray.
+
+Choose whichever integrates best with the current recording composer.
+
+Prefer a single consistent color.
+
+No rainbow.
+
+No connected waveform line.
+
+No ocean-wave look.
+
+⸻
+
+9. TIMING OF NEW BARS
+
+Do not add bars at an excessive rate.
+
+Sample and append them at a visually smooth but lightweight interval.
+
+Use a reasonable display cadence, for example in the rough range of tens of milliseconds, based on performance.
+
+The exact interval should be chosen so:
+
+* motion feels continuous;
+* CPU usage stays low;
+* React does not re-render the entire chat repeatedly.
+
+Keep the visualization isolated.
+
+⸻
+
+10. REAL AUDIO METERING
+
+Use actual native microphone levels.
+
+If using AVAudioRecorder:
+
+* enable metering;
+* call updateMeters();
+* read average/peak power;
+* normalize dB range;
+* smooth the result.
+
+Avoid random fake bars.
+
+The historical sequence may contain slight smoothing, but each bar must correspond to real audio input.
+
+⸻
+
+11. CANCEL / STOP / TRANSCRIBING STATES
+
+Keep the current polished control layout:
+
+left:
+
+X inside circular lighter background
+
+center:
+
+moving historical audio bars
+
+right:
+
+Stop inside circular lighter background
+
+far right:
+
+white Send/up-arrow button
+
+When Stop is pressed:
+
+* recording stops;
+* bars stop updating;
+* audio file finalizes;
+* UI switches to Transcribing…;
+* spinner appears;
+* transcription request starts.
+
+During transcription, do not continue showing live bars.
+
+⸻
+
+12. ERROR MESSAGE HANDLING
+
+The current Transcription failed message is too generic.
+
+For production, the user can still see a simple message.
+
+But internally/debug builds must preserve the actual failure reason.
+
+Example internal categories:
+
+* permission failure;
+* recorder failure;
+* file read failure;
+* invalid file;
+* upload failure;
+* network failure;
+* backend failure;
+* provider failure;
+* authentication failure;
+* parsing failure.
+
+Do not collapse every possible failure into one unknown error during development.
+
+⸻
+
+13. BACKEND CHECK
+
+Do not assume frontend is at fault.
+
+Inspect the backend transcription endpoint too.
+
+Verify:
+
+* endpoint exists;
+* request reaches it;
+* body/file field is correct;
+* auth is correct;
+* server receives non-empty audio;
+* server sends correct provider request;
+* provider response is parsed correctly;
+* server returns valid transcription text to iOS.
+
+If the backend contract is wrong, fix the correct side only after understanding the mismatch.
+
+Do not change unrelated backend APIs.
+
+⸻
+
+14. WEB CODE PROTECTION
+
+Search for legacy:
+
+* MediaRecorder;
+* getUserMedia;
+* AudioContext;
+* Web Speech;
+* browser File/Blob handling;
+* browser waveform code.
+
+If any of these are still used by iOS:
+
+isolate them from the native iOS path.
+
+Do NOT delete them if the website still depends on them.
+
+Website behavior must remain unchanged.
+
+⸻
+
+15. PERFORMANCE REQUIREMENTS
+
+Voice recording must not freeze the app.
+
+Heavy work such as:
+
+* file conversion;
+* file reading;
+* encoding;
+* upload;
+* transcription;
+
+must not block the main UI thread.
+
+Audio-meter updates must not trigger a full chat-screen render.
+
+Repeated recording cycles must stay smooth.
+
+⸻
+
+16. TEST THESE EXACT CASES
+
+Test:
+
+* tap microphone and measure perceived startup delay;
+* record silence;
+* record short speech;
+* record long speech;
+* speak quietly;
+* speak loudly;
+* cancel;
+* stop;
+* transcribe successfully;
+* retry after failed transcription;
+* record repeatedly;
+* keyboard open;
+* keyboard closed;
+* Arabic speech;
+* English speech;
+* built-in microphone;
+* Bluetooth/AirPods if possible;
+* weak/no internet;
+* app background/foreground;
+* route changes.
+
+⸻
+
+17. REQUIRED FINAL REPORT
+
+When finished, do not just say “fixed.”
+
+Report:
+
+1. The exact root cause of Transcription failed.
+2. Whether the fault was frontend, native iOS, backend, API, file handling, or a combination.
+3. Which files were inspected.
+4. Which files were changed.
+5. Which parts were rewritten.
+6. Why the microphone startup had ~1 second latency.
+7. How that latency was reduced.
+8. How the new moving audio-history bars work.
+9. How each bar height maps to real microphone level.
+10. How old bars are shifted when the available width becomes full.
+11. How resource cleanup works.
+12. Whether legacy web audio code was affecting iOS.
+13. Confirmation that website behavior was not changed.
+
+If the root cause requires a risky backend contract change or a large shared-code rewrite, stop and explain the issue before making that broad change.
