@@ -1,1 +1,58 @@
+TASK: Make the BlueMind composer expand like the ChatGPT reference when attachments are added.
 
+CURRENT PROBLEM:
+In BlueMind, the selected image preview is too small and the composer does not expand enough.
+
+DESIRED RESULT:
+When an image is attached, the SAME composer/input container should grow vertically and contain the attachment preview inside it.
+
+Behavior:
+
+No attachment:
+- keep the current compact composer size.
+
+With attachment:
+- expand the composer upward
+- show the selected image INSIDE the composer
+- make the image preview noticeably larger
+- use a size closer to the ChatGPT reference
+- keep rounded corners
+- place a small X remove button on the image
+- keep the text field and buttons underneath the image inside the same composer
+
+Desired structure:
+
+┌─────────────────────────────┐
+│ [ larger image preview ] X  │
+│                             │
+│ Ask anything...             │
+│ +                    mic  ↑  │
+└─────────────────────────────┘
+
+IMPORTANT:
+- image must NOT float outside the composer
+- image must NOT be a tiny thumbnail
+- composer must grow naturally based on attachment height
+- keep the same BlueMind glass background around the whole expanded composer
+- image + input + buttons must visually feel like one component
+
+MULTIPLE IMAGES:
+- show multiple previews in a horizontal row
+- keep them larger than the current thumbnails
+- horizontal scroll if needed
+- preserve attachment order
+- each image gets its own remove X
+
+RESIZING:
+- when last attachment is removed, composer returns to normal compact height
+- after sending, composer also returns to compact height
+
+KEYBOARD:
+- expanded composer remains directly above the keyboard
+- do not overlap keyboard
+- do not push the composer off-screen
+
+DO NOT redesign anything else.
+Only adjust attachment preview size and composer expansion behavior.
+
+Test on physical iPhone and report the final attachment preview dimensions and composer height behavior.
