@@ -1,1 +1,358 @@
-I approve commit b65ac34 for Render production. Push/deploy only this tested transcription fix. Do not include any unrelated changes. After deployment finishes, confirm the production deployment is healthy and tell me when it is ready for a real iPhone end-to-end transcription test.
+Task: Refine ONLY the iOS live audio visualization behavior during voice recording.
+
+The actual recording and transcription flow is now working correctly end-to-end.
+
+Do NOT modify the transcription pipeline, backend upload, audio file format handling, API endpoint, recorder lifecycle, or any web code.
+
+This task is ONLY about the visual behavior of the live recording bars in the iOS composer.
+
+⸻
+
+CURRENT PROBLEM
+
+The current visualization starts from an empty center area and gradually creates/fills bars over time.
+
+That is not the behavior I want.
+
+I want the visualization to behave more like a continuous live audio stream:
+
+* the entire available visualization area should already be filled from the first moment;
+* all bars/dots should already exist when recording begins;
+* they should continuously move/flow;
+* voice should change their height and brightness, not create them from nothing.
+
+In other words:
+
+Do not build the waveform progressively from empty space.
+
+The visual field must be present immediately.
+
+⸻
+
+DESIRED INITIAL STATE
+
+The instant the user taps the microphone and recording mode becomes active:
+
+the full horizontal area between the Cancel button and Stop button should already contain many small blue rounded bars/dots.
+
+No waiting.
+
+No empty space that slowly fills.
+
+No “bar 1 appears, then bar 2, then bar 3 until the row is full.”
+
+The row should be visually complete from the very first frame.
+
+Think of it as a continuous moving conveyor of small audio dots.
+
+⸻
+
+IDLE / SILENCE BEHAVIOR
+
+When the microphone hears little or no sound:
+
+* all bars remain very short;
+* they should look almost like small rounded dots/dashes;
+* their blue color should be darker / lower-opacity;
+* they should continue moving/flowing horizontally;
+* the animation should remain alive even during silence.
+
+Silence should NOT freeze the visualization.
+
+Silence means:
+
+small + dark + subtle movement
+
+not:
+
+no visualization
+
+⸻
+
+VOICE REACTION
+
+When the user speaks:
+
+the bars currently passing through the visualization should react to the real microphone amplitude.
+
+Voice should affect TWO visual properties:
+
+1. Height
+
+quieter speech → slightly taller bars
+normal speech → medium height
+louder speech → taller bars
+
+2. Brightness / opacity
+
+quiet/silence → darker BlueMind blue
+active speech → brighter / clearer BlueMind blue
+
+The stronger the voice, the brighter and taller the active bars should become.
+
+This brightness transition is important.
+
+I want the user to immediately feel:
+
+“the microphone is hearing me.”
+
+⸻
+
+COLOR
+
+Use BlueMind blue for the visualization.
+
+Do not use white as the primary bar color.
+
+Use one BlueMind-blue family with intensity variation:
+
+* silence: darker/lower-opacity blue;
+* speech: brighter/more visible blue.
+
+Do not use rainbow colors.
+
+Do not introduce multiple unrelated colors.
+
+Keep the style minimal and premium.
+
+⸻
+
+MOVEMENT MODEL
+
+The bars/dots should continuously progress horizontally.
+
+But the full visualization window must always remain filled.
+
+Conceptually:
+
+there is a fixed number of visible bars.
+
+Every update:
+
+* a new sample enters from one side;
+* the oldest sample leaves from the other side;
+* the whole row remains visually full.
+
+Do NOT start with an empty array and append until full.
+
+Initialize the buffer immediately with silent/default samples.
+
+Example concept:
+
+At recording start:
+
+••••••••••••••••••••••••••••
+
+During speech:
+
+•••▪▮▌▪••••▏▮▌▪••••••••••••
+
+while the sequence continuously moves.
+
+⸻
+
+REAL AUDIO INPUT
+
+Keep using real microphone metering.
+
+Do NOT fake random speech activity.
+
+Continue using the actual iOS microphone level / AVAudioRecorder metering.
+
+If current code already normalizes microphone amplitude correctly, preserve that logic.
+
+Only change how the values are visually represented over time.
+
+⸻
+
+BAR HEIGHT LIMITS
+
+Keep the bars elegant.
+
+They should never become excessively tall.
+
+Define:
+
+* a tiny idle height;
+* a moderate normal speech height;
+* a controlled maximum height.
+
+Loud speech should reach the max and clamp there.
+
+Do not create giant peaks.
+
+Do not make the visualization look like ocean waves.
+
+⸻
+
+BAR SHAPE
+
+Each element should remain:
+
+* narrow;
+* vertical;
+* fully rounded at both ends;
+* evenly spaced.
+
+At minimum height it should almost look like a dot/short capsule.
+
+Do not use a connected waveform line.
+
+Do not use jagged peaks.
+
+⸻
+
+FULL-WIDTH DISTRIBUTION
+
+The visualization must use almost the entire center area between:
+
+Cancel X
+
+and
+
+Stop
+
+Do not cluster the bars only in the middle.
+
+The number of visible bars should be derived from the available width and device size.
+
+Keep the spacing visually consistent across different iPhones.
+
+⸻
+
+SMOOTHNESS
+
+Voice reaction should feel smooth and natural.
+
+Avoid:
+
+* violent jitter;
+* flashing;
+* sudden height jumps;
+* abrupt opacity changes.
+
+Use light smoothing/interpolation for both height and brightness.
+
+The visualization should respond quickly enough to feel live, but not nervously.
+
+⸻
+
+START RECORDING TRANSITION
+
+This is important.
+
+When the mic button is tapped:
+
+* recording composer appears;
+* the full row of blue idle dots/bars should appear immediately;
+* there should be no visible “filling animation” from left to right;
+* then the live stream continues moving.
+
+The user should never see an empty visualization region waiting to be populated.
+
+⸻
+
+STOP / TRANSCRIBING
+
+When Stop is pressed:
+
+* stop adding new meter samples;
+* stop the live movement;
+* transition to the existing Transcribing… state.
+
+Do not change the transcription behavior.
+
+Do not change the spinner.
+
+Do not change backend logic.
+
+⸻
+
+DO NOT CHANGE
+
+Do not modify:
+
+* recording start/stop logic;
+* microphone permission logic;
+* AVAudioSession;
+* AVAudioRecorder setup;
+* M4A handling;
+* backend;
+* transcription API;
+* transcription result insertion;
+* Cancel behavior;
+* Stop behavior;
+* Send button;
+* composer size;
+* composer drag/resize behavior;
+* attachments;
+* website.
+
+This is a visualization-only refinement.
+
+⸻
+
+IMPLEMENTATION HINT
+
+If the current visualization uses an array/history buffer:
+
+do not initialize it empty.
+
+Initialize it immediately with enough “silent” samples to fill the visible width.
+
+Then, on every meter update:
+
+* shift/remove the oldest sample;
+* append the newest normalized microphone sample;
+* render the entire fixed-length buffer.
+
+A silent/default sample should render as:
+
+* minimum height;
+* darker BlueMind blue.
+
+Active samples should render:
+
+* taller;
+* brighter.
+
+This should naturally create the continuous stream effect I want.
+
+⸻
+
+FINAL RESULT
+
+The final BlueMind iOS voice recorder should look like this:
+
+Immediately after tapping mic:
+
+a full-width row of small dark-blue moving dots/bars is already visible.
+
+When silent:
+
+the row keeps moving, but bars remain short and dark.
+
+When speaking:
+
+bars passing through the stream become taller and brighter based on real voice intensity.
+
+When speaking stops:
+
+new incoming bars return to the short, darker idle state.
+
+The stream remains continuous until Stop is pressed.
+
+⸻
+
+AFTER IMPLEMENTATION
+
+Report:
+
+1. Which file/component was changed.
+2. How the visualization buffer was previously initialized.
+3. How it is initialized now.
+4. How many visible bars are used and how that number adapts to width.
+5. How microphone amplitude maps to bar height.
+6. How microphone amplitude maps to BlueMind-blue brightness/opacity.
+7. Confirmation that recording/transcription logic was not modified.
+8. Confirmation that no web behavior was changed.
