@@ -1,1 +1,147 @@
+The functionality is now correct. Keep the current behavior, scrolling, selection logic, hover/highlight state, and checkmarks exactly as they are.
 
+The only thing I want changed now is the visual/presentation layer of the selector itself.
+
+I do NOT want a custom-designed floating panel anymore.
+
+I want the selector to use the real native iOS menu/popover appearance and behavior, as close as possible to Apple’s own system UI.
+
+⸻
+
+IMPORTANT
+
+Keep all existing selector functionality:
+
+* BlueMind model selection;
+* AI Mode selection;
+* Thinking state;
+* internal scrolling;
+* selected-row highlight;
+* checkmarks;
+* NEW badge;
+* tap outside to dismiss;
+* selector-button toggle behavior.
+
+Do NOT change any underlying logic.
+
+Do NOT redesign the content.
+
+Only replace the custom container/presentation with the most native iOS presentation available in the current architecture.
+
+⸻
+
+NATIVE IOS TARGET
+
+Prefer actual native iOS components/material where possible:
+
+* native iOS popover/menu presentation;
+* native system material/background;
+* native corner radius;
+* native shadow;
+* native blur;
+* native selection/highlight behavior;
+* native scroll physics;
+* native dismissal animation.
+
+I do NOT want:
+
+* manually recreated fake glass;
+* custom CSS-like panel styling;
+* hand-tuned blur pretending to be iOS;
+* a large custom card.
+
+If SwiftUI/UIKit can provide the real system popover/menu behavior, use that.
+
+⸻
+
+SIZE
+
+Keep it compact/medium like it is now.
+
+Do NOT make it full screen.
+
+Do NOT make it significantly larger than the current version.
+
+The content should still scroll inside when needed.
+
+⸻
+
+POSITION
+
+Anchor/open it naturally from the current AI selector button at the top.
+
+It should feel like the system control belongs to that button, not like a separate modal screen.
+
+⸻
+
+SELECTION UI
+
+Preserve the current selected-item behavior:
+
+* selected row gets a subtle system-style highlight;
+* checkmark appears;
+* model/mode/thinking remain independent selections.
+
+If native iOS already provides a better built-in selected-row treatment, use the system treatment instead of manually recreating it.
+
+⸻
+
+SCROLL
+
+Keep vertical scrolling working exactly as it does now.
+
+Use native iOS scroll physics and bounce behavior if available.
+
+Do not break the current scroll while converting the container to native presentation.
+
+⸻
+
+DISMISS
+
+Keep native behavior:
+
+* tap outside → dismiss;
+* tap selector again → dismiss;
+* smooth system transition.
+
+No custom close button.
+
+⸻
+
+IOS ONLY
+
+This change is iOS-specific.
+
+Do not alter the Web selector.
+
+If the selector UI is shared, preserve Web and swap only the iOS presentation layer.
+
+⸻
+
+IMPORTANT IMPLEMENTATION RULE
+
+Before changing anything, inspect whether BlueMind already has a reusable native iOS popover/menu component or helper.
+
+If one exists, reuse it instead of building another custom implementation.
+
+If the current custom panel must be replaced to get genuine native behavior, replace only that iOS presentation code and keep all selection/state logic intact.
+
+⸻
+
+FINAL RESULT
+
+I want the exact same selector functionality we have now, but visually and behaviorally it should feel like:
+
+“This is an actual iOS system popover/menu.”
+
+not:
+
+“This is a custom panel designed to look like iOS.”
+
+After implementation, report:
+
+1. Which native iOS component/API is being used.
+2. Which custom presentation code was removed/replaced.
+3. Confirmation that scrolling still works.
+4. Confirmation that all three selection states still work independently.
+5. Confirmation that Web behavior was not changed.
