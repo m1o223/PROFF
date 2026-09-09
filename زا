@@ -1,1 +1,411 @@
+Task: Build the first clean iOS frontend structure for BlueMind Studio.
 
+We already decided to reset the old Create Image screen and keep the iOS Studio independent from the Web presentation.
+
+Now I want to build the first real BlueMind Studio shell.
+
+IMPORTANT:
+
+* iOS frontend only
+* no backend
+* no generation APIs
+* no model routing
+* no fake persistence
+* do not change Web behavior
+
+⸻
+
+1. MAIN STUDIO SCREEN
+
+When the user opens BlueMind Studio, create a clean native iOS screen.
+
+Header:
+
+* native back arrow on the left
+* centered title: BlueMind Studio
+* keep the header compact
+* use native iOS spacing and safe area
+
+Do not reuse the old Create Image header.
+
+⸻
+
+2. TOP-LEVEL SECTIONS
+
+Under the header, create exactly three main sections:
+
+Create Image
+
+Create Video
+
+History
+
+Use a native iOS segmented/tab-style control.
+
+The control should feel like the same BlueMind design language used in:
+
+* BlueMind Photos
+* BlueMind Camera
+* BlueMind Chat
+
+Selected state can use the official BlueMind accent:
+
+BLUE_MIND_COLORS.primary
+
+current value:
+
+#193B68
+
+Do not invent another blue.
+
+Do NOT add a fourth Settings tab.
+
+Settings belong inside Image or Video because their options are different.
+
+⸻
+
+3. CREATE IMAGE SECTION
+
+When Create Image is selected, show a clean image-generation frontend.
+
+Keep it minimal.
+
+Main parts:
+
+* prompt area
+* Customize control
+* generate action
+
+Do not show all settings directly on the page.
+
+The page should remain visually simple.
+
+Placeholder:
+
+Describe the image you want to create...
+
+⸻
+
+4. IMAGE CUSTOMIZE SHEET
+
+Add a compact native iOS Customize button/control.
+
+When tapped, open a native iOS bottom sheet.
+
+The sheet should contain image-only settings.
+
+Prepare frontend options for:
+
+Aspect Ratio
+
+* 1:1
+* 4:5
+* 9:16
+* 16:9
+
+Quality
+
+* Standard
+* High
+* Ultra
+
+Number of Images
+
+* 1
+* 2
+* 4
+
+Style
+
+examples:
+
+* Auto
+* Realistic
+* Cinematic
+* Anime
+* Character
+* Illustration
+
+These are UI states only for now.
+
+Do not pretend the backend already supports them.
+
+⸻
+
+5. IMAGE ACTIVE SETTINGS
+
+After the user chooses settings and dismisses the sheet, show the active selections as small compact chips near the composer.
+
+Example:
+
+9:16
+
+High
+
+2 Images
+
+Anime
+
+Tapping a chip should reopen the relevant customize control/sheet.
+
+Keep chips compact.
+
+Do not clutter the screen.
+
+⸻
+
+6. CREATE VIDEO SECTION
+
+When Create Video is selected, use the same general visual structure as Create Image:
+
+* prompt area
+* Customize
+* active setting chips
+* generate action
+
+But the settings must be video-specific.
+
+⸻
+
+7. VIDEO CUSTOMIZE SHEET
+
+The video Customize sheet should contain:
+
+Aspect Ratio
+
+* 16:9
+* 9:16
+* 1:1
+
+Duration
+
+Prepare placeholder frontend options only.
+
+Do not invent actual production limits.
+
+Keep the data structure flexible so backend-supported durations can replace these later.
+
+Quality
+
+frontend state only.
+
+Number of Videos
+
+frontend state only if we decide to allow multiple outputs later.
+
+Style / Preset
+
+examples:
+
+* Auto
+* Cinematic
+* Story
+* Social
+* Product
+
+Story should be a preset/style, not the main name of the video section.
+
+⸻
+
+8. FUTURE VIDEO MODES
+
+Architect the frontend so we can later add:
+
+Text → Video
+
+and
+
+Image → Video
+
+Do not implement generation logic now.
+
+Just make sure the screen structure does not block these future modes.
+
+⸻
+
+9. HISTORY SECTION
+
+Create a frontend-only History screen.
+
+Add filters:
+
+All
+
+Images
+
+Videos
+
+Optionally prepare for Favorites later, but do not overbuild it now.
+
+Use demo/local placeholder items only if necessary to show layout.
+
+Do not build server persistence.
+
+⸻
+
+10. DESIGN LANGUAGE
+
+Use BlueMind’s current iOS design language:
+
+* black/dark background
+* native iOS glass/material
+* rounded corners
+* clean spacing
+* SF Symbols
+* smooth native animations
+* minimal clutter
+
+Use the official BlueMind blue only for:
+
+* selected section
+* primary generate button
+* active chips
+* meaningful accents
+
+Do not make the entire page blue.
+
+⸻
+
+11. NATIVE IOS COMPONENTS
+
+Prefer native iOS components wherever possible:
+
+* segmented controls
+* sheets
+* menus
+* buttons
+* scroll behavior
+* material/glass
+* navigation
+
+Do not fake iOS UI manually if the native system already provides the behavior.
+
+⸻
+
+12. GENERATE BUTTON
+
+Add a clear primary Generate button/action to both Image and Video sections.
+
+For now:
+
+* UI only
+* no backend call
+* no fake success response
+
+If tapped while backend is not implemented, keep behavior safe and clearly frontend-only.
+
+Do not create fake generated media.
+
+⸻
+
+13. STATE STRUCTURE
+
+Keep Image and Video configuration state separate.
+
+Example concept:
+
+imageSettings
+
+and
+
+videoSettings
+
+Do not mix image-specific controls with video-specific controls.
+
+Switching between Image and Video should preserve the user’s current frontend selections during the session.
+
+⸻
+
+14. DO NOT TOUCH WEB
+
+Keep the Web Studio/Create implementation unchanged.
+
+This is the iOS Studio presentation.
+
+If shared state is needed, keep shared logic cleanly separated from iOS presentation.
+
+Do not reintroduce the old problem where Web presentation controls the iOS screen.
+
+⸻
+
+15. DO NOT IMPLEMENT YET
+
+Do not implement:
+
+* image generation API
+* video generation API
+* backend model selection
+* pricing
+* credits
+* cloud history
+* editing tools
+* video timeline
+* image editor
+
+We will build those later.
+
+⸻
+
+16. FINAL IOS STRUCTURE
+
+The final first-pass Studio should feel like:
+
+← BlueMind Studio
+
+Create Image | Create Video | History
+
+Then:
+
+Create Image
+
+Prompt
+
+Customize
+
+Active settings chips
+
+Generate
+
+Create Video
+
+same structure, but video-specific settings.
+
+History
+
+All | Images | Videos
+
+⸻
+
+17. REQUIRED TESTS
+
+On iPhone:
+
+1. Open BlueMind Studio.
+2. Verify back button works.
+3. Switch between Create Image / Create Video / History.
+4. Open Image Customize sheet.
+5. Change aspect ratio, quality, number, style.
+6. Verify active chips update.
+7. Switch to Video.
+8. Verify Image settings do not leak into Video settings.
+9. Open Video Customize sheet.
+10. Verify video-specific options appear.
+11. Switch back to Image and verify previous image selections remain.
+12. Verify History layout works.
+13. Verify no backend request is triggered.
+14. Verify Web behavior is unchanged.
+
+⸻
+
+FINAL REPORT
+
+After implementation, tell me:
+
+1. Which iOS Studio files/components were created or changed.
+2. How the three main sections are implemented.
+3. How Image and Video settings are separated.
+4. How the Customize sheet works.
+5. How active chips are implemented.
+6. How History is structured.
+7. Confirmation that no backend logic was added.
+8. Confirmation that Web was not modified.
