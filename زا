@@ -1,1 +1,112 @@
+Critical verification task: the latest BlueMind Studio iOS changes are NOT appearing on the real iPhone after rebuild/run.
 
+I rebuilt and ran the app from Xcode on the connected iPhone, but the device is still showing the OLD Create Image UI:
+
+* old Create an image title;
+* old image style cards;
+* old prompt composer;
+* old layout.
+
+The new BlueMind Studio shell/changes are not visible on-device.
+
+Do NOT make new UI changes yet.
+
+First determine exactly why the latest code is not reaching the iPhone.
+
+⸻
+
+TRACE THE ACTUAL IOS RUNTIME PATH
+
+Verify:
+
+1. Which Xcode target/scheme is being built.
+2. Which app bundle identifier is installed on the iPhone.
+3. Which source files are compiled into that target.
+4. Which iOS screen/component is actually rendered when opening the Studio/Create area.
+5. Whether the file you edited is truly used by the runtime path.
+6. Whether there is another duplicate/legacy Create screen still being routed to.
+7. Whether WebView/Capacitor is still loading the old Web implementation instead of the new iOS presentation.
+8. Whether a stale build/cache or old bundled web assets are being used.
+
+⸻
+
+VERIFY THE BUILD INPUTS
+
+Check:
+
+* Xcode scheme;
+* build configuration;
+* target membership;
+* source file target membership;
+* copy bundle resources;
+* Capacitor/web asset sync;
+* whether npx cap sync ios / equivalent project sync is required;
+* whether bundled frontend assets are stale;
+* whether the app is reading from a previously generated dist/build folder;
+* whether there are duplicate files/components with similar names.
+
+Do not assume the edited file is the one being executed.
+
+⸻
+
+FORCE PROOF OF RUNTIME
+
+Add a temporary, obvious diagnostic marker ONLY for debugging, for example:
+
+STUDIO_RUNTIME_TEST_2026
+
+in the actual iOS Studio screen.
+
+Build/run on the real iPhone.
+
+Confirm whether that marker appears.
+
+If it does not appear, continue tracing until the correct runtime component is identified.
+
+Remove the temporary marker after verification.
+
+⸻
+
+CLEAN BUILD / CACHE CHECK
+
+If needed:
+
+* clean Xcode build folder;
+* delete DerivedData for this project;
+* remove the app from the test iPhone;
+* rebuild/install fresh;
+* re-sync Capacitor/native assets if required.
+
+But do not use cleanup as a substitute for finding the real architecture issue.
+
+I want the actual root cause.
+
+⸻
+
+CHECK WEB ↔ IOS COUPLING
+
+Because this project previously had Web presentation affecting iOS, verify whether the iPhone is still rendering:
+
+* old Web Create Image code;
+* cached web bundle;
+* shared route that points to the legacy implementation.
+
+If the new iOS Studio exists but the route still opens the old Web screen, fix the routing/presentation separation.
+
+Do NOT modify the website itself.
+
+⸻
+
+FINAL REQUIREMENT
+
+Do not mark this fixed until the real connected iPhone shows the latest Studio UI.
+
+After investigation, report:
+
+1. Exact reason the old UI was still appearing.
+2. Which target/scheme was actually running.
+3. Which component was actually being rendered.
+4. Whether stale Web/Capacitor assets were involved.
+5. What was changed to make the latest iOS UI appear.
+6. Confirmation that a fresh build on the real iPhone now shows the new Studio screen.
+7. Confirmation that Web behavior was not changed.
