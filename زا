@@ -1,1 +1,179 @@
+Task: Restore the compact native-iOS popover style for the BlueMind AI selector, while keeping all current sections and functionality.
 
+The reference I want is the older compact selector shown in the attached screenshot.
+
+The current selector became too large/tall after recent changes.
+
+I want to return to the older visual behavior:
+
+* compact;
+* soft;
+* floating;
+* native iOS feeling;
+* only as wide/tall as needed;
+* internally scrollable.
+
+Do NOT remove any current functionality.
+
+Keep all three sections:
+
+1. BLUEMIND MODELS
+2. AI MODES
+3. THINKING
+
+They should appear one after another vertically inside the same popover.
+
+⸻
+
+SIZE
+
+The popover should be small-to-medium, not a large panel.
+
+It should only be wide enough for:
+
+* icons;
+* labels;
+* NEW badges;
+* checkmarks;
+* comfortable padding.
+
+Do not make it unnecessarily wide.
+
+Do not let it expand almost full-screen.
+
+Height should also be controlled.
+
+If all sections do not fit:
+
+keep the outer popover the same compact size and make the content scroll vertically inside it.
+
+⸻
+
+INTERNAL SCROLL
+
+Inside the popover, allow smooth vertical scrolling through:
+
+BLUEMIND MODELS
+
+then
+
+AI MODES
+
+then
+
+THINKING
+
+The outer popover itself should stay fixed in size.
+
+Do not stretch the popover taller based on number of items.
+
+⸻
+
+VISUAL STYLE
+
+Use the old compact iOS style as the main reference:
+
+* native dark glass/material;
+* rounded corners;
+* subtle border;
+* soft shadow if needed;
+* clean spacing;
+* no oversized card appearance.
+
+It should feel like a native iOS menu/popover, not a settings page.
+
+⸻
+
+ROWS
+
+Keep rows compact.
+
+Each row should contain:
+
+* optional icon;
+* label;
+* optional NEW badge;
+* checkmark on the right when selected.
+
+Do not make rows too tall.
+
+The text should fit naturally without excessive vertical padding.
+
+⸻
+
+SELECTED STATE
+
+Keep the selected-row highlight subtle.
+
+Selected option:
+
+* soft dark/gray rounded background;
+* clear white checkmark on the right.
+
+This should work independently for:
+
+* selected BlueMind model;
+* selected AI mode;
+* Thinking enabled state.
+
+Multiple checkmarks may be visible at once because these are separate settings.
+
+⸻
+
+OPEN / CLOSE BEHAVIOR
+
+Opening should feel like native iOS:
+
+* appear smoothly from the selector button;
+* subtle scale/fade/slide;
+* no dramatic animation.
+
+Closing:
+
+* tap outside the popover → dismiss;
+* tap the selector button again → dismiss;
+* animate back smoothly.
+
+No separate close button is needed.
+
+⸻
+
+IMPORTANT
+
+Do NOT redesign the whole selector again.
+
+Do NOT create a new large sheet.
+
+Do NOT remove sections.
+
+Do NOT change the underlying model/mode/thinking logic.
+
+Do NOT modify Web behavior.
+
+This is mainly a layout/size/native-iOS refinement.
+
+⸻
+
+FINAL RESULT
+
+I want:
+
+the old compact iOS selector style
+
+all current BlueMind sections
+
+internal vertical scroll
+
+subtle selected-row highlight/checkmarks
+
+native iOS open/close behavior
+
+The popover should stay compact and only use enough space for the content, not dominate the screen.
+
+After implementation, report:
+
+1. which iOS files/components changed;
+2. what controls the new compact max width/height;
+3. how internal scrolling is implemented;
+4. how selected states remain independent;
+5. confirmation that web behavior was not changed.
