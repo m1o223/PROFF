@@ -1,1 +1,429 @@
+Task — Transform the current BlueMind “Create an Image” frontend into the foundation of “BlueMind Studio”
 
+We are currently working ONLY on the iOS frontend/UI/UX.
+
+DO NOT implement backend generation APIs, image models, video models, payments, storage backend, or server logic yet.
+
+This task is about creating the frontend architecture and polished iOS experience for a future BlueMind media-generation system.
+
+⸻
+
+1. FIRST: INSPECT THE EXISTING IMPLEMENTATION
+
+Do NOT immediately delete the current “Create an Image” screen.
+
+Before changing anything, inspect all existing iOS/frontend code related to:
+
+* Create Image screen
+* style cards
+* image categories
+* prompt composer
+* Create Image chip/mode
+* current animations
+* image assets
+* navigation
+* existing generation state
+* any shared Web components
+
+Determine what is reusable and what has become too rigid or messy.
+
+Keep good existing components.
+
+If a component is structurally incompatible with the new Studio architecture, rebuild only that component cleanly instead of layering hacks on top of it.
+
+Do not delete working functionality without a reason.
+
+⸻
+
+2. NEW PRODUCT STRUCTURE: BLUEMIND STUDIO
+
+The existing image-generation page should evolve into:
+
+BlueMind Studio
+
+It will eventually be BlueMind’s central place for:
+
+* AI image generation
+* AI video generation
+* generated media library
+* saved/recent prompts
+
+For now, build the frontend experience and states only.
+
+⸻
+
+3. TOP-LEVEL NAVIGATION
+
+Create three main Studio sections:
+
+Create | Library | Prompts
+
+Use a compact, polished native-iOS control.
+
+Do not create three completely unrelated screens visually.
+
+They should feel like parts of one Studio.
+
+Use native iOS glass/material behavior wherever possible.
+
+⸻
+
+4. CREATE
+
+This is the evolution of our current Create Image screen.
+
+At the top of Create, provide:
+
+Image | Video
+
+This should be a clean segmented/native-style selector.
+
+Image is the current functional concept.
+
+Video is currently frontend preparation only.
+
+Do not connect a fake backend.
+
+⸻
+
+5. IMAGE MODE
+
+When Image is selected, provide these core controls:
+
+Style
+
+Examples:
+
+* Realistic
+* Cinematic
+* Anime
+* Character
+* Illustration
+* Product
+
+Reuse our existing visual style cards where they are good.
+
+Do NOT throw away the current Anime / Character Design / existing artwork unnecessarily.
+
+Organize them better.
+
+Show a small curated section such as:
+
+Popular Styles
+
+with a See All option rather than overwhelming the user with everything immediately.
+
+⸻
+
+Aspect Ratio
+
+Prepare frontend options:
+
+* 1:1
+* 4:5
+* 9:16
+* 16:9
+
+⸻
+
+Quality
+
+Prepare UI states such as:
+
+* Standard
+* High
+* Ultra
+
+IMPORTANT:
+
+These are frontend states for now.
+
+Do not pretend they are connected to generation capability until backend/model support exists.
+
+⸻
+
+Number of images
+
+Prepare:
+
+* 1
+* 2
+* 4
+
+Again, frontend state only for now.
+
+⸻
+
+6. VIDEO MODE
+
+When Video is selected, change the available controls instead of showing irrelevant image controls.
+
+Prepare frontend controls for:
+
+Style
+
+Aspect Ratio
+
+Duration
+
+Quality
+
+Do NOT invent actual supported resolutions/durations from a nonexistent backend.
+
+Build these controls so their final options can later come from backend/model capabilities.
+
+Also architect the UI so we can later support:
+
+Text → Video
+
+and
+
+Image → Video
+
+But do NOT implement the generation backend now.
+
+⸻
+
+7. PROMPT COMPOSER
+
+Keep the strong composer concept we already have.
+
+The bottom composer remains the primary interaction.
+
+Placeholder:
+
+Describe what you want to create...
+
+Above/inside the composer, show compact chips representing active configuration.
+
+Example:
+
+Image 9:16 High Anime
+
+Tapping a chip should allow the user to change that setting.
+
+The goal is to avoid a giant settings page.
+
+A beginner should be able to simply type a prompt and create.
+
+An advanced user can adjust the chips/options.
+
+⸻
+
+8. LIBRARY
+
+Build the frontend shell for a future generated-media library.
+
+This is NOT the user’s Apple Photos library.
+
+This is specifically for media generated through BlueMind Studio.
+
+Provide filters:
+
+All | Images | Videos | Favorites
+
+Use a clean visual gallery.
+
+For now, use existing local/demo Studio assets where appropriate to demonstrate the UI.
+
+Do not implement fake server persistence.
+
+Architect it so backend-generated media can later populate the same components.
+
+A future media item should support actions such as:
+
+* Open
+* Favorite
+* Share
+* Use as reference
+* Regenerate
+
+But do not overbuild all editing functionality in this first pass.
+
+⸻
+
+9. PROMPTS
+
+Create a simple frontend section for:
+
+Recent Prompts
+
+and
+
+Saved Prompts
+
+Keep this page minimal.
+
+A prompt item should eventually be reusable inside Create.
+
+Do not build a complicated prompt-management system yet.
+
+⸻
+
+10. DESIGN LANGUAGE
+
+This must match the BlueMind design system we are establishing across:
+
+* BlueMind Chat
+* BlueMind Camera
+* BlueMind Photos
+* BlueMind Files
+* BlueMind Studio
+
+They should feel like one product.
+
+Use:
+
+* black/dark foundation;
+* native iOS glass/material;
+* subtle translucency;
+* clean rounded geometry;
+* native SF Symbols where appropriate;
+* smooth iOS animations;
+* consistent spacing;
+* restrained visual hierarchy.
+
+Do not make Studio look like a completely different app.
+
+⸻
+
+11. OFFICIAL BLUEMIND BLUE
+
+Whenever BlueMind blue is required, use the existing official project token:
+
+BLUE_MIND_COLORS.primary
+
+CSS:
+
+--bm-primary
+
+Current value:
+
+#193B68
+
+Do NOT invent random blue colors.
+
+Use BlueMind blue selectively for:
+
+* selected states
+* primary actions
+* active chips
+* important accents
+
+Do not flood the UI with blue.
+
+⸻
+
+12. NATIVE IOS FIRST
+
+Wherever iOS already provides a high-quality native solution for:
+
+* glass/material
+* buttons
+* menus
+* segmented controls
+* scrolling
+* sheets/popovers
+* animations
+
+prefer the native solution rather than manually recreating fake iOS UI.
+
+We want:
+
+BlueMind identity + real iOS behavior.
+
+⸻
+
+13. IMPORTANT — DO NOT OVERBUILD
+
+This first Studio iteration should NOT contain:
+
+* professional video timeline editor
+* advanced image editor
+* dozens of generation settings
+* backend model routing
+* generation API implementation
+* server library
+* payment logic
+* AI model capability logic
+
+We are building the frontend foundation first.
+
+Keep it polished and extensible.
+
+⸻
+
+14. PROTECT WEB
+
+This work is focused on the iOS experience.
+
+Do NOT break or redesign the existing Web implementation.
+
+If components are shared with Web, isolate iOS-specific presentation where necessary.
+
+If an architectural conflict requires modifying shared code, stop and explain it before making a risky broad change.
+
+⸻
+
+15. IMPLEMENTATION STRATEGY
+
+Do this in this order:
+
+Step 1: Audit the current Create Image implementation.
+
+Step 2: Identify reusable components.
+
+Step 3: Create the BlueMind Studio container/navigation.
+
+Step 4: Move/refactor the current image creation experience into Create → Image.
+
+Step 5: Add the frontend-only Video mode.
+
+Step 6: Add configuration controls/chips.
+
+Step 7: Build Library frontend.
+
+Step 8: Build Prompts frontend.
+
+Step 9: Polish transitions, scrolling, safe areas, dark mode and native materials.
+
+Step 10: Test existing Create Image functionality for regressions.
+
+Do not rewrite everything in one uncontrolled pass.
+
+⸻
+
+FINAL RESULT
+
+The current screen should evolve from:
+
+Create an image
+
+into:
+
+BlueMind Studio
+
+with:
+
+Create | Library | Prompts
+
+and inside Create:
+
+Image | Video
+
+while preserving the best parts of our current visual image-generation experience.
+
+The result should feel simple enough for someone generating their first image, but architected strongly enough that later we can connect real image/video models and backend capabilities without redesigning the entire frontend.
+
+After implementation, report:
+
+1. What was reused from the old Create Image screen.
+2. What was rebuilt and why.
+3. Which files/components changed.
+4. How Studio navigation is structured.
+5. How Image/Video frontend state is structured.
+6. How generation settings are represented.
+7. How Library is structured for future backend data.
+8. How Prompts is structured.
+9. Confirmation that no backend generation logic was implemented.
+10. Confirmation that Web behavior was not broken.
