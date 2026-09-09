@@ -1,1 +1,134 @@
+Task: Fix ONLY the iOS full-screen image preview quality and close-button design.
 
+There are two issues in the current BlueMind iOS image preview:
+
+1. The full-screen image looks blurry / low-resolution.
+2. The close X button is using our old custom iOS-style design instead of the current native iOS glass style, and it is on the wrong side.
+
+Do not redesign the rest of the preview.
+
+⸻
+
+PART 1 — FIX BLURRY IMAGE PREVIEW
+
+When the user taps an attached image inside the composer, the fullscreen preview currently appears noticeably blurry compared with the original image / compared with ChatGPT.
+
+Investigate the actual source used by the preview.
+
+Check whether the preview is accidentally using:
+
+* a thumbnail;
+* a compressed preview asset;
+* a resized canvas;
+* a low-resolution cached image;
+* a screenshot representation;
+* a scaled-down image object;
+* a CSS/object-fit render from a small source;
+* an image that was decoded at thumbnail resolution and then enlarged.
+
+I want the fullscreen viewer to use the highest-quality available original attachment source.
+
+Important:
+
+* Do not reuse the small composer thumbnail as the fullscreen image source.
+* Reuse the original local file / original selected image asset when available.
+* Preserve the original aspect ratio.
+* Do not upscale a low-resolution thumbnail to fill the screen.
+* If an image is already available locally at full resolution, do not make an unnecessary network request.
+
+Verify the actual pixel dimensions of:
+
+1. the source used for the composer thumbnail;
+2. the source used for fullscreen preview.
+
+If they are currently the same low-resolution thumbnail source, separate them:
+
+* thumbnail for composer;
+* original/high-resolution source for fullscreen viewer.
+
+⸻
+
+IMAGE RENDERING
+
+In fullscreen preview:
+
+* render at the correct aspect ratio;
+* initially fit the image inside the viewport;
+* do not stretch it;
+* do not apply blur filters;
+* do not apply opacity/frosted layers over the image itself;
+* do not render the image behind a translucent material that reduces sharpness;
+* zoom should reveal the actual source detail as much as the original file allows.
+
+If the current preview uses blur/glass over the entire fullscreen surface, make sure the glass is only used for controls/background UI, not over the image pixels themselves.
+
+⸻
+
+PART 2 — REPLACE THE CLOSE BUTTON
+
+The current X button is from our old custom iOS implementation.
+
+Replace it with a native iOS glass/material button.
+
+Requirements:
+
+* position it at the top-left of the fullscreen preview;
+* circular;
+* native iOS glass/material appearance;
+* proper blur/translucency;
+* white X icon;
+* correct safe-area spacing;
+* clean modern iOS look.
+
+Do not fake the glass with only a semi-transparent black circle.
+
+Use the current native iOS material/glass approach already used elsewhere in BlueMind where possible.
+
+Keep the hit target comfortable.
+
+⸻
+
+IMPORTANT
+
+Do not change:
+
+* composer attachment behavior;
+* image upload logic;
+* remove-X on thumbnails;
+* swipe between multiple images;
+* zoom/pan behavior unless needed for image quality;
+* backend;
+* web implementation.
+
+This task is only:
+
+A. fullscreen image sharpness
+B. native top-left glass close button
+
+⸻
+
+WEB PROTECTION
+
+This is for iOS only.
+
+If the preview component is shared with Web:
+
+* keep Web behavior untouched;
+* add an iOS-specific rendering/control path if needed.
+
+⸻
+
+DIAGNOSIS REQUIRED
+
+Before changing code, identify exactly why the image is blurry.
+
+Report:
+
+1. what image source the fullscreen preview currently uses;
+2. its actual pixel dimensions;
+3. whether it is a thumbnail/compressed source;
+4. what original/full-resolution source is available;
+5. what change you made to use the sharper source;
+6. which native iOS material/glass implementation is used for the X button;
+7. confirmation that the X button is now top-left;
+8. confirmation that Web behavior was not changed.
