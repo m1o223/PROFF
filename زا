@@ -1,1 +1,98 @@
+Task: Remove the custom “BlueMind Files” feature we just added and restore the previous native iOS file-selection flow.
 
+We have decided NOT to continue with the custom BlueMind Files browser.
+
+Please remove the newly added BlueMind Files custom UI and its related custom-only logic cleanly.
+
+What I want
+
+When the user taps:
+
+Files / PDF
+
+BlueMind should simply open the normal native iOS Files/document picker, as it did before we introduced BlueMind Files.
+
+The user selects a file through Apple’s native interface, then the selected file returns to the existing BlueMind composer as an attachment.
+
+Remove
+
+Remove the custom UI we just created for:
+
+* BlueMind Files
+* custom Recents
+* custom Browse tab
+* custom search field
+* custom Add button
+* custom empty-state screen
+* any custom file-history/cache/state that exists only for BlueMind Files
+* any new components/helpers created exclusively for this custom file-browser experiment.
+
+Do not leave dead code, unused state, unused imports, or unreachable custom Files UI behind.
+
+IMPORTANT — DO NOT DAMAGE THE REAL FILE ATTACHMENT FLOW
+
+Do NOT remove the underlying ability to attach files.
+
+Preserve:
+
+* native iOS document picker;
+* Files/iCloud Drive access;
+* security-scoped URL handling if currently required;
+* file metadata;
+* file attachment creation;
+* PDF/document attachments;
+* composer integration;
+* sending/upload behavior.
+
+We are removing only the custom BlueMind Files browser, not file attachments themselves.
+
+DO NOT TOUCH
+
+Absolutely do not modify:
+
+* BlueMind Photos
+* BlueMind Camera
+* image preview/full-resolution work
+* chat composer design
+* Web behavior
+* backend
+* voice/transcription
+* unrelated attachment functionality.
+
+BlueMind Photos and BlueMind Camera must remain exactly as they currently work.
+
+Before deleting
+
+Inspect the recent changes and identify exactly which code belongs only to the BlueMind Files experiment.
+
+If any new code is shared with Photos, Camera, composer, or the original native document picker, do not blindly delete it. Remove only the BlueMind-Files-specific portion.
+
+Final expected flow
+
++
+
+→ Files / PDF
+
+→ native Apple iOS Files/document picker opens
+
+→ user chooses file
+
+→ return to BlueMind
+
+→ selected file appears in composer.
+
+No intermediate BlueMind Files screen.
+
+Verify after cleanup
+
+1. Files / PDF opens the native iOS picker directly.
+2. PDF can be selected and attached.
+3. Other currently supported document types still work.
+4. iCloud Files still work according to iOS behavior.
+5. BlueMind Photos is unchanged.
+6. BlueMind Camera is unchanged.
+7. No duplicate attachments are introduced.
+8. No dead BlueMind Files code remains.
+9. Web behavior is unchanged.
+
+After finishing, tell me exactly which BlueMind Files code/components were removed and confirm the original native iOS Files flow has been restored.
