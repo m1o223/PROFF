@@ -1,1 +1,116 @@
+Task: Make newly captured camera photos appear in the BlueMind iOS composer immediately, with the same perceived speed as selecting an existing photo from Photos.
 
+Current behavior:
+
+* Selecting an existing image from Photos → thumbnail appears in the composer almost immediately.
+* Taking a new photo with Camera → there is a noticeable delay before the captured image appears in the composer.
+
+I want the camera flow to feel equally immediate.
+
+Do not guess why it is slow. First profile/trace the complete camera path and identify exactly where the delay occurs.
+
+Trace:
+
+Camera button → camera presentation → capture → photo processing → file creation → image decoding → resizing/compression → metadata/orientation handling → attachment creation → composer state update → thumbnail rendering → background upload/preparation
+
+Measure how long each stage takes.
+
+⸻
+
+The key UX requirement:
+
+After the user confirms/takes the photo, show a local preview thumbnail inside the composer as soon as the captured image is locally available.
+
+Do NOT make the user wait for:
+
+* upload;
+* backend processing;
+* expensive compression;
+* full-resolution decoding;
+* metadata processing;
+* conversion;
+* network requests;
+* AI processing
+
+before displaying the attachment.
+
+The UI should optimistically attach/display the captured photo first.
+
+Any expensive preparation that does not block correctness should happen asynchronously afterward.
+
+Conceptually:
+
+capture → immediate local thumbnail in composer → background processing/upload preparation
+
+instead of:
+
+capture → process everything → wait → wait → wait → finally show thumbnail.
+
+⸻
+
+IMPORTANT QUALITY RULE
+
+Do NOT solve the speed problem by permanently reducing the original image quality.
+
+Keep two responsibilities separate:
+
+* Composer → lightweight thumbnail for instant display.
+* Actual attachment/fullscreen preview/upload → original/highest-quality captured image.
+
+The thumbnail may be optimized for UI performance, but never replace or overwrite the original high-resolution capture with the thumbnail.
+
+This is especially important because we are also fixing fullscreen image quality.
+
+⸻
+
+Performance
+
+Avoid doing expensive image work synchronously on the main thread.
+
+Check specifically for:
+
+* full-resolution UIImage decoding on main thread;
+* unnecessary JPEG recompression;
+* repeated base64 conversion;
+* unnecessary file copies;
+* Photos-library round trips;
+* duplicate image decoding;
+* orientation correction blocking UI;
+* synchronous filesystem operations;
+* waiting for network/backend before updating composer state.
+
+Move non-UI-critical expensive work off the main thread where safe.
+
+⸻
+
+Desired result
+
+When I take a photo:
+
+tap capture → confirm/use photo → thumbnail appears in BlueMind composer immediately or nearly immediately.
+
+It should feel as fast as selecting a photo from Photos.
+
+The user should not stare at an unchanged composer wondering whether the photo was accepted.
+
+If some processing genuinely must continue, show the thumbnail immediately and process in the background.
+
+⸻
+
+Do NOT modify:
+
+* Web behavior;
+* existing Photos picker speed;
+* image-preview quality;
+* original image resolution;
+* attachment sending behavior unless necessary to remove the blocking delay.
+
+After fixing it, report:
+
+1. Exact cause of the camera delay.
+2. Timing before the fix.
+3. Timing after the fix.
+4. What work was moved off the critical UI path.
+5. Confirmation that the composer thumbnail appears immediately.
+6. Confirmation that the original full-resolution captured image is still preserved.
+7. Confirmation that Web was not changed
