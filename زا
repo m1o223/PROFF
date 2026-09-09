@@ -1,1 +1,31 @@
+Use the existing official BlueMind primary blue from the current codebase. Do not create a new blue color.
 
+The dark blue shown in the attached/reference screenshot — the same blue currently used on the “New chat” button — is the official BlueMind primary color.
+
+Please inspect the existing theme/design-system/constants and find the exact color token/variable already used for that button.
+
+Reuse that exact existing BlueMind color everywhere in the iOS UI where we want BlueMind-branded primary actions.
+
+Important:
+
+* Do not hardcode a new HEX value if the project already has a reusable theme token.
+* Do not introduce a second similar dark-blue shade.
+* Do not change the website theme.
+* If iOS and Web share theme files, reuse the existing token safely without altering Web behavior.
+
+For the voice recording visualization specifically:
+
+* idle/silent bars should use the official BlueMind primary blue at lower opacity/darker intensity;
+* when voice activity increases, the same BlueMind blue should become brighter/more visible;
+* do not switch to a random cyan or unrelated blue.
+
+For buttons and other BlueMind primary actions:
+
+* use this same official BlueMind primary blue wherever the current design calls for a BlueMind-branded primary button/action;
+* keep destructive actions red;
+* keep neutral/system actions gray/white where appropriate;
+* do not blindly recolor every control.
+
+The goal is consistent BlueMind branding, not making the entire app blue.
+
+Before changing anything, identify the exact existing color token/constant used by the New chat button and report its name. Then reuse that token rather than duplicating the color.
