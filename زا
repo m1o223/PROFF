@@ -1,1 +1,253 @@
+Task: Redesign ONLY the BlueMind iOS AI/model selector popover.
 
+The current implementation became too large/tall after the last modification and no longer feels polished.
+
+I want to keep ALL existing functionality and options, but change the presentation and interaction.
+
+This selector contains THREE independent settings:
+
+1. BlueMind model / AI power
+    * BlueMind 3.0
+    * BlueMind 3.5
+    * BlueMind 4.0
+    * BlueMind 4.5
+    * BlueMind 5.0
+2. AI specialization / mode
+    * General AI
+    * Study AI
+    * Research AI
+    * Work AI
+    * Writing AI
+    * Coding AI
+    * and any other existing modes already present in the code.
+3. Thinking
+    * existing Thinking option/state.
+
+Do not remove or change the underlying logic of any of these settings.
+
+⸻
+
+MAIN PROBLEM
+
+The current selector is too tall and feels like a large page/card.
+
+I do NOT want it to expand almost to the full available screen just because there are many options.
+
+Instead, make it a medium-height floating iOS popover.
+
+It should be:
+
+* clearly larger than a tiny dropdown;
+* clearly smaller than a full-screen sheet;
+* visually balanced;
+* centered/aligned naturally below the current AI selector button;
+* internally scrollable.
+
+Think of the attached reference selector: a floating panel with a controlled maximum height, while its contents scroll inside.
+
+⸻
+
+FIXED / CONTROLLED POPOVER HEIGHT
+
+Give the popover a responsive maximum height appropriate for the current iPhone viewport.
+
+Do NOT calculate its height from the total number of options.
+
+If all options do not fit:
+
+the popover remains the same medium size and the CONTENT scrolls vertically inside it.
+
+The outer popover itself should not keep becoming taller.
+
+Avoid a hardcoded height that only works on one iPhone. Use available viewport/safe-area dimensions and clamp it to a sensible medium range.
+
+⸻
+
+INTERNAL SCROLL
+
+Put the model list, AI modes, and Thinking section inside one smooth vertical scroll area.
+
+The user should be able to scroll:
+
+BlueMind Models
+↓
+AI Modes
+↓
+Thinking
+
+without the outer popover changing size.
+
+Keep the scrollbar subtle/native if one is shown.
+
+Do not create nested vertical scroll views.
+
+⸻
+
+SELECTED ITEM DESIGN
+
+This is important.
+
+When an option is selected, show a soft highlighted row/background behind that option.
+
+Similar to the reference:
+
+* subtle gray/dark hover-like background;
+* rounded corners;
+* not overly bright;
+* clear white checkmark on the right.
+
+The entire selected row should feel highlighted, not just the checkmark.
+
+⸻
+
+THREE INDEPENDENT SELECTION STATES
+
+Because the selector controls three different things, multiple checkmarks/highlights may legitimately exist simultaneously.
+
+Example:
+
+BlueMind 5.0 ✓
+
+and
+
+Research AI ✓
+
+and
+
+Thinking Enabled ✓
+
+These are NOT conflicting selections.
+
+They represent:
+
+* selected model;
+* selected specialization;
+* selected Thinking state.
+
+Do not implement the entire popover as one single-selection list.
+
+Model selection must be independent from AI Mode selection and Thinking.
+
+⸻
+
+MODEL SECTION
+
+Keep:
+
+BLUEMIND MODELS
+
+as the section heading.
+
+Each model should have comfortable but compact row spacing.
+
+For BlueMind 5.0, keep the NEW badge if it currently exists.
+
+Selected model:
+
+* soft highlighted rounded row;
+* checkmark on right.
+
+Non-selected models:
+
+* transparent/no heavy background;
+* no checkmark.
+
+⸻
+
+AI MODES SECTION
+
+Keep:
+
+AI MODES
+
+Maintain the existing icons for:
+
+General AI
+Study AI
+Research AI
+Work AI
+Writing AI
+Coding AI
+etc.
+
+Keep icon alignment consistent.
+
+Selected AI mode:
+
+* same soft highlighted rounded row;
+* checkmark on right.
+
+Do not use a different selection language from the model section.
+
+⸻
+
+THINKING SECTION
+
+Keep the existing Thinking functionality.
+
+Present it under its own section:
+
+THINKING
+
+When Thinking is enabled, give its option the same visual selected treatment:
+
+* soft highlighted background;
+* checkmark/state indicator.
+
+When disabled, remove the selected highlight.
+
+Do not change what Thinking actually does.
+
+⸻
+
+TAP BEHAVIOR
+
+Selecting an option should NOT automatically close the popover.
+
+Example:
+
+User opens selector.
+
+→ selects BlueMind 5.0.
+
+→ popover stays open.
+
+→ selects Research AI.
+
+→ popover stays open.
+
+→ enables Thinking.
+
+→ popover stays open.
+
+This allows the user to configure all three settings in one visit.
+
+⸻
+
+DISMISS BEHAVIOR
+
+The popover should close when the user taps outside of it.
+
+This is important.
+
+Tap inside the popover:
+
+→ interact normally.
+
+Tap outside the popover:
+
+→ dismiss it smoothly.
+
+When dismissed, it should animate upward/back toward the selector button with a subtle native iOS-style transition.
+
+Do not require a separate X button.
+
+The AI selector button itself may also toggle the popover closed if tapped again.
+
+⸻
+
+OPENING ANIMATION
+
+When the user taps the current AI selector button at the top:
+
+the popover should appear from that
