@@ -1,1 +1,358 @@
+Task: Build a dedicated native iOS “BlueMind Files” picker that visually belongs to the same design system as BlueMind Photos, while still being optimized for files rather than photos.
 
+The goal is NOT to make Files identical to Photos.
+
+The goal is:
+
+same BlueMind design language
+
+but
+
+different content/layout appropriate for files.
+
+Think of them as siblings:
+
+BlueMind Photos
+
+and
+
+BlueMind Files
+
+They should clearly look like they belong to the same app, with the same spacing philosophy, glass/material controls, rounded geometry, typography, accents, and interaction style.
+
+⸻
+
+DESIGN RELATIONSHIP TO BLUEMIND PHOTOS
+
+Reuse the same overall design language already established in BlueMind Photos:
+
+* native iOS dark material/glass;
+* same corner-radius family;
+* same header spacing;
+* same X/close control style;
+* same typography hierarchy;
+* same BlueMind accent color;
+* same native touch targets;
+* same smooth iOS transitions;
+* same bottom-sheet/fullscreen presentation style if appropriate.
+
+Do NOT build a visually unrelated file browser.
+
+A user should immediately feel:
+
+“This is the Files section of the same BlueMind attachment system.”
+
+⸻
+
+BLUEMIND COLOR
+
+If a primary accent is needed, use the existing official BlueMind color:
+
+BLUE_MIND_COLORS.primary
+
+CSS token:
+
+--bm-primary
+
+current value:
+
+#193B68
+
+Do not invent another blue.
+
+Use it for:
+
+* active tab;
+* selected file;
+* Add/Open action;
+* focus states;
+* small meaningful accents.
+
+Do not make the whole interface blue.
+
+⸻
+
+HEADER
+
+Use a header structurally similar to BlueMind Photos:
+
+left:
+
+* native iOS glass X / close
+
+center:
+
+* BlueMind Files
+
+right:
+
+* Add / Open / selected count if needed
+
+If no file is selected, primary action can be disabled/subtle.
+
+Example:
+
+Add
+
+or
+
+Add (2)
+
+depending on whether multi-select is supported in the current flow.
+
+⸻
+
+SEARCH
+
+Add a native search field near the top.
+
+Search should filter visible file names/available metadata when supported.
+
+Keep its visual style consistent with the Photos tabs/search language.
+
+Do not over-design it.
+
+⸻
+
+MAIN NAVIGATION
+
+Files should not copy the Photos / Albums tabs literally.
+
+Instead use file-appropriate sections such as:
+
+* Recents
+* Browse
+* optionally Shared if supported safely by the current API.
+
+These should feel like sibling tabs/segments to the Photos / Albums control in BlueMind Photos.
+
+Same component family, different labels/content.
+
+⸻
+
+FILE LAYOUT
+
+Unlike Photos, files do NOT need to be only a dense image grid.
+
+Use the best layout for readability:
+
+Prefer:
+
+* a clean list;
+* or adaptive grid/list toggle if genuinely useful.
+
+Each file row/card should clearly show:
+
+* file icon or preview;
+* filename;
+* file type;
+* file size;
+* modified date if available;
+* iCloud/download state if applicable.
+
+For PDFs:
+
+* show a small first-page preview if efficiently available.
+
+For Word/PowerPoint/Excel/TXT:
+
+* use native/system file-type icons or lightweight previews.
+
+Do not generate expensive previews for every file if it hurts performance.
+
+⸻
+
+VISUAL CONSISTENCY
+
+Use the same visual rhythm as BlueMind Photos:
+
+* similar section spacing;
+* similar glass container styling;
+* similar selected-state treatment;
+* same icon weight;
+* same text sizes/weights where hierarchy matches;
+* same animations.
+
+But Files should still feel more structured and document-oriented.
+
+Photos = visual grid.
+
+Files = document browser/list.
+
+They should NOT look identical.
+
+⸻
+
+SELECTION STATE
+
+When a file is selected:
+
+* subtle rounded highlight;
+* BlueMind primary accent where appropriate;
+* clear checkmark or selected indicator;
+* preserve native iOS feel.
+
+Do not use loud custom colors.
+
+⸻
+
+FILE TYPES
+
+Support the file formats BlueMind already accepts.
+
+At minimum inspect existing logic for:
+
+* PDF
+* TXT
+* DOC / DOCX
+* PPT / PPTX
+* XLS / XLSX
+* image files
+* any other existing supported attachment types.
+
+Do NOT arbitrarily enable unsupported types just because they appear in Files.
+
+Use the current attachment/backend capabilities as the source of truth.
+
+⸻
+
+IOS SECURITY / FILE ACCESS
+
+This is important.
+
+Do not bypass native iOS document permissions.
+
+Inspect whether the current flow uses:
+
+* UIDocumentPickerViewController
+* security-scoped URLs
+* Files provider access
+* iCloud Drive
+
+Preserve proper iOS access rules.
+
+If a fully custom browser cannot safely replace a native document picker for certain sources, use a hybrid approach:
+
+* BlueMind custom UI for recents/known accessible files where possible;
+* native system picker where required for secure external locations.
+
+Do NOT fake access to files BlueMind cannot actually read.
+
+⸻
+
+ICLOUD / REMOTE FILES
+
+If a file exists only in iCloud:
+
+* show that state clearly;
+* allow native download/resolution;
+* show loading progress/state;
+* do not freeze indefinitely;
+* handle failure gracefully.
+
+⸻
+
+ADD TO COMPOSER
+
+When the user confirms a file:
+
+* close BlueMind Files;
+* return to chat composer;
+* add exactly one attachment entry per selected file;
+* no duplicates;
+* preserve file name/type/size;
+* show an immediate attachment card in composer;
+* background-load additional metadata/preview if needed.
+
+Do not make the user wait for unnecessary processing before the file appears in the composer.
+
+⸻
+
+PERFORMANCE
+
+Keep scrolling smooth.
+
+Avoid:
+
+* reading entire files just to show the list;
+* loading full PDFs/documents on the main thread;
+* expensive preview generation for every offscreen item;
+* base64 conversion for browsing;
+* duplicate file reads.
+
+Use lazy loading/caching where appropriate.
+
+⸻
+
+OPEN / CLOSE BEHAVIOR
+
+Match BlueMind Photos:
+
+* native iOS presentation;
+* smooth open;
+* smooth dismiss;
+* X closes immediately;
+* tap/gesture behavior should feel consistent.
+
+⸻
+
+DO NOT CHANGE
+
+Do not modify:
+
+* BlueMind Photos behavior;
+* BlueMind Camera behavior;
+* Web file picker behavior;
+* backend;
+* unrelated chat UI;
+* voice/transcription.
+
+This is an iOS attachment feature.
+
+⸻
+
+FIRST IMPLEMENTATION STEP
+
+Before building the UI, inspect the current iOS file attachment path and report:
+
+1. Which native iOS APIs are currently used.
+2. Which file types are currently accepted.
+3. Whether the current picker relies on UIDocumentPickerViewController.
+4. Which parts can be safely replaced/customized.
+5. Which parts should remain native for security-scoped access.
+
+Then build the BlueMind Files presentation around that architecture.
+
+⸻
+
+FINAL TARGET
+
+I want this attachment family:
+
+BlueMind Camera
+
+BlueMind Photos
+
+BlueMind Files
+
+All three should feel like one coherent BlueMind system.
+
+Photos and Files should NOT be visually identical, but they should clearly share the same:
+
+* brand;
+* materials;
+* spacing;
+* controls;
+* animations;
+* accent color;
+* interaction philosophy.
+
+After implementation, report:
+
+1. Which files/components changed.
+2. Which native iOS document APIs are used.
+3. How the Files UI reuses BlueMind Photos design tokens/components.
+4. How file access/security is preserved.
+5. How iCloud files are handled.
+6. How files enter the composer without duplicates.
+7. Confirmation that Web behavior was not modified.
