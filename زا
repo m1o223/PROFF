@@ -1,1 +1,224 @@
+NEXT IOS-ONLY CHANGE — Restore the old image gallery inside Create Image
 
+Important:
+
+This task is iOS only. Do NOT modify the Web version in any way.
+
+The website and its current Create Image implementation must remain untouched.
+
+We are working only on the native/iOS Studio presentation.
+
+⸻
+
+Goal
+
+Inside:
+
+BlueMind Studio → Create Image
+
+restore the image examples/assets that existed in the old Create Image screen.
+
+I do NOT want the old full page back.
+
+I only want the old image content/gallery restored inside the new Studio layout.
+
+Keep the current:
+
+* BlueMind Studio header
+* Create Image / Create Video / History selector
+* current iOS composer at the bottom
+* current Customize button
+* current Generate/send control
+
+Do not replace those.
+
+⸻
+
+Restore the old image assets
+
+Inspect the old Create Image implementation and find the image assets/cards that were previously shown, including examples such as:
+
+* Anime
+* Character Design
+* portrait/realistic image
+* landscape/fantasy image
+* any other existing image-generation examples that already belong to the project
+
+Reuse those existing assets.
+
+Do not download random replacement images.
+
+Do not create new placeholder artwork if the old assets still exist in the codebase.
+
+⸻
+
+New gallery layout
+
+Place the restored images in the main content area between:
+
+the Create Image intro/title
+
+and
+
+the bottom composer.
+
+I want a scrollable visual gallery.
+
+It should feel image-first.
+
+Think:
+
+image
+image
+image
+image
+continuing downward as the user scrolls.
+
+Use a clean native iOS gallery/grid layout appropriate for the existing images.
+
+A 2-column masonry-style layout is fine if it works naturally with the different image aspect ratios.
+
+The images do NOT all need identical heights.
+
+Preserve their original aspect ratios.
+
+Do not stretch or crop them badly.
+
+⸻
+
+Cards / labels
+
+If the old gallery had labels such as:
+
+ANIME
+
+Character Design
+
+Realistic
+
+etc.,
+
+restore the useful labels with a cleaner iOS presentation.
+
+Keep labels visually secondary to the artwork.
+
+Do not create giant cards with excessive padding.
+
+The images should be the main visual focus.
+
+⸻
+
+Scrolling
+
+The gallery must scroll vertically and smoothly.
+
+The bottom composer should remain accessible in the current iOS behavior.
+
+Do not create nested scrolling that fights with the page.
+
+Ensure:
+
+* no horizontal overflow
+* no clipped images
+* no content hidden behind the composer
+* correct bottom safe-area/content inset
+
+⸻
+
+Interaction for now
+
+For this step, keep gallery interaction simple.
+
+Tapping a style/example may select that style or populate the existing frontend style state only if the old logic already supports this cleanly.
+
+Do NOT add backend image generation.
+
+Do NOT create new generation logic.
+
+If restoring the old click behavior risks reintroducing Web coupling, restore the gallery visually first and keep the interaction iOS-local.
+
+⸻
+
+Critical platform separation
+
+Do not import the old Web Create Image page wholesale.
+
+Do not make the iOS screen render the Web page again.
+
+Reuse only safe pieces:
+
+* image assets
+* labels/data
+* shared non-visual data if appropriate
+
+The actual gallery presentation must remain inside the new iOS Studio component.
+
+Conceptually:
+
+shared image/style data
+
+→ Web Create Image UI remains as-is
+
+→ iOS BlueMind Studio Create Image gallery uses its own layout
+
+⸻
+
+Do NOT change yet
+
+Do not touch:
+
+* Create Video design/content
+* History
+* Studio top selector
+* composer design
+* Customize sheet
+* backend
+* Web
+
+We will design the video section separately after the image section looks right.
+
+⸻
+
+Final iOS result
+
+Create Image should look approximately like:
+
+BlueMind Studio
+
+Create Image | Create Video | History
+
+Create a image / intro
+
+[image] [image]
+
+[image] [image]
+
+[image] [image]
+
+...scroll...
+
+then the existing iOS composer remains available at the bottom.
+
+The page should feel full and visual again, not empty.
+
+⸻
+
+Test on a real iPhone
+
+1. Open BlueMind Studio.
+2. Open Create Image.
+3. Verify the old image assets are visible again.
+4. Scroll through the gallery.
+5. Verify images preserve good quality and aspect ratio.
+6. Verify the composer still works.
+7. Verify Customize still works.
+8. Verify Create Video remains unchanged.
+9. Verify History remains unchanged.
+10. Verify the website is completely unchanged.
+
+After implementation, report:
+
+* which old assets/data were reused;
+* which iOS component now renders the gallery;
+* whether any old Web-specific code was intentionally NOT reused;
+* confirmation that Web was untouched.
