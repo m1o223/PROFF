@@ -1,1 +1,117 @@
+IOS Create Image layout fix — two visual bugs only
 
+I tested the new Create Image gallery on the real iPhone and there are two clear layout problems.
+
+Do NOT redesign the gallery. Fix only these two issues.
+
+⸻
+
+1. REMOVE THE OLD CREATE IMAGE INTRO BLOCK
+
+The old:
+
+Create an image
+
+title and the descriptive text underneath it are still visible above the gallery.
+
+I no longer want this intro block in the iOS Create Image screen.
+
+Remove:
+
+* the image icon above it;
+* Create an image;
+* Describe your idea, then adjust only the details you care about.
+
+The gallery should begin much closer to the Studio section selector.
+
+Keep:
+
+* BlueMind Studio header;
+* Create Image / Create Video / History selector.
+
+Then the image gallery should begin directly below with appropriate native spacing.
+
+This is iOS only. Do not change Web.
+
+⸻
+
+2. FIX THE BOTTOM COMPOSER OVERLAY COVERING THE GALLERY
+
+There is currently a large black/dark area associated with the bottom composer/input.
+
+This dark layer extends upward beyond the visible composer and covers/crops the bottom part of the image gallery while scrolling.
+
+In the video, images visibly move behind this black area and part of them becomes hidden.
+
+This is wrong.
+
+The composer itself can remain fixed/sticky at the bottom, but its container/background must NOT cover extra gallery content above it.
+
+Inspect:
+
+* composer wrapper height;
+* fixed/sticky container;
+* bottom overlay;
+* gradient/background layer;
+* z-index;
+* safe-area padding;
+* scroll content inset/padding-bottom.
+
+The correct behavior should be:
+
+* gallery scrolls naturally;
+* images remain fully visible until they reach the actual composer boundary;
+* no oversized black rectangle above the composer;
+* last gallery items can scroll completely above the composer;
+* enough bottom content inset exists so the final row is never hidden behind the composer.
+
+If the composer height is X, the scroll container should receive an appropriate bottom inset/padding based on the real composer height + safe area, not an arbitrary large overlay.
+
+⸻
+
+IMPORTANT
+
+Do not solve this by simply adding a huge blank space at the bottom.
+
+Find the actual layout cause.
+
+Do not change:
+
+* gallery images;
+* gallery ordering;
+* image assets;
+* top Studio tabs;
+* Customize behavior;
+* Web layout;
+* backend.
+
+⸻
+
+FINAL TARGET
+
+iOS Create Image should look like:
+
+BlueMind Studio
+
+Create Image | Create Video | History
+
+immediately followed by the image gallery.
+
+The gallery should fill the usable screen vertically.
+
+The iOS composer stays at the bottom without visually cutting off the gallery.
+
+⸻
+
+TEST ON REAL IPHONE
+
+1. Open Create Image.
+2. Confirm the old title/description/icon block is gone.
+3. Confirm gallery begins higher on screen.
+4. Scroll from top to bottom.
+5. Confirm no image is covered by an oversized black composer background.
+6. Confirm the last gallery row can be fully scrolled into view above the composer.
+7. Confirm composer remains usable.
+8. Confirm Web is unchanged.
+
+After fixing, report the exact cause of the bottom overlay issue and which layout values/components were corrected.
