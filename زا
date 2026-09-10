@@ -1,1 +1,139 @@
+NEXT UI CHANGE ONLY — Replace the Studio prompt input with the existing native iOS chat composer style
 
+Do not redesign the whole Studio yet.
+
+I want the prompt/input area used in:
+
+* Create Image
+* Create Video
+
+to use the same native iOS composer/input design already used successfully in BlueMind Chat.
+
+Current problem
+
+The Studio prompt box currently looks like a separate custom/Web-style input.
+
+It does not match the native iOS composer we already have in the chat.
+
+Goal
+
+Reuse or adapt the existing iOS chat composer component/style instead of maintaining a separate Studio-specific Web-like input.
+
+I want:
+
+* same native iOS material/glass feel;
+* same rounded geometry;
+* same internal padding;
+* same text input behavior;
+* same keyboard behavior;
+* same dynamic height/auto-grow behavior if appropriate;
+* same button styling;
+* same visual language as normal BlueMind chat.
+
+Image mode
+
+Placeholder:
+
+Describe the image you want to create...
+
+Video mode
+
+Placeholder:
+
+Describe the video you want to create...
+
+Keep the same underlying input component for both modes where possible.
+
+Do not create two independent implementations unless technically necessary.
+
+Buttons inside/around the composer
+
+Use the same native iOS button treatment already established in chat.
+
+This includes:
+
+* Customize
+* Generate
+* any attachment/reference button if added later
+
+Buttons should use native iOS material/glass/SF Symbols where appropriate.
+
+Do not use flat Web-style custom rectangles.
+
+Customize
+
+Customize should be a compact native iOS control.
+
+It can open the existing settings sheet.
+
+Do not expose all settings directly in the input area.
+
+Generate
+
+The Generate action should use the same visual language as the chat send action:
+
+* native iOS shape;
+* clear enabled/disabled state;
+* BlueMind primary accent only when active.
+
+Use only:
+
+BLUE_MIND_COLORS.primary
+
+current value:
+
+#193B68
+
+Do not invent another blue.
+
+Reuse requirement
+
+Before implementing, inspect the existing iOS chat composer and identify which parts can be reused:
+
+* text input
+* material/background
+* layout
+* keyboard handling
+* auto-grow
+* button components
+
+Reuse stable existing code where possible.
+
+Do not duplicate the same iOS composer logic into Studio if a clean shared component can be extracted.
+
+Important
+
+Studio must still have its own behavior and placeholders.
+
+Reusing the chat composer does NOT mean turning Studio into normal chat.
+
+It is only reusing the proven iOS input system and visual language.
+
+Do NOT change yet
+
+Do not modify:
+
+* top Image / Video / History selector
+* Studio header
+* back button
+* settings values
+* History
+* backend
+* Web
+
+This task is only:
+
+make Create Image and Create Video use the native BlueMind iOS composer/input and native iOS-style controls.
+
+Test on real iPhone:
+
+1. Image input looks/behaves like BlueMind Chat input.
+2. Video input looks/behaves the same.
+3. Keyboard opens smoothly.
+4. Text input works correctly.
+5. Auto-grow/height behavior is correct.
+6. Customize still opens.
+7. Generate enabled/disabled state works visually.
+8. Web remains unchanged.
+
+After finishing, report which chat composer component/code was reused and what Studio-specific wrapper remains.
