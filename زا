@@ -1,1 +1,117 @@
+NEXT STUDIO UI FIX — only these two changes
 
+Do not redesign the whole Studio. Do not touch backend or Web.
+
+⸻
+
+1. REMOVE THE SETTINGS CHIPS ABOVE THE COMPOSER
+
+Current Image UI shows chips such as:
+
+* 1:1
+* Standard
+* 1 Image
+* Auto
+
+Current Video UI shows chips such as:
+
+* 16:9
+* Default
+* Standard
+* 1 Video
+* Auto
+
+These are redundant because we already have a Customize button that opens the settings.
+
+Remove these chips from the main Studio screen for both:
+
+* Create Image
+* Create Video
+
+Keep the settings internally in state.
+
+Do NOT delete the actual settings logic or Customize sheet.
+
+The settings should still be configurable through Customize.
+
+The main Studio screen should become cleaner:
+
+content/title
+→ prompt composer
+→ Customize
+→ Generate
+
+without the row of settings chips above the composer.
+
+⸻
+
+2. HISTORY FILTERS MUST BECOME NATIVE IOS SEGMENTS
+
+In History, the current:
+
+All | Images | Videos
+
+must be converted into a proper iOS-style segmented selector.
+
+Current problem:
+
+* it looks custom/Web-like;
+* switching does not behave correctly;
+* the selected state does not feel like native iOS.
+
+Desired behavior:
+
+* exactly three filters:
+    * All
+    * Images
+    * Videos
+* use native iOS-style segmented control/material;
+* selected pill/segment slides smoothly;
+* tap switching must work reliably;
+* selected filter must actually update the History state;
+* the empty/history content below must react to the active filter;
+* use subtle native animation;
+* no heavy outlines;
+* same visual language as the main Studio top selector.
+
+If appropriate, reuse the same iOS segmented-control component already used for:
+
+Create Image | Create Video | History
+
+so both selectors behave consistently.
+
+⸻
+
+3. IOS ONLY
+
+This is for the iOS Studio presentation only.
+
+Do NOT modify:
+
+* Web Studio tabs
+* Web History filters
+* backend
+* generation logic
+* prompt composer behavior
+* Customize sheet behavior
+* Studio header
+* camera/photos
+
+⸻
+
+4. TESTS
+
+Test on a real iPhone:
+
+1. Open Create Image.
+2. Confirm the settings chips above the composer are gone.
+3. Open Customize and verify settings still exist and can be changed.
+4. Switch to Create Video and verify its settings chips are also gone.
+5. Open History.
+6. Tap All / Images / Videos.
+7. Verify all three switch correctly.
+8. Verify selected state slides smoothly.
+9. Verify History state updates with each filter.
+10. Verify Web is unchanged.
+
+Stop after these two changes and report the result.
