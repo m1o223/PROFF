@@ -1,1 +1,157 @@
+FRONTEND-ONLY REMOVAL — Hide/remove AI Plans from every user-accessible UI
 
+I want to temporarily remove AI Plans completely from the BlueMind frontend.
+
+IMPORTANT:
+
+Do NOT delete, disable, refactor, or modify the AI Plans backend.
+
+The backend implementation must remain intact because we may bring this feature back later.
+
+We are removing only the user-facing frontend and every navigation path that allows a user to enter AI Plans.
+
+⸻
+
+Remove AI Plans from ALL frontend entry points
+
+Search the entire frontend/iOS application for every visible or navigable AI Plans entry point.
+
+At minimum, I can currently see AI Plans in:
+
+1. Main/Home Chat carousel
+
+Remove the AI Plans promotional/card/banner from the main chat/home carousel.
+
+The remaining carousel items should reflow normally. Do not leave an empty slide, blank pagination dot, or broken carousel index.
+
+2. Side Menu
+
+Remove the AI Plans row/icon from the BlueMind section of the side menu.
+
+The menu should reflow naturally with no empty spacing.
+
+3. Smart Hub
+
+Remove the AI Plans Quick Access card from Smart Hub.
+
+The remaining cards should reflow cleanly in the grid.
+
+Do not leave an empty grid cell.
+
+⸻
+
+CRITICAL: remove ALL frontend access paths
+
+Do not stop after visually hiding these three buttons.
+
+Search the frontend for:
+
+* AI Plans buttons
+* cards
+* banners
+* menu items
+* quick actions
+* deep links
+* internal navigation routes
+* shortcuts
+* CTA buttons
+* carousel entries
+* frontend route registrations
+* any other clickable entry point
+
+A normal user must NOT be able to navigate into AI Plans from the app UI in any way.
+
+If there is a direct frontend route such as an AI Plans page, disable/remove the frontend route exposure so manually navigating to it cannot expose the feature.
+
+If an old/deep link attempts to open AI Plans, safely redirect back to an appropriate available screen instead of displaying the hidden feature.
+
+⸻
+
+KEEP THE BACKEND
+
+Do NOT touch:
+
+* AI Plans API endpoints
+* backend services
+* database tables/data
+* AI Plans server logic
+* backend prompts
+* backend models
+* stored plans
+* backend feature implementation
+
+I want the backend preserved so AI Plans can be re-enabled later without rebuilding it.
+
+Think of this as:
+
+AI Plans backend = preserved
+
+AI Plans frontend = unavailable
+
+⸻
+
+Clean frontend removal
+
+If AI-Plans-specific frontend components become unused after removing all entry points, you may remove the unused frontend presentation code if it is safe.
+
+But do NOT delete shared components or backend code.
+
+Remove:
+
+* dead imports
+* unused frontend state
+* obsolete navigation references
+* empty carousel slots
+* empty grid positions
+
+Do not leave hidden buttons with display:none if a clean removal from the frontend configuration/navigation data is possible.
+
+⸻
+
+IOS / WEB SAFETY
+
+First inspect where these entry points are defined and whether iOS and Web share configuration.
+
+The priority is removing AI Plans from the iOS user-facing frontend shown in the screenshots.
+
+Do not accidentally redesign or break unrelated Web functionality while doing this.
+
+If AI Plans is also exposed through a shared frontend route/configuration, clearly identify it before changing shared code.
+
+⸻
+
+DO NOT TOUCH
+
+Do not modify:
+
+* Normal Chat
+* Private Chat
+* Writing Mode
+* Hidden Chat
+* Smart Hub itself
+* Reminders
+* Schedule
+* Projects
+* BlueMind Studio
+* Photos/Camera
+* backend
+
+Only remove AI Plans frontend access.
+
+⸻
+
+REQUIRED VERIFICATION
+
+On the real iPhone verify:
+
+1. AI Plans is gone from the main/home carousel.
+2. AI Plans is gone from the side menu.
+3. AI Plans is gone from Smart Hub.
+4. Smart Hub grid reflows correctly.
+5. Carousel reflows correctly with no empty slide/dot.
+6. No frontend button or shortcut can open AI Plans.
+7. Direct/deep frontend navigation cannot expose AI Plans.
+8. Other features still open normally.
+9. AI Plans backend remains untouched and available for future reactivation.
+
+After finishing, report every frontend location where AI Plans was found and removed, and explicitly confirm that no AI Plans backend code was modified.
