@@ -1,1 +1,363 @@
+SIMPLIFY PROJECTS COMPLETELY — Projects should only organize chats
 
+We are changing the Product direction for Projects.
+
+The current Project workspace became unnecessarily complex.
+
+Remove the recent Project workspace complexity and make Projects extremely simple.
+
+A Project should behave like a folder for BlueMind conversations.
+
+Nothing more for now.
+
+⸻
+
+CORE CONCEPT
+
+Project = named folder containing chats
+
+Example:
+
+Project:
+BlueMind
+
+Inside:
+
+* Chat 1
+* Chat 2
+* Chat 3
+
+The user can create/open chats inside that Project.
+
+Those chats use the existing BlueMind Chat experience.
+
+⸻
+
+REMOVE FROM PROJECTS
+
+Remove the Project frontend sections/features for:
+
+* Files
+* Tasks
+* Notes
+* Project content dashboard
+* complex Overview content
+* any workspace cards added specifically for those features
+* any placeholder pages for Files / Tasks / Notes
+
+Do not leave dead navigation into those sections.
+
+We may rebuild advanced Projects later.
+
+⸻
+
+KEEP PROJECTS SIMPLE
+
+The Projects area should allow only:
+
+1. Create Project
+
+User enters a Project name.
+
+Example:
+
+BlueMind
+
+School
+
+Work
+
+Create it using existing backend persistence if available.
+
+Do not fake persistence.
+
+⸻
+
+2. Project list
+
+Show the user’s Projects in a clean native iOS list/cards.
+
+Each Project may show:
+
+* Project name
+* number of chats if available
+* last activity if already supported
+
+Keep it minimal.
+
+⸻
+
+3. Open Project
+
+Opening a Project should show only its chats.
+
+Header:
+
+←   Project Name
+
+and a compact:
+
++ New Chat
+
+Then show the conversations belonging to that Project.
+
+No Files / Tasks / Notes tabs.
+
+⸻
+
+PROJECT CHAT LIST
+
+Each Project chat row should show:
+
+* chat title
+* latest-message preview if available
+* updated date/time if available
+
+Tapping it opens the existing BlueMind Chat interface.
+
+Do NOT build a second chat UI.
+
+⸻
+
+NEW CHAT INSIDE PROJECT
+
+If the user taps:
+
++ New Chat
+
+from Project A,
+
+the new conversation must be associated with Project A.
+
+Reuse the current chat infrastructure.
+
+Preserve a stable:
+
+projectId
+
+or equivalent existing association.
+
+If the backend already supports this, use it.
+
+If it does not, report that clearly instead of pretending it is persisted.
+
+⸻
+
+MOVE EXISTING CHAT TO PROJECT
+
+This is important.
+
+In the menu/actions for a normal existing conversation outside Projects, add:
+
+Move to Project
+
+When tapped:
+
+open a compact native iOS sheet/menu listing the user’s Projects.
+
+Example:
+
+Move to Project
+
+* BlueMind
+* School
+* Work
+
+User selects one Project.
+
+The chat becomes associated with that Project.
+
+After success:
+
+show the global toast:
+
+Chat moved to BlueMind
+
+⸻
+
+IMPORTANT MOVE BEHAVIOR
+
+Moving a chat must NOT:
+
+* duplicate the chat
+* erase its messages
+* create a second conversation
+* reset its history
+
+It should simply change the Project association of the existing conversation.
+
+⸻
+
+OPTIONAL: REMOVE FROM PROJECT
+
+If a chat is already inside a Project, its conversation menu may include:
+
+Remove from Project
+
+This should return it to the normal ungrouped chat list without deleting the conversation.
+
+Only implement this if the existing data architecture safely supports a nullable project association.
+
+⸻
+
+PROJECT MANAGEMENT
+
+Keep Project management minimal.
+
+At most:
+
+* Create Project
+* Rename Project
+* Delete Project
+
+Before Project deletion, inspect the backend behavior carefully.
+
+Do NOT accidentally delete all conversations unless that is explicitly intended and confirmed.
+
+Prefer safe behavior:
+
+deleting the Project should either:
+
+* move its chats back to ungrouped chats
+
+or
+
+* follow the existing backend contract.
+
+Do not invent destructive behavior silently.
+
+⸻
+
+IOS DESIGN
+
+Keep the iOS UI simple and native:
+
+* black BlueMind background
+* native iOS navigation
+* SF Symbols
+* native glass where appropriate
+* compact rows
+* no giant dashboards
+* no complex cards
+
+Use official BlueMind primary only where needed:
+
+#193B68
+
+⸻
+
+DO NOT TOUCH
+
+Do not modify:
+
+* normal BlueMind Chat design
+* messages/composer
+* Studio
+* Photos
+* Camera
+* Smart Hub
+* backend unrelated to project/chat association
+* Web UI unless absolutely required by shared data logic
+
+⸻
+
+DATA / BACKEND SAFETY
+
+Before changing frontend behavior, inspect:
+
+* Project model
+* Conversation model
+* Project/chat relation
+* existing APIs
+* delete behavior
+
+Determine whether chats currently support:
+
+projectId
+
+or equivalent.
+
+Reuse the existing contract.
+
+Do not create fake local-only grouping and call it complete.
+
+⸻
+
+FINAL USER FLOW
+
+Create Project
+
+→ name it
+
+→ open it
+
+→ see chats
+
+→ New Chat
+
+→ chat normally with BlueMind
+
+and:
+
+Normal Chat
+
+→ conversation menu
+
+→ Move to Project
+
+→ choose Project
+
+→ conversation now appears inside that Project.
+
+That is the complete Project feature for now.
+
+⸻
+
+REMOVE OLD PROJECT WORK
+
+Cleanly remove the recently created frontend-only Project workspace code for:
+
+* Files page
+* Tasks page
+* Notes page
+* complex Project Overview navigation
+
+Remove dead imports/routes/state left by those experiments.
+
+Do NOT delete unrelated backend functionality unless it is strictly frontend-only experimental code.
+
+⸻
+
+REQUIRED TESTS ON REAL IPHONE
+
+1. Create Project A.
+2. Create Project B.
+3. Open Project A.
+4. Create a chat inside Project A.
+5. Send messages.
+6. Leave and reopen Project A.
+7. Verify the same chat/history remains.
+8. Verify that chat does NOT appear inside Project B.
+9. Open a normal ungrouped chat.
+10. Choose Move to Project.
+11. Move it to Project B.
+12. Verify all original messages remain.
+13. Verify it appears inside Project B.
+14. Verify no duplicate chat was created.
+15. Verify Files / Tasks / Notes are completely gone from Project UI.
+
+⸻
+
+FINAL REPORT
+
+Report:
+
+1. What old Project frontend code was removed.
+2. How Projects are now represented.
+3. How chats are associated with a Project.
+4. How Move to Project works.
+5. What backend support already existed.
+6. Any missing backend capability.
+7. Confirmation that chats are never duplicated during moves.
+
+Stop there. Do not add Files, Tasks, Notes, AI context, or other Project features.
