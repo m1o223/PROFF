@@ -1,1 +1,343 @@
+PROJECT WORKSPACE — Design and complete the iOS frontend for Chats, Files, Tasks, and Notes
 
+We now have the main Project Overview screen with four sections:
+
+* Chats
+* Files
+* Tasks
+* Notes
+
+I want you to take ownership of the iOS UX/UI design for these four sections.
+
+I do NOT have a fixed visual layout for each page. Design them yourself based on the existing BlueMind iOS design language and modern native iOS patterns.
+
+The result should feel like one coherent Project Workspace, not four unrelated screens.
+
+⸻
+
+GLOBAL DESIGN LANGUAGE
+
+Use the BlueMind iOS visual system already established in the app:
+
+* black/dark background
+* native iOS spacing and safe areas
+* SF Symbols
+* native navigation behavior
+* subtle Liquid Glass/material where appropriate
+* compact floating controls where appropriate
+* clean typography
+* smooth native transitions
+* no Web-looking controls
+* no giant cards unless content requires them
+
+Use the existing BlueMind primary color only when an accent is needed:
+
+BLUE_MIND_COLORS.primary
+
+#193B68
+
+Do not introduce random blues.
+
+Keep visual hierarchy simple and premium.
+
+⸻
+
+1. PROJECT CHATS
+
+Design a dedicated Chats page for the current Project.
+
+This page represents conversations belonging specifically to this Project.
+
+I want:
+
+* project-aware header
+* list of project conversations
+* conversation title
+* short preview of latest message
+* last updated time/date
+* clean empty state
+* search when useful
+* obvious but compact way to start a new project chat
+
+Tapping a conversation should open that chat.
+
+Starting a new chat from here must create/open a chat associated with the current Project using the existing project/chat capabilities where available.
+
+Do not make it look like an email inbox.
+
+It should feel like BlueMind Chat organized inside a workspace.
+
+Prepare the frontend architecture so project chats can later use Project Files / Notes / Tasks as AI context, but do not invent new backend context behavior if it does not exist yet.
+
+⸻
+
+2. PROJECT FILES
+
+Design a proper Files workspace for the Project.
+
+It should support the existing file functionality available to the Project.
+
+Design for:
+
+* file list/grid as appropriate
+* filename
+* file type
+* size if available
+* date
+* thumbnails/previews where appropriate
+* search
+* add/import file
+* empty state
+
+Common types should visually make sense:
+
+* PDF
+* images
+* documents
+* text
+* other supported files
+
+Tapping a supported file should open a proper preview/viewer.
+
+Do not route the user into an old Web-looking file page if an iOS presentation can be used.
+
+Use the native iOS file picker for adding files where appropriate.
+
+Preserve original file quality.
+
+Do not invent cloud-storage/backend functionality that does not currently exist.
+
+⸻
+
+3. PROJECT TASKS
+
+Build Tasks as a genuinely useful lightweight project task manager.
+
+Design it yourself using native iOS patterns.
+
+At minimum support the existing capabilities for:
+
+* create task
+* task title
+* completed/not completed
+* edit task
+* delete task
+* task detail if needed
+
+If the current data model already supports them, expose clean controls for:
+
+* due date
+* priority
+* notes/details
+
+Do NOT add fake backend fields if they are unsupported.
+
+Suggested organization:
+
+To Do
+
+Completed
+
+or another cleaner native solution if you find one.
+
+Completion should have a satisfying subtle native animation.
+
+Do not overbuild this into Jira/Trello.
+
+It should remain fast and simple.
+
+⸻
+
+4. PROJECT NOTES
+
+Build a clean Notes workspace.
+
+It should feel closer to a lightweight native notes app than a form.
+
+Support existing functionality for:
+
+* create note
+* title
+* body/content
+* edit
+* delete
+* open/read note
+* search if appropriate
+
+Notes list should show useful previews rather than giant empty cards.
+
+Editing should be distraction-free with proper keyboard handling and autosave only if the existing architecture safely supports it.
+
+Otherwise use explicit save behavior.
+
+Do not pretend data was saved if the backend request fails.
+
+⸻
+
+5. CONSISTENT PROJECT NAVIGATION
+
+All four pages should clearly remain inside the same Project.
+
+The user should always understand:
+
+I am inside Project X → Chats/Files/Tasks/Notes
+
+Use consistent:
+
+* back behavior
+* project title
+* navigation
+* spacing
+* add/create controls
+* empty states
+
+Do not create four completely different navigation systems.
+
+⸻
+
+6. GLOBAL BLUE MIND TOASTS
+
+Use the new global iOS toast system for short feedback where available.
+
+Examples:
+
+✓ Task created
+
+✓ Note saved
+
+✓ File added
+
+✓ Chat created
+
+! Upload failed
+
+Do not put giant success boxes inside these pages.
+
+⸻
+
+7. FUNCTIONALITY FIRST
+
+This is important.
+
+Do not produce beautiful static mockups with dead buttons.
+
+Inspect the current Project implementation, routes, state, APIs and backend capabilities first.
+
+Connect every UI action to the existing real functionality wherever it already exists.
+
+Test:
+
+* navigation
+* create
+* open
+* edit
+* save
+* delete
+* completion
+* upload/import
+* error states
+* empty states
+
+If something requires backend functionality that genuinely does not exist, do NOT fake it.
+
+Clearly report it instead.
+
+⸻
+
+8. DO NOT BREAK BACKEND OR WEB
+
+This task is primarily the iOS Project Workspace frontend.
+
+Do not redesign the Web version.
+
+Do not rewrite working backend APIs simply to accommodate the new UI.
+
+Reuse the existing backend contracts.
+
+Do not modify unrelated:
+
+* Normal Chat
+* Studio
+* Smart Hub
+* Reminders
+* Schedule
+* authentication
+
+⸻
+
+9. IOS DETAILS
+
+Pay particular attention to:
+
+* Dynamic Island / safe areas
+* keyboard avoidance
+* scroll insets
+* native sheets
+* native menus
+* swipe actions where appropriate
+* context menus where appropriate
+* loading states
+* pull-to-refresh only if useful
+* accessibility/touch targets
+* long filenames/text
+* Arabic RTL
+* Swedish/English LTR
+
+RTL must not break layouts.
+
+⸻
+
+10. EMPTY STATES
+
+Design proper minimal empty states instead of blank screens.
+
+For example:
+
+Chats:
+No project chats yet
+
+Files:
+No files yet
+
+Tasks:
+No tasks yet
+
+Notes:
+No notes yet
+
+Give each one a compact relevant action.
+
+Do not make the empty states enormous.
+
+⸻
+
+11. TEST ON REAL IPHONE
+
+After implementation, test the complete flow:
+
+Project
+→ Chats
+→ Files
+→ Tasks
+→ Notes
+
+Create real test content where supported.
+
+Close/reopen the Project and verify persisted content still appears where backend persistence exists.
+
+Verify no dead buttons and no accidental Web UI appears.
+
+⸻
+
+FINAL REPORT
+
+When finished, report:
+
+1. The UX you chose for each of the four sections.
+2. Files/components changed.
+3. Existing backend functionality reused.
+4. Anything the backend does not currently support.
+5. Actions tested successfully on the real iPhone.
+6. Confirmation that unrelated Web behavior was not modified.
+
+Do not redesign the Project Overview screen in this task. Focus only on the four destination pages: Chats, Files, Tasks, and Notes.
