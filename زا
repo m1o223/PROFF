@@ -1,1 +1,294 @@
+Update the existing ChatPop Menu / Chats screen.
 
+Use the attached reference screenshots only to understand the layout hierarchy and UX.
+DO NOT copy ChatNow branding, graphics, assets, or exact design.
+
+I want to redesign ONLY the full-screen Menu / Chats screen.
+
+Do NOT redesign the main Chat screen in this task.
+
+==================================================
+1. GENERAL STYLE
+==================================================
+
+The entire Menu screen should use a very dark design.
+
+Main background:
+- Pure black or near-black.
+
+Secondary surfaces:
+- Very dark gray.
+
+Accent:
+- Medium blue.
+
+IMPORTANT:
+Do NOT use the very bright/light cyan blue currently used in the Menu.
+
+Use a calmer normal blue that fits a premium dark iOS application.
+
+Text:
+- White for primary text.
+- iOS-style gray for secondary text.
+
+Keep the interface minimal and clean.
+
+==================================================
+2. TOP HEADER
+==================================================
+
+At the top of the Menu screen, create a clean header.
+
+It should contain:
+
+LEFT:
+- Native iOS-style Close / Back control.
+
+CENTER/MAIN AREA:
+- ChatPop
+
+RIGHT:
+- Settings button using an appropriate iOS system icon.
+
+Do not create custom-drawn icons if an appropriate Apple/iOS system icon exists.
+
+Use native/system-style symbols for:
+- Close / Back
+- Settings
+- Search
+- New Chat
+- Chat/history icons
+- Navigation arrows where required
+
+Use SF Symbols/native iOS iconography wherever technically possible.
+
+==================================================
+3. PLUS / PRO SUBSCRIPTION CARD
+==================================================
+
+Directly below the header, add a compact subscription card.
+
+Example content:
+
+"Try ChatPop Plus or Pro"
+
+Secondary text:
+"Unlock more features"
+
+CTA:
+"Try Now"
+
+This is UI ONLY for now.
+
+Do NOT implement payments or subscription backend yet.
+
+The card should:
+- Use dark styling
+- Use our medium-blue accent
+- Not use an extremely bright cyan
+- Have a clean premium iOS appearance
+
+Do not copy the ChatNow card exactly.
+
+==================================================
+4. CREATE IMAGES & VIDEOS
+==================================================
+
+Below the subscription card, add ONE section/card:
+
+"Create Images & Videos"
+
+Secondary text can be:
+
+"Create with AI"
+
+This will eventually open our image/video creation area.
+
+For now it can be UI/mock navigation only.
+
+Keep the card dark and minimal.
+
+Do NOT copy the flower, graphics, branding, or assets from the reference app.
+
+Do NOT add Playground.
+
+==================================================
+5. CHATS SECTION
+==================================================
+
+Below Create Images & Videos, add:
+
+"Chats"
+
+Show previous conversations underneath.
+
+Use the existing mock/local chats for now.
+
+For example:
+
+- New chat
+- Plan my trip
+- Explain this code
+- Image ideas
+
+Keep each chat row simple and compact.
+
+Do not put every chat inside a huge card.
+
+The list should feel like a clean native iOS history list.
+
+==================================================
+6. NEW CHAT BUTTON — MAKE IT MUCH SMALLER
+==================================================
+
+REMOVE the current huge light-blue rectangular "New Chat" button.
+
+I do NOT want that large button anymore.
+
+Replace it with a SMALL New Chat control near the "Chats" section heading.
+
+For example:
+
+Chats                         [ + ]
+
+or a small compose/new-chat icon.
+
+The New Chat control should:
+- Be compact
+- Use the medium-blue accent
+- Use an iOS system/SF Symbol style icon
+- NOT occupy the full width
+- NOT be a large blue rectangle
+
+Tapping it should keep the existing New Chat behavior.
+
+==================================================
+7. SEARCH MUST BE AT THE BOTTOM
+==================================================
+
+Remove the current large Search Chats field from the top.
+
+Search should be placed at the BOTTOM of the Menu screen.
+
+Use a compact floating iOS-style Search control similar in concept to the reference screenshot.
+
+It can display:
+
+[ Search icon ] Search
+
+When tapped, it can expand/open the chat search interface.
+
+The search functionality is ONLY for searching previous chats.
+
+Do not place the large search field permanently at the top anymore.
+
+==================================================
+8. NATIVE iOS CONTROLS / ICONS
+==================================================
+
+IMPORTANT:
+
+Where appropriate, use Apple's native iOS system iconography and native controls instead of manually drawing approximations.
+
+Especially for:
+
+- Close / Back
+- Settings
+- Search
+- New Chat
+- Chat/history
+- Navigation arrows
+
+Prefer SF Symbols and actual iOS-native components/materials where supported by our existing native integration.
+
+For glass/material controls:
+
+Use the REAL iOS-native glass/material implementation already requested for this project.
+
+DO NOT create fake Liquid Glass using arbitrary CSS gradients, shadows, fake reflections, or custom glow effects.
+
+If native Swift / SwiftUI / UIKit integration is required, you are allowed to use the existing native bridge/integration and install any compatible dependency required.
+
+Do NOT recreate the iOS project.
+
+==================================================
+9. FINAL SCREEN ORDER
+==================================================
+
+The Menu screen should now follow this exact hierarchy:
+
+TOP
+
+1. Header
+   - Close / Back
+   - ChatPop
+   - Settings
+
+2. Try ChatPop Plus or Pro
+   - Compact subscription card
+
+3. Create Images & Videos
+   - One dark creation card
+
+4. Chats
+   - Small New Chat button beside the heading
+   - Previous chat history underneath
+
+5. Search
+   - Compact search control at the bottom of the screen
+
+BOTTOM
+
+The screen must support vertical scrolling if the content becomes taller in the future.
+
+The bottom Search control should respect the iPhone bottom Safe Area.
+
+==================================================
+10. DO NOT ADD
+==================================================
+
+Do NOT add:
+
+- Playground
+- Profile
+- Login
+- Sign Up
+- Onboarding
+- Advertisements
+- Extra promotional cards
+- Backend subscription logic
+- AI API integrations
+- Payment processing
+
+We are only designing this Menu screen right now.
+
+==================================================
+11. EXISTING iOS PROJECT
+==================================================
+
+Preserve the existing working ChatPop iOS project.
+
+DO NOT:
+
+- Delete /ios
+- Recreate iOS
+- Run npx cap add ios
+- Create another Xcode project
+- Change Bundle Identifier
+- Change Signing
+- Change Development Team
+- Change provisioning
+- Reset Capacitor
+
+You may install compatible libraries/packages or update the existing native bridge ONLY when required for the requested native iOS UI.
+
+After implementation:
+
+1. Build the frontend.
+2. Verify there are no errors.
+3. Sync the EXISTING iOS project.
+4. Verify the existing native integration still builds.
+5. Do not change signing.
+6. STOP and report what you changed.
+
+Do not continue to another feature until I test this Menu on my real iPhone.
