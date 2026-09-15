@@ -1,1 +1,715 @@
+We are now pausing frontend/UI work and starting the REAL ChatPop backend.
 
+IMPORTANT:
+The existing ChatPop frontend and iOS project are already working.
+DO NOT modify them in this task.
+
+Work ONLY inside the ChatPop backend repository/project.
+
+This is NOT a mock backend.
+I want a real persistent database and a production-oriented backend foundation that we can later connect to the existing iPhone application.
+
+==================================================
+1. FIRST — INSPECT THE EXISTING BACKEND
+==================================================
+
+Before changing anything:
+
+- Inspect the current backend repository.
+- Identify the existing language/framework/package manager.
+- Preserve any useful existing configuration.
+- Do NOT unnecessarily recreate the repository.
+- Do NOT touch the frontend repository.
+- Do NOT touch /ios or Xcode.
+
+If the backend repository is essentially empty, create a clean backend architecture suitable for a real production API.
+
+Prefer a simple, maintainable architecture.
+
+==================================================
+2. REAL DATABASE
+==================================================
+
+Set up a REAL PostgreSQL database architecture.
+
+Do NOT use:
+- localStorage
+- browser storage
+- JSON files as a database
+- fake/mock database
+- in-memory database for production
+
+Use PostgreSQL with proper migrations.
+
+Database credentials must come from environment variables.
+
+Never hard-code database passwords or secrets in source code.
+
+Create:
+
+.env.example
+
+with the required variable names but NO real secrets.
+
+Make sure real .env files are ignored by Git.
+
+==================================================
+3. DATABASE MIGRATIONS
+==================================================
+
+Use a proper migration system.
+
+I want the database schema to be reproducible.
+
+A new environment should be able to:
+
+- install dependencies
+- configure DATABASE_URL
+- run migrations
+- start the backend
+
+Do NOT rely on manually creating tables.
+
+==================================================
+4. USERS
+==================================================
+
+Create a real users table/schema.
+
+Each user must have at minimum:
+
+- id
+- email
+- password_hash
+- display_name
+- auth_provider
+- created_at
+- updated_at
+- last_login_at
+- account_status
+
+Requirements:
+
+- Use UUIDs or another secure non-sequential identifier for user IDs.
+- Email must be normalized.
+- Email must be unique.
+- Never store plaintext passwords.
+
+auth_provider should be designed so we can later support:
+
+- email/password
+- Apple
+- Google
+- Microsoft
+
+Do NOT implement Apple/Google/Microsoft OAuth yet.
+
+Just design the data model so they can be added later.
+
+==================================================
+5. PASSWORD SECURITY
+==================================================
+
+CRITICAL SECURITY REQUIREMENT:
+
+NEVER store the user's original password.
+
+Passwords must be securely hashed using an appropriate modern password hashing algorithm/library.
+
+Prefer Argon2id where practical.
+
+Use secure parameters and a maintained library.
+
+Never:
+
+- log passwords
+- return password hashes through the API
+- expose password hashes to the frontend
+- store passwords in plain text
+- put passwords in URLs
+
+==================================================
+6. AUTHENTICATION API
+==================================================
+
+Implement real email/password authentication.
+
+Create endpoints/services for:
+
+REGISTER
+
+The user submits:
+
+- email
+- password
+- optional display name
+
+The backend:
+
+1. validates the input
+2. normalizes the email
+3. checks whether the account already exists
+4. securely hashes the password
+5. creates the user
+6. creates the default user settings
+7. returns a safe user response
+
+LOGIN
+
+The user submits:
+
+- email
+- password
+
+The backend:
+
+1. finds the account
+2. securely verifies the password
+3. updates last_login_at
+4. creates authentication/session credentials
+5. returns the authenticated user safely
+
+LOGOUT
+
+Create proper logout/session invalidation behavior appropriate to the authentication architecture.
+
+CURRENT USER
+
+Create an authenticated endpoint such as:
+
+GET /me
+
+It should return ONLY safe profile information for the authenticated user.
+
+Never return password_hash.
+
+==================================================
+7. SESSION / TOKEN ARCHITECTURE
+==================================================
+
+Use a secure authentication architecture appropriate for a mobile iOS application.
+
+If using access tokens + refresh tokens:
+
+- Keep access tokens short-lived.
+- Implement refresh token rotation.
+- Store refresh tokens securely server-side as hashes where appropriate.
+- Support revocation.
+- Do not store raw long-lived refresh tokens in the database.
+- Design it so logout can invalidate the session.
+
+Create a sessions/refresh_tokens table if required.
+
+Each session should be associated with:
+
+- user_id
+- created_at
+- expires_at
+- revoked_at
+- last_used_at where appropriate
+
+Do NOT put sensitive secrets inside token payloads.
+
+==================================================
+8. USER SETTINGS
+==================================================
+
+Create a real user_settings table.
+
+One settings record should belong to one user.
+
+Prepare fields for:
+
+- theme
+- selected_voice
+- default_ai_provider
+- default_ai_model
+- language
+- created_at
+- updated_at
+
+Theme should support:
+
+- dark
+- light
+- system
+
+Do not overcomplicate this yet.
+
+Create authenticated API endpoints to:
+
+GET user settings
+UPDATE user settings
+
+A user must ONLY be able to read/update their own settings.
+
+==================================================
+9. CHATS
+==================================================
+
+Create a real chats table now so the backend architecture is ready for chat.
+
+Each chat should contain at minimum:
+
+- id
+- user_id
+- title
+- title_source
+- created_at
+- updated_at
+- last_message_at
+- archived_at or equivalent optional state
+
+Every chat belongs to exactly one user.
+
+The backend must enforce ownership.
+
+User A must NEVER be able to access User B's chats.
+
+==================================================
+10. AUTOMATIC CHAT TITLES
+==================================================
+
+Prepare the architecture for automatic chat naming.
+
+Initially a new chat can have a temporary title such as:
+
+"New chat"
+
+Later, after the first user message / first assistant response, an AI model will generate a short useful title automatically.
+
+Design title_source so we can distinguish, for example:
+
+- default
+- auto
+- user
+
+Do NOT connect an AI model for title generation yet.
+
+Just prepare the backend architecture cleanly.
+
+==================================================
+11. MESSAGES
+==================================================
+
+Create a real messages table.
+
+Each message should include at minimum:
+
+- id
+- chat_id
+- user_id
+- role
+- content
+- provider
+- model
+- status
+- created_at
+
+Role should support at least:
+
+- user
+- assistant
+- system
+
+Status can support values such as:
+
+- pending
+- completed
+- failed
+
+Prepare the structure so later we can add:
+
+- token usage
+- latency
+- error metadata
+- attachments
+
+Do NOT connect ChatGPT, Claude, Gemini, or DeepSeek yet.
+
+This task is about the backend/data foundation.
+
+==================================================
+12. CHAT API
+==================================================
+
+Create authenticated CRUD endpoints/services for chat history.
+
+At minimum:
+
+CREATE CHAT
+
+Create a new chat owned by the authenticated user.
+
+LIST CHATS
+
+Return ONLY the authenticated user's chats.
+
+Sort newest/recently active chats appropriately.
+
+GET CHAT
+
+Return a specific chat ONLY if it belongs to the authenticated user.
+
+UPDATE CHAT TITLE
+
+Allow the authenticated user to manually rename their chat.
+
+When manually renamed, set title_source appropriately.
+
+DELETE CHAT
+
+Allow the authenticated user to delete their own chat.
+
+SEARCH CHATS
+
+Prepare a simple server-side search by chat title for the authenticated user.
+
+==================================================
+13. MESSAGES API
+==================================================
+
+Prepare authenticated message persistence.
+
+At minimum support:
+
+- Create/save a user message
+- List messages belonging to a specific owned chat
+
+Ownership must be checked through the chat.
+
+Do NOT allow a user to send a random user_id and access another user's data.
+
+The authenticated identity must come from the authentication/session context.
+
+==================================================
+14. MEDIA — IMAGES AND VIDEOS
+==================================================
+
+Prepare the architecture for users' generated/uploaded media.
+
+Create a media table containing metadata such as:
+
+- id
+- user_id
+- chat_id nullable
+- message_id nullable
+- media_type
+- storage_key
+- mime_type
+- file_size
+- width nullable
+- height nullable
+- duration nullable
+- created_at
+- deleted_at nullable
+
+media_type should support at least:
+
+- image
+- video
+- audio
+- file
+
+IMPORTANT:
+
+Do NOT store large image/video binary files directly inside PostgreSQL.
+
+Use object/file storage for the actual files.
+
+PostgreSQL should store metadata and the secure storage key/reference.
+
+Design storage behind an abstraction so we can choose/configure the real provider separately.
+
+Do not hard-code a vendor throughout the application.
+
+==================================================
+15. MEDIA SECURITY
+==================================================
+
+Media must be private by default.
+
+Do NOT expose permanent public URLs for private user files.
+
+Design for:
+
+- authenticated access
+- signed/temporary URLs where appropriate
+- ownership checks
+- safe MIME/type validation
+- file size limits
+
+User A must never be able to retrieve User B's images/videos/files.
+
+==================================================
+16. DELETE ACCOUNT
+==================================================
+
+Prepare a real authenticated Delete Account endpoint/service.
+
+This is important because the iOS Settings UI already contains Delete Account.
+
+When implemented, account deletion must safely handle:
+
+- sessions
+- user settings
+- chats
+- messages
+- media metadata
+- stored media cleanup
+
+Use transactions where appropriate.
+
+Do NOT leave orphaned sensitive user data.
+
+If object-storage deletion requires asynchronous cleanup, design that explicitly and safely.
+
+==================================================
+17. DATABASE RELATIONSHIPS
+==================================================
+
+The conceptual structure should be approximately:
+
+users
+ ├── user_settings
+ ├── sessions
+ ├── chats
+ │    └── messages
+ └── media
+
+Use proper:
+- primary keys
+- foreign keys
+- unique constraints
+- indexes
+- timestamps
+
+Add useful indexes for things such as:
+
+- users.email
+- chats.user_id
+- chats.last_message_at
+- messages.chat_id
+- messages.created_at
+- media.user_id
+
+==================================================
+18. API VALIDATION
+==================================================
+
+Validate every external request.
+
+Validate:
+
+- email
+- password requirements
+- display name length
+- UUID/IDs
+- settings values
+- chat titles
+- message content
+- pagination parameters
+
+Return consistent API errors.
+
+Do not expose database errors, stack traces, SQL details, or secrets to clients.
+
+==================================================
+19. SECURITY
+==================================================
+
+Add a sensible backend security baseline.
+
+Include where appropriate:
+
+- secure headers
+- CORS configuration
+- request size limits
+- authentication middleware
+- rate limiting for sensitive endpoints
+- login/register brute-force protection
+- centralized error handling
+- structured logging with sensitive-field redaction
+
+Never log:
+
+- passwords
+- raw authentication tokens
+- database passwords
+- API keys
+
+Do not commit secrets.
+
+==================================================
+20. ENVIRONMENT VARIABLES
+==================================================
+
+Prepare environment configuration for things such as:
+
+DATABASE_URL
+AUTH/JWT secrets if required
+TOKEN expiration configuration
+CORS / allowed origins
+storage configuration
+
+Use safe names appropriate to the chosen framework.
+
+Create:
+
+.env.example
+
+with placeholders only.
+
+Do NOT put real secrets into Git.
+
+==================================================
+21. HEALTH CHECK
+==================================================
+
+Create a simple backend health endpoint.
+
+For example:
+
+GET /health
+
+It should allow us to verify that the backend server is running.
+
+If appropriate, also provide a database readiness check without exposing sensitive information.
+
+==================================================
+22. TESTS
+==================================================
+
+Add meaningful backend tests.
+
+At minimum test:
+
+1. User registration works.
+2. Duplicate email is rejected.
+3. Password is NOT stored as plaintext.
+4. Correct password login works.
+5. Wrong password is rejected.
+6. Authenticated /me works.
+7. Unauthenticated protected requests fail.
+8. User settings belong to the correct user.
+9. User A cannot access User B's chat.
+10. User A cannot access User B's messages.
+11. User A cannot access User B's media metadata.
+12. Logout/session revocation works.
+
+Use an isolated test database/environment.
+
+Do NOT run destructive tests against production data.
+
+==================================================
+23. DOCUMENTATION
+==================================================
+
+Update the backend README.
+
+Explain clearly:
+
+- technology/framework used
+- architecture
+- database
+- how to install dependencies
+- required environment variables
+- how to run PostgreSQL/migrations
+- how to start development server
+- how to run tests
+- major API routes
+- how authentication works
+- where future AI providers will plug in
+- where future media storage will plug in
+
+==================================================
+24. DO NOT DO YET
+==================================================
+
+DO NOT implement yet:
+
+- OpenAI
+- Claude
+- Gemini
+- DeepSeek
+- AI routing
+- image generation APIs
+- video generation APIs
+- automatic AI title generation
+- StoreKit
+- Stripe
+- paid plans
+- credits
+- Apple Sign In
+- Google Sign In
+- Microsoft Sign In
+
+Those will come in later phases.
+
+However, keep the architecture ready for them.
+
+==================================================
+25. DO NOT TOUCH FRONTEND / IOS
+==================================================
+
+CRITICAL:
+
+DO NOT modify:
+
+- chatpop-frontend
+- React UI
+- Capacitor frontend configuration
+- /ios
+- Xcode
+- Bundle Identifier
+- Signing
+- Development Team
+
+This task is BACKEND ONLY.
+
+==================================================
+26. DEFINITION OF DONE
+==================================================
+
+This phase is complete only when:
+
+- A REAL PostgreSQL database is connected.
+- Migrations run successfully.
+- A real user can be registered.
+- The user exists persistently in PostgreSQL.
+- Password is securely hashed.
+- Login works.
+- Authenticated /me works.
+- Logout/session handling works.
+- User settings persist.
+- Chats persist.
+- Messages persist.
+- Media metadata architecture exists.
+- Ownership/security checks work.
+- Tests pass.
+- Backend can restart without losing persisted database data.
+
+Do NOT call mock/local/in-memory storage "done."
+
+==================================================
+27. WHEN FINISHED
+==================================================
+
+STOP after completing this backend phase.
+
+Give me a concise report containing:
+
+1. Backend technology used.
+2. Database technology used.
+3. Tables created.
+4. Migrations created.
+5. Authentication approach.
+6. Password hashing approach.
+7. API endpoints created.
+8. Tests added and results.
+9. Environment variables I need to configure.
+10. Whether the PostgreSQL database is actually connected and persistent.
+11. What still requires external credentials/services from me.
+12. Exact commands I should use to run the backend locally.
+
+Do not start AI integration until I review this backend foundation.
