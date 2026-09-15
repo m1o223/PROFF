@@ -1,1 +1,248 @@
+Update the existing ChatPop Chat screen UI.
 
+IMPORTANT:
+Do NOT redesign the entire screen.
+Keep the current structure and functionality.
+I only want to improve the visual design so it feels much more like a real modern iOS application.
+
+The main design direction for this update is:
+
+NATIVE iOS-STYLE LIQUID GLASS
+
+Use the existing ChatPop identity:
+- Black background
+- Light blue accent
+- White text
+- Dark translucent glass surfaces
+
+Do NOT add pink or purple.
+
+==================================================
+1. MESSAGE INPUT — LIQUID GLASS
+==================================================
+
+Redesign the current message composer.
+
+The current large solid dark input should become a polished iOS-style glass composer.
+
+It should feel translucent and layered instead of looking like a normal HTML input box.
+
+Use:
+- Dark translucent glass
+- Subtle blur / backdrop blur
+- Thin semi-transparent border
+- Very subtle light reflection/highlight
+- Soft depth/shadow
+- Large rounded corners
+
+Keep:
+
+Placeholder:
+"Message ChatPop..."
+
+Inside the composer keep:
+- + button
+- Microphone
+- Send button
+
+The + button should have its own small circular glass surface.
+
+The microphone should also feel integrated into the glass UI.
+
+The Send button should be circular.
+
+When there is no text:
+- Send button should look inactive.
+
+When text exists:
+- Send button becomes active using ChatPop light blue.
+
+Do not make the composer unnecessarily tall.
+
+It should look compact, premium, and native to iOS.
+
+==================================================
+2. TOP MENU BUTTON — GLASS
+==================================================
+
+Redesign the Menu button in the top-left.
+
+Instead of only showing three lines floating on the background, place the Menu icon inside a rounded/circular iOS-style glass button.
+
+Use:
+- Dark translucent glass
+- Blur
+- Subtle border
+- Soft highlight
+
+Keep the Menu functionality exactly as it currently works.
+
+==================================================
+3. NEW CHAT BUTTON — GLASS
+==================================================
+
+Apply the same glass treatment to the New Chat button in the top-right.
+
+Keep the existing New Chat icon.
+
+Do not change its functionality.
+
+The Menu and New Chat buttons should visually belong to the same design system.
+
+==================================================
+4. AI MODEL SELECTOR — GLASS
+==================================================
+
+Redesign the center AI selector.
+
+It should be a rounded Liquid Glass pill.
+
+Example:
+
+[ ✦  Auto  ˅ ]
+
+The selected AI/model should appear inside this glass pill.
+
+When tapped, open a polished iOS-style glass selection panel.
+
+For now show these providers:
+
+- Auto
+- ChatGPT
+- Claude
+- Gemini
+- DeepSeek
+
+Use mock/local state only.
+
+DO NOT connect APIs yet.
+
+==================================================
+5. MODEL SELECTOR STRUCTURE
+==================================================
+
+The selector should be designed so we can expand it later.
+
+For now the main choices are:
+
+AUTO
+Auto
+Description:
+"ChatPop chooses the best AI"
+
+CHATGPT
+ChatGPT
+Description:
+"OpenAI models"
+
+CLAUDE
+Claude
+Description:
+"Anthropic models"
+
+GEMINI
+Gemini
+Description:
+"Google models"
+
+DEEPSEEK
+DeepSeek
+Description:
+"DeepSeek models"
+
+Show a checkmark beside the currently selected option.
+
+Later we will add specific models underneath each provider, so keep the component architecture easy to expand.
+
+Do NOT invent specific model versions right now.
+
+==================================================
+6. MODEL PANEL VISUAL DESIGN
+==================================================
+
+When the model selector opens:
+
+Use a floating iOS-style glass panel.
+
+It should have:
+- Dark translucent background
+- Strong but tasteful blur
+- Rounded corners
+- Thin translucent border
+- Soft shadow
+- White primary text
+- Gray secondary text
+- Light blue ChatPop accent
+- Smooth opening/closing animation
+
+Do NOT make it look like a desktop dropdown.
+
+It must feel designed specifically for iPhone.
+
+==================================================
+7. KEEP THE CENTER AREA CLEAN
+==================================================
+
+Keep the existing ChatPop logo/name area for now.
+
+Do not add:
+- Promotional banners
+- Ads
+- Subscription cards
+- Creative Studio
+- Playground
+- Extra buttons
+
+The empty Chat screen should remain clean.
+
+==================================================
+8. iPHONE / KEYBOARD BEHAVIOR
+==================================================
+
+The composer must continue to work correctly with the real iPhone keyboard.
+
+Make sure:
+- Keyboard never covers the composer.
+- Composer moves correctly when keyboard opens.
+- Bottom safe area is respected.
+- Top safe area / Dynamic Island is respected.
+- No horizontal overflow.
+- UI works across different iPhone sizes.
+
+==================================================
+9. IMPORTANT — EXISTING iOS PROJECT
+==================================================
+
+Continue using the EXISTING iOS project.
+
+DO NOT:
+- Delete /ios
+- Recreate iOS
+- Run npx cap add ios
+- Create another Xcode project
+- Change Bundle Identifier
+- Change Signing
+- Change Development Team
+- Change provisioning
+- Change deployment target
+- Reset Capacitor
+
+Do not modify native iOS configuration.
+
+Work on the existing frontend UI.
+
+After finishing:
+
+1. Build the frontend.
+2. Verify there are no TypeScript/build errors.
+3. Run:
+
+npx cap sync ios
+
+4. Update the EXISTING iOS project.
+
+Then STOP.
+
+I will test the new design on my real iPhone before we continue.
+
+Do not add any other feature that I did not request.
