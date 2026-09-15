@@ -1,1 +1,372 @@
+We are now implementing the ChatPop Settings experience and the initial Plus / Pro subscription UI.
 
+The attached screenshots are REFERENCE ONLY for understanding feature hierarchy and general UX.
+
+DO NOT copy ChatNow's exact design, graphics, logos, colors, text, assets, voice artwork, or branding.
+
+Create ChatPop's own design.
+
+ChatPop identity:
+- Black background
+- Very dark gray surfaces
+- Medium blue accent
+- White primary text
+- iOS gray secondary text
+- Clean native iPhone appearance
+- Use Apple's native/SF Symbols where appropriate
+- Continue using the REAL native iOS material/glass integration already established in this project where applicable.
+
+==================================================
+1. SETTINGS SCREEN
+==================================================
+
+When the user taps Settings from the ChatPop Menu, open a dedicated full-screen Settings screen.
+
+This screen must be vertically scrollable.
+
+Use a clean iOS Settings-style hierarchy.
+
+Top:
+
+- Title: Settings
+- Close / Back control using appropriate iOS-native iconography.
+
+Do not overcrowd the header.
+
+==================================================
+2. ACCOUNT
+==================================================
+
+Create an "Account" section.
+
+For now include:
+
+- Account / Sign in
+- Name
+- Sign out (when appropriate later)
+- Delete Account
+
+Since authentication/backend is NOT implemented yet, these can use mock/local states.
+
+Do NOT build the authentication backend yet.
+
+"Delete Account" should be visually treated as a destructive action and eventually require confirmation.
+
+==================================================
+3. SUBSCRIPTION
+==================================================
+
+Create an "Account & Subscription" or "Subscription" section.
+
+Include:
+
+- ChatPop Plus / Pro
+- Manage Subscription
+- Restore Purchases
+
+These are UI/mock interactions for now.
+
+Do NOT implement StoreKit purchases or payment backend in this task.
+
+The Plus / Pro row/card should open the dedicated subscription/paywall screen described below.
+
+==================================================
+4. VOICE
+==================================================
+
+Create a Voice section.
+
+This is for selecting the voice ChatPop will eventually use for Read Aloud / voice responses.
+
+Show several selectable voice options.
+
+For now use MOCK voice data only.
+
+Example structure:
+
+VOICE
+
+- Voice 1
+- Voice 2
+- Voice 3
+- Voice 4
+
+The user should be able to select one voice and see a checkmark/selected state.
+
+Do NOT copy ChatNow voice names or artwork.
+
+Do NOT connect text-to-speech APIs yet.
+
+Keep the architecture ready so real voices can be connected later.
+
+==================================================
+5. APPEARANCE
+==================================================
+
+Create an Appearance section.
+
+Include:
+
+Theme:
+- Dark
+- Light
+- System
+
+Dark should match our current ChatPop design.
+
+Light mode should have a clean iOS-style light appearance.
+
+System should follow the iPhone appearance setting.
+
+This can be implemented locally now if practical.
+
+==================================================
+6. PERSONALISATION
+==================================================
+
+Create a Personalisation section.
+
+Include:
+
+- Your Name
+
+Allow the user to enter/change a display name locally for now.
+
+Later this will connect to the account/backend.
+
+Do not build unnecessary profile features yet.
+
+==================================================
+7. APP / SUPPORT
+==================================================
+
+Create a simple section containing:
+
+- How to Use ChatPop
+- About ChatPop
+- Feedback & Support
+- Share ChatPop
+- Rate ChatPop
+
+Use appropriate Apple/SF Symbols.
+
+Do not create custom icons when suitable system icons exist.
+
+The content pages can initially be simple placeholders/mock navigation.
+
+==================================================
+8. LEGAL
+==================================================
+
+At the bottom include:
+
+LEGAL
+
+- Terms of Service
+- Privacy Policy
+
+Also leave space at the bottom for:
+
+ChatPop
+App version
+
+Do NOT copy another company's copyright information.
+
+==================================================
+9. SETTINGS VISUAL DESIGN
+==================================================
+
+The Settings screen should feel native to iPhone.
+
+Use:
+- Black background
+- Dark gray grouped sections
+- Medium blue accent
+- White text
+- Gray secondary labels
+- Rounded iOS-style grouped controls
+- SF Symbols/native icons
+
+Avoid:
+- Bright cyan everywhere
+- Pink/purple branding
+- Huge cards
+- Excessive gradients
+- Fake CSS Liquid Glass
+
+Use our existing REAL native iOS material/glass integration where it makes sense.
+
+==================================================
+10. PLUS / PRO PAYWALL
+==================================================
+
+Create a separate full-screen ChatPop Plus / Pro screen.
+
+This is ONLY the frontend/paywall design for now.
+
+Do NOT implement real payments yet.
+
+The screen should contain:
+
+- ChatPop Plus / Pro headline
+- Short description
+- Plus / Pro selector
+- Feature list
+- Pricing option placeholders
+- Continue button
+- Restore button
+- Terms of Service
+- Privacy Policy
+
+IMPORTANT:
+
+Do NOT copy ChatNow's wording, prices, feature limits, graphics, or exact layout.
+
+Use placeholder pricing until we decide the real ChatPop prices.
+
+Example feature placeholders can include:
+
+- More AI models
+- Higher usage limits
+- Image generation
+- Video generation
+- Voice features
+- Web search
+- Priority access
+
+Do NOT claim "Unlimited" unless we explicitly decide that later.
+
+==================================================
+11. PAYWALL CLOSE BUTTON DELAY
+==================================================
+
+When the Plus / Pro paywall first opens:
+
+Do NOT display the X / Close button immediately.
+
+After approximately 3–4 seconds, reveal the Close button with a subtle animation.
+
+IMPORTANT:
+This is only a short visual delay.
+
+Do NOT trap the user inside the paywall.
+
+Do NOT disable normal iOS/system accessibility or navigation behavior.
+
+Once the X appears, it should use appropriate native iOS styling.
+
+==================================================
+12. RESTORE
+==================================================
+
+Keep a visible Restore option on the subscription screen.
+
+For now it can be mock UI because StoreKit is not being implemented in this task.
+
+Later we will connect this to real App Store subscription restoration.
+
+==================================================
+13. DO NOT IMPLEMENT YET
+==================================================
+
+Do NOT implement:
+
+- Real payment processing
+- StoreKit subscription purchases
+- Authentication backend
+- Google Sign-In
+- Apple Sign-In
+- Database account deletion
+- Real TTS APIs
+- Real subscription validation
+
+Build the UI and local interactions only.
+
+We will connect the backend and App Store functionality later.
+
+==================================================
+14. EXISTING iOS PROJECT
+==================================================
+
+Preserve the existing ChatPop iOS project.
+
+DO NOT:
+
+- Delete /ios
+- Recreate iOS
+- Run npx cap add ios
+- Create another Xcode project
+- Change Bundle Identifier
+- Change Signing
+- Change Development Team
+- Reset Capacitor
+- Replace existing native integration
+
+You may add compatible dependencies/native components if required for the requested REAL native iOS UI.
+
+Do not replace native iOS materials with fake CSS imitations.
+
+==================================================
+15. FINAL SETTINGS ORDER
+==================================================
+
+Use approximately this hierarchy:
+
+SETTINGS
+
+1. ChatPop Plus / Pro
+
+2. Account & Subscription
+   - Account / Sign in
+   - Name
+   - Manage subscription
+   - Restore purchases
+   - Delete account
+
+3. Voice
+   - Voice selection
+
+4. Appearance
+   - Dark
+   - Light
+   - System
+
+5. Personalisation
+   - Your Name
+
+6. Help & App
+   - How to Use ChatPop
+   - About ChatPop
+   - Feedback & Support
+   - Share ChatPop
+   - Rate ChatPop
+
+7. Legal
+   - Terms of Service
+   - Privacy Policy
+
+8. App version
+
+Keep the entire Settings screen vertically scrollable.
+
+==================================================
+16. AFTER IMPLEMENTATION
+==================================================
+
+After completing this task:
+
+1. Build the frontend.
+2. Check for TypeScript/build errors.
+3. Sync the EXISTING iOS project.
+4. Verify the existing native integration remains intact.
+5. Do NOT modify signing.
+6. STOP.
+
+Report:
+- Files changed
+- Components added
+- Native iOS components/libraries used
+- Whether build succeeded
+- Whether Capacitor sync succeeded
+
+Do not continue to payments/backend/authentication until I review the UI on my real iPhone.
