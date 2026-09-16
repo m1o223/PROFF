@@ -1,1 +1,341 @@
+Connect the existing ChatPop native iOS authentication UI to the REAL backend that we already built.
 
+IMPORTANT:
+The native auth crash has been fixed.
+Do NOT redesign the UI.
+Do NOT change the existing Settings, Login, or Create Account visual design.
+
+The current problem is that Create Account / Login still shows the placeholder alert:
+
+"Authentication is not connected. No credentials were sent or saved."
+
+Remove that placeholder behavior and connect the existing native iOS authentication flow to the real ChatPop backend.
+
+==================================================
+1. BACKEND
+==================================================
+
+Use the EXISTING chatpop-backend.
+
+Do NOT create a second backend.
+
+The backend already contains:
+- PostgreSQL
+- users
+- sessions
+- refresh tokens
+- register
+- login
+- refresh
+- logout
+- current user (/me)
+- user settings
+
+First inspect the exact existing route names and request/response schemas.
+DO NOT invent duplicate authentication endpoints if equivalent routes already exist.
+
+==================================================
+2. IMPORTANT — REAL IPHONE CANNOT USE 127.0.0.1
+==================================================
+
+The backend currently runs locally on the Mac.
+
+A real iPhone cannot reach the Mac backend through:
+
+127.0.0.1
+localhost
+
+because those addresses point to the iPhone itself.
+
+Configure the backend development server so it can accept connections from the local network, for example by binding Fastify to:
+
+0.0.0.0
+
+Do not weaken production security settings.
+
+For DEVELOPMENT ONLY, configure the iOS app with a development API base URL that points to the Mac's LAN IP address and backend port.
+
+Do not hard-code the IP throughout the codebase.
+
+Create one central API configuration layer, for example:
+
+API_BASE_URL
+
+so we can later replace the local Mac address with the production server URL.
+
+Document clearly where I change this value.
+
+Do not expose database credentials to the iPhone.
+
+==================================================
+3. CREATE ACCOUNT
+==================================================
+
+Connect the existing Create Account screen.
+
+When the user enters:
+
+- email
+- password
+
+and taps Continue:
+
+1. Validate the fields locally.
+2. Send the request securely to the existing backend register endpoint.
+3. Show a loading state while waiting.
+4. Disable duplicate submissions while loading.
+5. Handle the backend response.
+
+On successful registration:
+
+- store the returned authentication/session credentials securely
+- DO NOT use UserDefaults for sensitive long-lived credentials
+- use iOS Keychain or the existing secure native storage architecture
+- load the authenticated user's profile
+- close the auth flow
+- update the Settings UI to show that the user is signed in
+
+Do not store the plaintext password after the request completes.
+
+==================================================
+4. LOGIN
+==================================================
+
+Connect the existing Login screen to the real backend login endpoint.
+
+When the user submits:
+
+- email
+- password
+
+the app should:
+
+1. call the backend
+2. show loading
+3. handle success/error
+4. securely store authentication credentials
+5. fetch /me
+6. close the auth flow on success
+
+Wrong credentials should show a clear user-friendly error.
+
+Do NOT expose raw backend/database errors.
+
+==================================================
+5. AUTH SESSION STORAGE
+==================================================
+
+Use secure iOS storage for authentication credentials.
+
+Use Keychain for sensitive tokens where appropriate.
+
+Never store:
+- plaintext passwords
+- database password
+- backend secrets
+- refresh tokens in insecure local storage
+
+If the backend uses access + refresh tokens, implement the existing refresh flow.
+
+When an access token expires:
+- refresh it using the existing backend refresh endpoint
+- update the stored credentials securely
+
+If refresh fails:
+- clear the local auth session
+- return the UI to signed-out state
+
+==================================================
+6. CURRENT USER
+==================================================
+
+After authentication, call the existing authenticated current-user endpoint, such as:
+
+GET /me
+
+Use the exact existing route after inspecting the backend.
+
+Store only the safe user information needed by the UI, for example:
+
+- user id
+- email
+- display name
+- account status
+
+Do not expose password_hash or server-only fields.
+
+==================================================
+7. SETTINGS UI AFTER LOGIN
+==================================================
+
+Update the existing Settings screen state.
+
+SIGNED OUT:
+Show the current blue Sign In card.
+
+SIGNED IN:
+Replace the Sign In card with the authenticated account information.
+
+Show at minimum:
+
+- display name, if available
+- email
+- Sign out
+
+Keep:
+- Manage Subscription
+- Restore Purchases
+- Delete Account
+
+Do not redesign the screen.
+
+==================================================
+8. LOGOUT
+==================================================
+
+Connect Sign Out to the existing backend logout/session revocation endpoint.
+
+After successful logout:
+
+- revoke/invalidate the backend session
+- delete local access/refresh credentials from Keychain
+- clear authenticated user state
+- return Settings to the signed-out state
+
+==================================================
+9. DELETE ACCOUNT
+==================================================
+
+Do NOT fully redesign Delete Account.
+
+Connect it to the existing backend delete-account endpoint if that endpoint is already implemented and tested.
+
+Require a confirmation step before deletion.
+
+After successful deletion:
+
+- remove local tokens
+- clear user state
+- return to signed-out mode
+
+If deletion is not safe to connect yet, leave it untouched and report that clearly.
+
+==================================================
+10. NETWORK ERROR HANDLING
+==================================================
+
+Handle:
+
+- backend offline
+- Mac/iPhone not on same network
+- timeout
+- invalid credentials
+- duplicate email
+- invalid email
+- weak/invalid password
+- expired session
+- server error
+
+Show clean user-facing messages.
+
+Never show:
+- SQL errors
+- stack traces
+- raw JSON dumps
+- secrets
+
+==================================================
+11. DEVELOPMENT NETWORK SECURITY
+==================================================
+
+Because this is currently a local development backend:
+
+- keep production settings separate
+- do not commit local IP addresses as production configuration
+- do not disable security globally just to make local testing work
+
+If iOS blocks development HTTP traffic due to App Transport Security, make the smallest DEV-ONLY change necessary and document it.
+
+Do not broadly disable ATS for production.
+
+==================================================
+12. TEST ON REAL IPHONE
+==================================================
+
+Test this complete flow on the EXISTING real iPhone build:
+
+A. Create Account
+1. Open Settings
+2. Tap Sign In
+3. Tap Sign Up
+4. Enter a new email/password
+5. Tap Continue
+6. Verify the user is created in PostgreSQL
+7. Verify the app shows the authenticated account
+
+B. Persistence
+1. Close the app
+2. Reopen it
+3. Confirm the user remains authenticated if the session is still valid
+
+C. Logout
+1. Sign out
+2. Confirm credentials are removed locally
+3. Confirm protected backend endpoints are no longer accessible with the revoked session
+
+D. Login
+1. Log in again with the same account
+2. Confirm /me returns the same user
+
+E. Wrong password
+1. Enter an incorrect password
+2. Confirm a friendly error appears
+3. App must not crash
+
+F. Duplicate email
+1. Attempt to register the same email again
+2. Confirm a clear error appears
+
+==================================================
+13. DO NOT TOUCH
+==================================================
+
+Do NOT:
+
+- recreate /ios
+- run npx cap add ios
+- change Bundle Identifier
+- change Development Team
+- change Signing
+- rebuild the backend from scratch
+- create duplicate auth tables
+- change the visual design
+- add Apple/Google/Microsoft OAuth yet
+
+This task is ONLY:
+
+Existing native iOS Auth UI
+→ existing real backend
+→ real PostgreSQL user
+→ secure session
+→ persistent login/logout
+
+==================================================
+14. WHEN FINISHED
+==================================================
+
+Report:
+
+1. Exact backend auth routes used.
+2. Exact API base URL configuration created.
+3. How the iPhone reaches the Mac backend during development.
+4. Whether Fastify now listens on LAN safely for development.
+5. Where tokens are stored on iOS.
+6. Files changed.
+7. Whether registration succeeded against real PostgreSQL.
+8. Whether login succeeded.
+9. Whether /me succeeded.
+10. Whether logout/session revocation succeeded.
+11. Any remaining issue before production deployment.
+
+Do not continue to chat/AI integration until this authentication flow is verified end-to-end on the real iPhone.
