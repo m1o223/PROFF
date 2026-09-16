@@ -1,1 +1,540 @@
+I want you to make one final, highly polished update to the Creative Studio showcase card.
 
+IMPORTANT:
+The Creative Studio card should demonstrate what ChatPop can create using a continuous mix of IMAGES + VIDEO inside the SAME animated gallery.
+
+I will provide you with a video file.
+That video must be integrated directly among the other preview items inside the Creative Studio card — not placed outside the card and not shown as a separate banner.
+
+==================================================
+1. OVERALL CARD SIZE
+==================================================
+
+Make the Creative Studio card slightly smaller and more refined than its current version.
+
+It should still feel premium and important, but not dominate too much vertical space.
+
+Requirements:
+- Reduce overall card height slightly.
+- Keep the width aligned with the existing iPhone layout.
+- Maintain large rounded corners.
+- Keep the design balanced and premium.
+- Do not shrink the text until it becomes hard to read.
+
+The card should still contain:
+
+Small copy:
+"Create Images & Videos with AI"
+
+Main title:
+"Creative Studio"
+
+CTA:
+"Try it"
+
+==================================================
+2. INTERNAL MEDIA GALLERY
+==================================================
+
+Inside the Creative Studio card, create a vertically animated media gallery.
+
+This gallery should contain approximately:
+
+7–10 total media items.
+
+The media items should include a mixture of:
+
+- AI-style anime artwork
+- original cartoon-style character artwork
+- cinematic environments
+- futuristic cities
+- architecture
+- interior design
+- concept art
+- diagrams / visual design / mockups
+- fantasy scene
+- character artwork
+- the VIDEO file I provide
+
+IMPORTANT:
+Do NOT fill the gallery with boring generic objects such as headphones, random devices, empty product shots, or meaningless stock-looking content.
+
+The gallery should immediately communicate:
+
+"ChatPop can create many different types of high-quality images and videos."
+
+==================================================
+3. COPYRIGHT-SAFE VISUALS
+==================================================
+
+For production assets, do not use recognizable copyrighted characters such as Tom & Jerry or other protected characters unless we explicitly provide licensed assets.
+
+Instead, use:
+- original cartoon-style characters
+- original anime-style characters
+- original cinematic characters
+
+They can have the same general level of visual appeal, but they must be original.
+
+==================================================
+4. EXACT MOVEMENT I WANT
+==================================================
+
+The individual media tiles should move UPWARD inside the Creative Studio card.
+
+This is very important.
+
+I do NOT want the entire background image to slowly pan.
+
+I want the actual media tiles/cards/images/videos themselves to continuously travel upward through the card.
+
+Think of it like a premium vertical moving gallery.
+
+Behavior:
+
+- New media items enter from the bottom.
+- Existing media items move upward.
+- They remain visible while inside the card.
+- When an item reaches the top boundary of the Creative Studio card, it should disappear naturally because the card clips/masks it.
+- Then the sequence continues seamlessly.
+
+The animation must loop continuously.
+
+No jump back to the beginning should be visually noticeable.
+
+==================================================
+5. CLIPPING / MASKING
+==================================================
+
+The Creative Studio card must act as a strict clipping mask.
+
+Anything moving beyond the card bounds must disappear.
+
+For example:
+
+Image enters from bottom
+↓
+travels upward
+↓
+passes behind the Creative Studio text area if appropriate
+↓
+reaches top
+↓
+smoothly disappears beyond card bounds
+
+No media should be visible outside the rounded card.
+
+Make sure:
+- overflow is clipped
+- corner radius clipping works correctly
+- video is also clipped
+- no visual tearing
+- no black/white flashes during looping
+
+==================================================
+6. MEDIA LAYOUT
+==================================================
+
+Do not make it a simple single-column list.
+
+Create a more editorial collage layout.
+
+For example:
+
+- 2 or 3 columns
+- some tiles larger than others
+- some portrait
+- some landscape
+- varied but balanced composition
+
+Example structure:
+
+| small image | medium image |
+| large media/video           |
+| portrait     | small image  |
+| wide image                  |
+
+The entire collage system then moves vertically upward.
+
+Keep the composition clean.
+
+Do not overcrowd it.
+
+==================================================
+7. PROVIDED VIDEO — VERY IMPORTANT
+==================================================
+
+I will provide a video asset.
+
+Use that exact video as ONE of the media tiles inside the moving gallery.
+
+Treat it visually like another creative-generation result.
+
+Do NOT:
+- create a separate video section
+- show playback controls
+- show a video title
+- show a large play button
+- interrupt the card design
+
+The video should behave like visual content.
+
+Use:
+
+- autoplay
+- muted
+- loop
+- playsinline
+- no controls
+
+The video should start automatically when visible.
+
+Crop it appropriately using aspect-fill / object-fit: cover so it fills its tile.
+
+Do not distort its aspect ratio.
+
+If the video contains the character I provided ("Quwati / قواتي"), keep that character visible and centered appropriately.
+
+The video should visually blend naturally among the images.
+
+==================================================
+8. VIDEO POSITION IN THE SEQUENCE
+==================================================
+
+Do not permanently pin the video in one location.
+
+Place it naturally inside the repeating media sequence.
+
+Example:
+
+Image 1
+Image 2
+Anime
+Architecture
+VIDEO
+City
+Original cartoon character
+Concept art
+Image 8
+
+As the gallery moves upward, the video should move upward with everything else.
+
+Eventually it exits at the top, and later re-enters as the seamless gallery sequence repeats.
+
+==================================================
+9. VIDEO PERFORMANCE
+==================================================
+
+The video must not hurt iPhone performance.
+
+Requirements:
+
+- optimize video dimensions for the small card preview
+- no unnecessary 4K decoding
+- no audio playback
+- no video controls
+- preload only as appropriate
+- pause when card is far off-screen
+- resume when visible
+- avoid running multiple heavy videos simultaneously
+
+If necessary, create an optimized preview copy for the card while preserving the original source asset.
+
+==================================================
+10. IMAGE QUALITY
+==================================================
+
+All images displayed in the gallery should look high quality.
+
+Do not use:
+- blurry assets
+- obvious placeholders
+- low-resolution screenshots
+- repetitive visuals
+- generic stock photos
+
+Use premium-looking visual examples.
+
+Each item should feel like something the ChatPop Creative Studio could realistically create.
+
+==================================================
+11. CARD TEXT LAYER
+==================================================
+
+The moving gallery is background/showcase content.
+
+The UI text must remain readable above it.
+
+Keep:
+
+Create Images & Videos with AI
+Creative Studio
+Try it →
+
+Use a subtle dark gradient or dark overlay behind the text area.
+
+Do not completely hide the moving media.
+
+The balance should be approximately:
+
+Media is visually impressive
++
+Text stays completely readable
+
+==================================================
+12. MOVEMENT SPEED
+==================================================
+
+The vertical movement should be slow and elegant.
+
+Do NOT make it look like:
+- TikTok feed scrolling
+- a fast slideshow
+- a slot machine
+- a news ticker
+
+It should feel cinematic.
+
+Aim for a full visual cycle in roughly 12–20 seconds depending on the final number of media tiles.
+
+Adjust based on what looks best on the real iPhone.
+
+==================================================
+13. DEPTH / MOTION
+==================================================
+
+You can add very subtle differences in movement between columns if it improves the design.
+
+For example:
+
+Left column:
+moves slightly slower
+
+Right column:
+moves slightly faster
+
+But keep the difference small.
+
+Do not create chaotic parallax.
+
+The main movement direction is always upward.
+
+==================================================
+14. SEAMLESS LOOP
+==================================================
+
+The gallery must loop seamlessly.
+
+Do not let the user see:
+
+- the gallery suddenly jump back
+- an empty area between cycles
+- duplicated content flashing
+- a pause before restarting
+
+Use a duplicated track / seamless carousel strategy if necessary.
+
+The beginning and end of the sequence should connect naturally.
+
+==================================================
+15. CARD CAROUSEL
+==================================================
+
+The Creative Studio card is also part of the larger ChatPop feature carousel.
+
+Keep the existing horizontal swipe behavior.
+
+The horizontal feature carousel and the internal vertical media gallery must work together without gesture conflicts.
+
+Horizontal swipe:
+changes feature cards.
+
+Internal media:
+moves automatically vertically.
+
+The user should NOT accidentally vertically scroll the internal gallery by touch.
+
+The internal vertical gallery is automatic animation only.
+
+==================================================
+16. PAUSE DURING INTERACTION
+==================================================
+
+When the user actively interacts with the main feature carousel:
+
+- avoid jerky animation
+- temporarily reduce/pause unnecessary animation if required
+- resume naturally afterward
+
+Do not restart the media from the beginning every time.
+
+==================================================
+17. ACCESSIBILITY / REDUCE MOTION
+==================================================
+
+Respect iOS Reduce Motion.
+
+If Reduce Motion is enabled:
+
+Instead of continuous large vertical motion:
+- slow the gallery significantly
+or
+- use gentle crossfades between media sets
+
+Do not remove the feature completely.
+
+==================================================
+18. DARK CHATPOP IDENTITY
+==================================================
+
+The surrounding ChatPop interface remains:
+
+- pure black / near-black
+- white text
+- medium blue accent
+- premium dark iOS style
+
+The media itself may contain richer colors:
+- anime colors
+- cinematic orange
+- city neon
+- natural landscape colors
+- architectural materials
+
+This is intentional because the card is demonstrating creative output.
+
+==================================================
+19. REUSABLE DATA MODEL
+==================================================
+
+Do not hard-code each visual manually into the layout.
+
+Create a reusable media configuration structure.
+
+Example concept:
+
+type CreativeMediaItem = {
+    id
+    type: "image" | "video"
+    source
+    aspectRatio
+    altText
+}
+
+Then the card can render images and videos using the same gallery engine.
+
+This is important because I will replace/add Creative Studio samples later without rebuilding the entire component.
+
+==================================================
+20. PROVIDED VIDEO FILE
+==================================================
+
+When I attach the video file in this Codex task:
+
+- import/copy it into the correct local app asset location
+- give it a clean production filename
+- integrate it into the mediaItems collection
+- do not reference temporary absolute paths
+- make sure it gets bundled correctly into the existing iOS build
+
+If an optimized preview version is required, generate/use one specifically for the card and keep the integration clean.
+
+==================================================
+21. LOADING / FALLBACK
+==================================================
+
+The Creative Studio card should never look broken while media loads.
+
+For each image/video:
+- provide a proper dark placeholder/poster state
+- avoid blank white boxes
+- avoid layout shifts
+
+For video:
+show an appropriate poster frame until playback is ready.
+
+==================================================
+22. TAP BEHAVIOR
+==================================================
+
+The moving media should not interfere with the main card tap.
+
+The entire Creative Studio card remains tappable.
+
+Tap:
+→ open Creative Studio.
+
+CTA "Try it":
+→ open Creative Studio.
+
+Do not make individual media tiles separately tappable in this homepage card.
+
+==================================================
+23. FINAL VISUAL RESULT
+==================================================
+
+When I look at the Creative Studio card, I want the immediate impression to be:
+
+"This app creates professional images, characters, art, designs, and videos."
+
+It should NOT look like:
+- a basic image gallery
+- a photo album
+- a stock image carousel
+
+It should look like a live AI creation showcase.
+
+==================================================
+24. TEST ON REAL IPHONE
+==================================================
+
+Verify on the existing real iPhone:
+
+- card dimensions look correct
+- moving gallery is smooth
+- images move upward correctly
+- provided video plays
+- video moves upward together with images
+- video loops smoothly
+- media disappear correctly at the top card edge
+- new media enter correctly from the bottom
+- no content escapes the rounded mask
+- horizontal feature swipe remains smooth
+- no performance stutter
+- no excessive battery/CPU usage
+- no autoplay issue
+- no white flash
+- no layout jumping
+
+==================================================
+25. DO NOT TOUCH
+==================================================
+
+Do not modify:
+
+- backend
+- authentication
+- chat functionality
+- voice functionality
+- menu
+- settings
+- iOS signing
+- bundle ID
+- Development Team
+
+Only modify what is needed for the Creative Studio homepage card/media showcase.
+
+==================================================
+26. REPORT
+==================================================
+
+When complete, STOP and report:
+
+1. Creative Studio card dimensions before/after
+2. Number of image items added
+3. Which video file was integrated
+4. How video playback works
+5. How the seamless vertical loop works
+6. Files/components changed
+7. Performance optimizations
+8. Whether tested successfully on the real iPhone
