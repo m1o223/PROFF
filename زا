@@ -1,1 +1,114 @@
+Connect the existing ChatPop iOS/frontend app to the EXISTING ChatPop backend.
 
+IMPORTANT:
+Do not create a new backend.
+Do not redesign anything.
+Do not change the existing iOS project structure.
+
+The current problem is that the iPhone app is showing a connection timeout when trying to use authentication.
+
+Please inspect and fix the real connection between:
+
+ChatPop iPhone app
+→ existing frontend/native auth UI
+→ existing chatpop-backend
+→ PostgreSQL
+
+Requirements:
+
+1. Inspect the existing backend and confirm the actual port and auth routes.
+
+2. Make sure the backend is reachable from a REAL iPhone on the same Wi-Fi network.
+
+3. If the backend currently listens only on:
+127.0.0.1
+or
+localhost
+
+change the DEVELOPMENT server binding so it can listen on:
+
+0.0.0.0
+
+Do not weaken production security.
+
+4. Find the Mac's local LAN IP address and configure the DEVELOPMENT API base URL so the iPhone connects to the Mac backend.
+
+Example:
+
+http://MAC_LOCAL_IP:3000
+
+Do NOT use localhost or 127.0.0.1 from the iPhone.
+
+5. Create ONE central API configuration, for example:
+
+API_BASE_URL
+
+Do not hard-code the IP in multiple files.
+
+6. Test the backend health endpoint from the network.
+
+Verify that the backend health endpoint is reachable from the iPhone/network.
+
+7. If iOS App Transport Security blocks local HTTP development traffic, add only the minimum DEV-ONLY configuration necessary.
+
+Do not broadly disable ATS for production.
+
+8. Connect the existing authentication UI to the existing backend routes:
+
+- Register
+- Login
+- /me
+- Refresh
+- Logout
+
+Use the exact routes already implemented in chatpop-backend.
+
+Do not create duplicate routes.
+
+9. On registration/login success:
+- securely store auth tokens in iOS Keychain
+- fetch the current user
+- update the Settings screen to signed-in state
+
+10. On errors:
+show a clear user-friendly message instead of:
+"Connection timed out"
+
+Differentiate between:
+- backend offline
+- network unreachable
+- invalid credentials
+- duplicate email
+- server error
+
+11. Verify on the REAL iPhone:
+
+- Create account works
+- User is saved in real PostgreSQL
+- Login works
+- /me works
+- App remains signed in after restart
+- Logout works
+- No timeout occurs
+
+12. Preserve the existing project.
+
+Do NOT:
+- delete /ios
+- recreate iOS
+- run npx cap add ios
+- change Bundle Identifier
+- change Signing
+- change Development Team
+- rebuild the backend from scratch
+
+After fixing it, report:
+
+- Backend port
+- Backend LAN bind address
+- Mac LAN IP used
+- API_BASE_URL location
+- Auth routes used
+- Whether the iPhone can reach /health
+- Whether registration/login work end-to-end
+- Any remaining error
