@@ -1,1 +1,184 @@
+Use the attached image as the OFFICIAL ChatPop brand logo from now on.
 
+IMPORTANT:
+Do not redesign, redraw, reinterpret, or replace this logo.
+Use the exact supplied image/identity.
+
+The goal is to make ChatPop visually recognizable across the entire app.
+
+==================================================
+1. APP ICON
+==================================================
+
+Use this logo as the basis of the official ChatPop iOS App Icon.
+
+Prepare it correctly for the existing iOS project / Xcode asset catalog.
+
+Requirements:
+- Keep the black background.
+- Keep the white P symbol.
+- Keep the subtle blue glow/orbit detail.
+- Center the mark properly.
+- Make sure it remains readable at very small iPhone icon sizes.
+- Do not add text such as "ChatPop" inside the app icon.
+- Do not stretch or distort the artwork.
+
+Replace the current temporary/default app icon with the ChatPop icon.
+
+==================================================
+2. LAUNCH / SPLASH EXPERIENCE
+==================================================
+
+Use the same ChatPop identity for the app launch screen.
+
+Design:
+
+- Pure black background.
+- ChatPop logo centered.
+- Keep it clean and minimal.
+- No unnecessary text.
+- No cards.
+- No loading spinner unless technically necessary.
+
+The logo should appear elegant and appropriately sized, not huge.
+
+If a short transition from launch screen to the Chat screen is appropriate, keep it subtle and fast.
+
+==================================================
+3. INSIDE THE APP
+==================================================
+
+Use the logo consistently in appropriate brand locations.
+
+For example:
+- Empty/new Chat screen
+- Authentication screens
+- About ChatPop
+- Plus / Pro screen
+- Voice interface where a ChatPop brand mark is appropriate
+
+IMPORTANT:
+Do NOT place a huge logo as a permanent background behind every screen.
+
+The main application background should remain clean black.
+
+Use the logo as a brand element, not as distracting wallpaper.
+
+==================================================
+4. NEW CHAT / EMPTY STATE
+==================================================
+
+On a completely new chat:
+
+Use the ChatPop logo above the main welcome text.
+
+For example:
+
+[ChatPop logo]
+
+ChatPop
+
+What's on your mind?
+
+Keep this area centered, minimal, and premium.
+
+Once conversation messages begin, the large central branding should naturally disappear so the conversation has enough space.
+
+==================================================
+5. AUTHENTICATION
+==================================================
+
+Replace temporary chat-bubble/placeholder branding in:
+
+- Log in or sign up
+- Login
+- Create account
+
+with the official ChatPop logo.
+
+Keep the existing screen layout and behavior.
+
+Do not redesign the authentication flow.
+
+==================================================
+6. PLUS / PRO
+==================================================
+
+Use the official ChatPop mark in the Plus / Pro experience where appropriate.
+
+Do not duplicate the logo excessively.
+
+It should strengthen the brand without making the paywall visually crowded.
+
+==================================================
+7. DARK AND LIGHT MODE
+==================================================
+
+The supplied logo is primarily designed for ChatPop's dark identity.
+
+Dark Mode:
+- Use the supplied black-background version naturally.
+
+Light Mode:
+- Do NOT place a large black rectangle awkwardly inside a light screen.
+- Create/use a properly adapted brand treatment if necessary while preserving the exact symbol identity.
+- Do not redesign the P symbol itself.
+
+==================================================
+8. ASSET QUALITY
+==================================================
+
+Do not repeatedly use a low-resolution screenshot.
+
+Create proper optimized app assets from the supplied source where technically possible.
+
+Maintain:
+- sharp edges
+- correct proportions
+- clean blacks
+- clean white symbol
+- subtle blue lighting
+- no JPEG artifacts
+- no accidental cropping
+
+==================================================
+9. DO NOT CHANGE
+==================================================
+
+Do NOT change:
+- Chat UI structure
+- Menu structure
+- Backend
+- Authentication logic
+- Capacitor architecture
+- Bundle Identifier
+- Signing
+- Development Team
+
+This task is branding/asset integration only.
+
+==================================================
+10. EXISTING IOS PROJECT
+==================================================
+
+Use the EXISTING ChatPop iOS/Xcode project.
+
+Do not:
+- delete /ios
+- recreate iOS
+- run npx cap add ios
+- create another Xcode project
+
+After integration:
+- build the existing app
+- verify the new app icon appears correctly on the real iPhone
+- verify the launch screen
+- verify logo usage inside the application
+- check both dark/light appearance where applicable
+
+Then STOP and report:
+1. Which assets were added/replaced
+2. Which screens now use the official logo
+3. Whether the App Icon works correctly
+4. Whether the launch screen works correctly
+5. Whether it was verified on the real iPhone
