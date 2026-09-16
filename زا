@@ -1,1 +1,286 @@
+Implement native iOS voice dictation for the existing ChatPop message composer.
 
+IMPORTANT:
+This is NOT Voice Chat.
+This feature is speech-to-text dictation for the normal chat input.
+
+Do not redesign unrelated parts of ChatPop.
+
+==================================================
+1. TRIGGER
+==================================================
+
+When the user taps the microphone icon inside the normal ChatPop message composer:
+
+Open a native iOS-style voice dictation sheet/modal from the bottom.
+
+Do NOT immediately send a message.
+
+==================================================
+2. DICTATION SHEET
+==================================================
+
+The sheet should look similar in interaction to the reference screenshot, but use ChatPop's own design.
+
+Use:
+
+- Dark / black background
+- Rounded top corners
+- Native iOS presentation
+- Medium ChatPop blue accent
+- White primary text
+- Gray secondary elements
+
+At the top-right:
+- X button to cancel/close
+
+The sheet should support swipe-down dismissal where appropriate.
+
+==================================================
+3. LIVE SPEECH-TO-TEXT
+==================================================
+
+As soon as the sheet opens and microphone permission is available:
+
+Start listening to the user's microphone.
+
+Use native iOS speech recognition.
+
+Prefer Apple's native frameworks:
+
+- AVAudioSession
+- AVAudioEngine
+- SFSpeechRecognizer
+- SFSpeechAudioBufferRecognitionRequest
+
+Request the required microphone and speech-recognition permissions properly.
+
+Do NOT upload audio to our backend for this feature unless explicitly needed later.
+
+==================================================
+4. LIVE TRANSCRIPT
+==================================================
+
+Display the user's recognized speech LIVE inside the sheet.
+
+Example:
+
+User says:
+
+"Can you help me plan a trip to Japan?"
+
+While speaking, the text should progressively appear:
+
+"Can..."
+"Can you help..."
+"Can you help me plan a trip..."
+"Can you help me plan a trip to Japan?"
+
+Use partial recognition results.
+
+The displayed transcript should update continuously while the user speaks.
+
+==================================================
+5. AUDIO WAVEFORM
+==================================================
+
+Show a horizontal animated waveform/audio-level visualization similar to the reference.
+
+It should:
+
+- Move/react while the user is speaking
+- Become larger when the voice is louder
+- Become smaller when the voice is quieter
+- Use ChatPop blue / blue-gray tones
+- Stay subtle and premium
+
+IMPORTANT:
+Do NOT use a fake looping animation.
+
+Drive the waveform using REAL microphone audio level / metering from AVAudioEngine.
+
+The waveform does not need to represent exact audio samples visually, but its amplitude should react to actual microphone input.
+
+==================================================
+6. INSERT BUTTON
+==================================================
+
+At the bottom of the sheet add a large button:
+
+Insert
+
+Use ChatPop medium blue.
+
+Behavior:
+
+If there is recognized text:
+- Insert button is enabled.
+
+If transcript is empty:
+- Insert button is disabled.
+
+When the user taps Insert:
+
+1. Stop speech recognition.
+2. Stop microphone capture.
+3. Close the dictation sheet.
+4. Insert the recognized text into the existing ChatPop message input.
+5. DO NOT automatically send the message.
+
+The user should be able to edit the inserted text before sending.
+
+Example:
+
+Voice:
+"Explain quantum physics simply"
+
+After Insert:
+
+Message ChatPop:
+"Explain quantum physics simply"
+
+Then the user can edit it or press Send.
+
+==================================================
+7. CANCEL / X
+==================================================
+
+When the user taps X:
+
+- Stop recording
+- Stop speech recognition
+- Discard the current transcript
+- Close the sheet
+- Do not modify the chat input
+
+==================================================
+8. EXISTING TEXT
+==================================================
+
+If the message composer already contains text before opening dictation:
+
+DO NOT delete it.
+
+When Insert is tapped, append the dictated text intelligently.
+
+Example:
+
+Existing:
+"Please explain"
+
+Dictated:
+"this image for me"
+
+Result:
+"Please explain this image for me"
+
+Handle spacing correctly.
+
+==================================================
+9. PERMISSIONS
+==================================================
+
+Add/configure the required iOS permission descriptions:
+
+- Microphone permission
+- Speech Recognition permission
+
+Use clear ChatPop-specific descriptions.
+
+Do not crash if permission is denied.
+
+If permission is denied:
+show a clear message explaining that microphone/speech permission is required and allow the user to open iOS Settings if appropriate.
+
+==================================================
+10. STATES
+==================================================
+
+Support these UI states:
+
+- Requesting permission
+- Listening
+- Recognizing
+- Transcript available
+- No speech detected
+- Permission denied
+- Recognition unavailable/error
+
+Do not show raw Apple/native error codes to the user.
+
+==================================================
+11. LANGUAGE
+==================================================
+
+Use the user's current app/device language where practical for speech recognition.
+
+Structure the implementation so later ChatPop can explicitly choose recognition languages such as:
+
+- English
+- Arabic
+- Swedish
+
+Do not hard-code English-only recognition.
+
+==================================================
+12. NATIVE IOS
+==================================================
+
+This feature should use REAL native iOS microphone and speech-recognition APIs.
+
+Do not simulate speech recognition in JavaScript.
+
+If the existing React + Capacitor composer needs a native bridge:
+
+Create the minimum clean Capacitor native bridge required.
+
+Keep the existing ChatPop iOS project.
+
+Do NOT:
+
+- recreate /ios
+- run npx cap add ios
+- change Bundle Identifier
+- change Development Team
+- change Signing
+
+==================================================
+13. PRIVACY / CLEANUP
+==================================================
+
+When recording stops:
+
+- remove AVAudioEngine taps correctly
+- stop the audio engine
+- end the recognition request
+- release recognition tasks
+- restore the audio session appropriately
+
+Opening and closing dictation repeatedly must not create duplicate audio sessions or crashes.
+
+==================================================
+14. REAL IPHONE TEST
+==================================================
+
+Test on the existing real iPhone:
+
+1. Tap microphone
+2. Sheet opens
+3. Speak
+4. Waveform reacts to actual voice
+5. Transcript appears live
+6. Tap Insert
+7. Text appears in ChatPop composer
+8. Text is NOT automatically sent
+9. Reopen microphone and repeat
+10. Tap X and confirm transcript is discarded
+11. Deny permission and verify graceful handling
+
+When finished, STOP and report:
+
+- Native iOS APIs used
+- Files changed
+- Permission keys added
+- How waveform levels are calculated
+- How transcript is passed back to the existing composer
+- Whether it was tested successfully on the real iPhone
