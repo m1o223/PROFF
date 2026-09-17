@@ -1,1 +1,40 @@
+The Supabase project is active and healthy.
 
+Please troubleshoot the current SSL negotiation timeout without changing the database architecture.
+
+1. Keep using the existing Supabase Session Pooler connection string on port 5432.
+2. For this connection test, configure the PostgreSQL client to use:
+
+sslmode=require
+
+or the equivalent driver setting:
+
+ssl: 'require'
+
+Do NOT disable SSL.
+
+3. Do not use verify-full/certificate pinning for this first connectivity test unless the Supabase CA certificate is explicitly installed and configured.
+
+4. Test:
+- DNS resolution
+- TCP connection
+- PostgreSQL SSL negotiation
+- authentication
+- simple SELECT 1
+
+5. If Session Pooler on port 5432 still times out during SSL negotiation, test the Supabase Transaction Pooler on port 6543 ONLY as a diagnostic comparison.
+
+Do not permanently switch the backend to transaction pooling unless compatibility is verified, because transaction mode has limitations such as prepared statements.
+
+6. Check whether Supabase Database Network Restrictions are enabled and blocking this Mac/IP.
+
+7. Do not run migrations until a simple database query succeeds.
+
+8. Do not expose DATABASE_URL or the database password in logs or your response.
+
+Report exactly:
+- whether sslmode=require fixes the connection
+- whether SELECT 1 succeeds
+- whether port 5432 or 6543 works
+- whether network restrictions are enabled
+- the exact error if it still fails, without secrets
