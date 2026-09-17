@@ -1,1 +1,79 @@
+The iPhone app is timing out when trying to create/login to an account.
 
+Please fix ONLY the real-iPhone → Mac backend connection.
+
+Current expected architecture:
+
+iPhone
+→ ChatPop backend running on Mac
+→ Supabase PostgreSQL
+
+Please verify all of the following:
+
+1. Start the existing backend and confirm it is actually running.
+
+2. Make Fastify listen on:
+   0.0.0.0
+   not localhost / 127.0.0.1 only.
+
+3. Detect the Mac's CURRENT LAN IP address on this Wi-Fi.
+
+The previous IP was approximately:
+192.168.8.131
+
+Do not assume it is still the same.
+Check it again.
+
+4. Update the development API base URL used by the iOS app to:
+
+http://CURRENT_MAC_LAN_IP:3000
+
+Do not use:
+localhost
+127.0.0.1
+
+5. Keep the API base URL centralized in one config file.
+
+6. Verify from the Mac that:
+
+GET /health
+
+works.
+
+7. Verify the same health endpoint is reachable over the LAN address.
+
+8. Check macOS firewall access for the backend/Node process.
+
+9. Check iOS Local Network permission.
+
+If needed, add the proper iOS local network usage description.
+
+10. Check development ATS configuration.
+
+For local development only, allow the minimum HTTP LAN access required.
+
+Do NOT disable ATS globally for production.
+
+11. Then test on the REAL iPhone:
+
+- /health
+- Register
+- Login
+- /me
+
+12. Do not change:
+- UI
+- authentication architecture
+- Supabase configuration
+- database
+- signing
+- Bundle ID
+
+The current problem is network connectivity only.
+
+When finished, report:
+- current Mac LAN IP
+- backend port
+- exact development API base URL
+- whether /health worked from LAN
+- whether Register worked from the real iPhone
