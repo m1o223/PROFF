@@ -1,1 +1,427 @@
+We are now ready to connect the EXISTING ChatPop frontend/iOS app to the EXISTING ChatPop backend and Supabase database.
 
+IMPORTANT:
+I have already provided the backend database credentials / Supabase connection privately.
+Do NOT print, expose, log, or commit any secrets.
+
+I am now on my HOME Wi-Fi network.
+
+The goal of this task is to make the existing authentication UI actually work end-to-end.
+
+==================================================
+1. USE THE EXISTING PROJECTS
+==================================================
+
+Use the EXISTING:
+
+- chatpop-frontend
+- chatpop-backend
+- existing iOS/Capacitor project
+- existing Supabase PostgreSQL database
+
+Do NOT create new repositories.
+Do NOT rebuild the app from scratch.
+Do NOT redesign the UI.
+
+==================================================
+2. VERIFY BACKEND FIRST
+==================================================
+
+Before touching frontend integration:
+
+1. Verify the backend can connect to the Supabase PostgreSQL database.
+2. Run the existing migrations if they have not already been applied.
+3. Verify these backend features work:
+
+- register
+- login
+- logout
+- refresh session
+- current user /me
+- user settings
+- delete account if already implemented
+
+4. Verify a real test user can be created and persists in Supabase.
+
+Do NOT continue until the backend database connection is confirmed.
+
+==================================================
+3. BACKEND DEV NETWORK ACCESS
+==================================================
+
+Because I am testing on a REAL iPhone:
+
+The backend running on the Mac must be reachable from the iPhone on the same home Wi-Fi.
+
+Do NOT use:
+
+localhost
+127.0.0.1
+
+for the iPhone API base URL.
+
+Configure the development backend to listen on:
+
+0.0.0.0
+
+on the existing backend port.
+
+Find the Mac's current LAN IP on the home network.
+
+Example:
+
+192.168.x.x
+
+The development API URL should become something like:
+
+http://MAC_LAN_IP:BACKEND_PORT
+
+Create ONE centralized API base URL configuration.
+
+Do NOT hard-code this address in multiple frontend files.
+
+==================================================
+4. CENTRAL API CLIENT
+==================================================
+
+Create or clean up one reusable frontend API client.
+
+It should handle:
+
+- base URL
+- JSON requests
+- authorization headers
+- error parsing
+- timeout
+- refresh token flow
+- logout on unrecoverable session expiration
+
+Do not scatter fetch calls randomly across components.
+
+==================================================
+5. CONNECT CREATE ACCOUNT
+==================================================
+
+Connect the EXISTING Create Account screen to the real backend register endpoint.
+
+When user enters:
+
+- email
+- password
+- name if required
+
+and presses Continue:
+
+1. Validate locally.
+2. Show loading state.
+3. Disable duplicate submission.
+4. Call the real backend register endpoint.
+5. Handle backend validation errors.
+6. On success:
+   - securely save session credentials
+   - fetch /me
+   - update authenticated app state
+   - close auth flow
+   - return to the app as signed in
+
+The user must actually appear in Supabase PostgreSQL.
+
+==================================================
+6. CONNECT LOGIN
+==================================================
+
+Connect the EXISTING Login screen.
+
+When user enters email/password:
+
+1. Call the real backend login endpoint.
+2. Show loading.
+3. Handle wrong password / unknown account cleanly.
+4. On success:
+   - securely save auth credentials
+   - fetch /me
+   - update UI to signed-in state
+   - close login screen
+
+Do not show raw backend errors.
+
+==================================================
+7. SECURE TOKEN STORAGE
+==================================================
+
+Do NOT store sensitive tokens in localStorage or insecure UserDefaults.
+
+For the iOS app, use secure native storage / Keychain.
+
+Store only what is necessary:
+
+- access token
+- refresh token/session credential
+
+Never store:
+- plaintext password
+- database URL
+- database password
+- backend secrets
+
+==================================================
+8. SESSION RESTORE
+==================================================
+
+When the app opens:
+
+If valid auth/session credentials exist:
+
+1. Restore the session.
+2. Call /me.
+3. Keep the user signed in.
+
+The user should NOT have to login every time they reopen the app.
+
+If access token expired:
+- use the existing refresh flow
+- rotate/update tokens correctly
+
+If refresh fails:
+- clear local session
+- return to signed-out state
+
+==================================================
+9. SETTINGS SCREEN STATE
+==================================================
+
+Update the existing Settings screen based on authentication state.
+
+SIGNED OUT:
+
+Show the existing Sign In UI.
+
+SIGNED IN:
+
+Show:
+- display name
+- email
+- account state
+- Sign Out
+
+Keep existing:
+- Manage Subscription
+- Restore Purchases
+- Delete Account
+
+Do NOT redesign the Settings screen.
+
+==================================================
+10. LOGOUT
+==================================================
+
+Connect Sign Out to the real backend logout/session revocation endpoint.
+
+On logout:
+
+- revoke backend session
+- remove Keychain credentials
+- clear authenticated user state
+- return UI to signed-out mode
+
+==================================================
+11. DELETE ACCOUNT
+==================================================
+
+If the backend Delete Account endpoint is already implemented and tested:
+
+Connect it.
+
+Require confirmation before deletion.
+
+After successful deletion:
+
+- remove local auth credentials
+- clear user state
+- return to signed-out mode
+
+If it is not safe/finished yet, leave it disabled and report that clearly.
+
+==================================================
+12. FRONTEND + BACKEND ERROR HANDLING
+==================================================
+
+Handle clearly:
+
+- backend offline
+- no network
+- timeout
+- duplicate email
+- invalid email
+- weak password
+- wrong password
+- expired session
+- server error
+- database unavailable
+
+User-facing messages must be clean.
+
+Do NOT show:
+- SQL errors
+- stack traces
+- raw JSON
+- tokens
+- secrets
+
+==================================================
+13. IOS LOCAL NETWORK / ATS
+==================================================
+
+Because this is local development on home Wi-Fi:
+
+If iOS blocks HTTP development traffic, add the minimum DEV-ONLY App Transport Security / local-network configuration required.
+
+Do NOT disable ATS globally for production.
+
+If Local Network permission is required, configure it properly.
+
+==================================================
+14. DO NOT TOUCH THE DESIGN
+==================================================
+
+Do NOT redesign:
+
+- login
+- signup
+- settings
+- chat UI
+- message composer
+- menu
+- splash
+- Creative Studio
+- Plus / Pro page
+
+This task is integration only.
+
+==================================================
+15. END-TO-END TEST
+==================================================
+
+Test this full flow on the REAL iPhone:
+
+TEST A — Register
+1. Open Settings
+2. Tap Sign In
+3. Tap Sign Up
+4. Enter a new email/password
+5. Tap Continue
+6. Verify success
+7. Verify user exists in Supabase
+
+TEST B — Restart
+1. Close app completely
+2. Reopen app
+3. User should still be signed in
+
+TEST C — /me
+Verify current user loads correctly.
+
+TEST D — Logout
+1. Sign out
+2. Session should be revoked
+3. App becomes signed out
+
+TEST E — Login again
+1. Login with same email/password
+2. Same account should load
+
+TEST F — Wrong password
+Must show friendly error.
+No crash.
+
+TEST G — Duplicate account
+Register same email again.
+Must show clear error.
+
+==================================================
+16. VERIFY SUPABASE DATA
+==================================================
+
+After testing, verify in Supabase that:
+
+- user exists
+- user settings exist
+- session records are correct
+- timestamps are correct
+- password is hashed
+- no plaintext password exists
+
+==================================================
+17. SECURITY
+==================================================
+
+Do NOT expose Supabase PostgreSQL directly to the frontend.
+
+Architecture must remain:
+
+iPhone / Frontend
+        ↓
+ChatPop Backend API
+        ↓
+Supabase PostgreSQL
+
+The frontend must NEVER contain:
+- DATABASE_URL
+- database password
+- service-role secrets
+
+==================================================
+18. DO NOT CHANGE
+==================================================
+
+Do NOT:
+- create another backend
+- create another database
+- replace PostgreSQL
+- replace existing auth architecture with Supabase Auth
+- recreate /ios
+- change Bundle Identifier
+- change Development Team
+- change Signing
+- modify unrelated features
+
+==================================================
+19. DEFINITION OF DONE
+==================================================
+
+This task is DONE only when:
+
+- Supabase connection works
+- backend migrations are applied
+- register works
+- login works
+- /me works
+- session persists after app restart
+- logout works
+- frontend is using the real backend
+- iPhone communicates with backend over home Wi-Fi
+- no secrets are exposed
+- no auth placeholder alerts remain
+
+==================================================
+20. FINAL REPORT
+==================================================
+
+When finished, STOP.
+
+Report:
+
+1. Backend port
+2. Development API base URL location/config file
+3. Backend auth routes used
+4. Whether Supabase connection succeeded
+5. Whether migrations succeeded
+6. Whether Register succeeded
+7. Whether Login succeeded
+8. Whether /me succeeded
+9. Whether session persistence worked
+10. Whether Logout worked
+11. Whether tested on real iPhone
+12. Any remaining issue
+
+Do NOT include passwords, DATABASE_URL, tokens, or secrets in the report.
