@@ -1,1 +1,603 @@
+Refine the existing ChatPop chat composer/input and make it feel much closer to a real native iOS chat interface.
 
+IMPORTANT:
+Do NOT redesign the whole Chat screen.
+Do NOT touch backend/database/authentication unless needed only to support request cancellation.
+Focus ONLY on the message composer/input behavior and visuals.
+
+==================================================
+1. MAIN GOAL
+==================================================
+
+The current ChatPop message composer feels too custom/heavy.
+
+I want it to feel cleaner, lighter, and much closer to Apple's native iOS interaction style.
+
+The final composer must include:
+
+- native-feeling text input
+- smaller/lighter + attachment button
+- microphone icon without a heavy background
+- dynamic Send / Stop button
+- proper keyboard/safe-area handling
+- proper message generation state
+
+==================================================
+2. INPUT CONTAINER — NATIVE IOS FEEL
+==================================================
+
+Refine the main message composer container.
+
+Current issue:
+The composer feels like a large custom dark box.
+
+I want it to feel more native to iOS.
+
+Design requirements:
+
+- compact but comfortable height
+- rounded iOS-style shape
+- use native system spacing
+- very dark translucent/system material where appropriate
+- thin subtle border only if needed
+- no heavy glow
+- no oversized shadow
+- no unnecessary gradients
+- no bulky visual treatment
+
+Use real iOS material/system appearance where technically possible.
+
+If native UIKit/SwiftUI integration already exists in the project, reuse it.
+
+Do NOT fake Apple Liquid Glass with random CSS effects.
+
+==================================================
+3. TEXT FIELD
+==================================================
+
+The text area should behave like a modern iOS chat input.
+
+Placeholder:
+
+"Message ChatPop..."
+
+Requirements:
+
+- left aligned
+- vertically centered when single line
+- automatically grow when text becomes multiline
+- minimum approximately 1 line
+- maximum around 4–6 lines before internal scrolling
+- no horizontal scrolling
+- use appropriate system font sizing
+- maintain proper contrast in dark mode
+- preserve typed text when keyboard opens/closes
+
+The input should never feel oversized when empty.
+
+==================================================
+4. + ATTACHMENT BUTTON
+==================================================
+
+The + button should be smaller than the current version.
+
+Current issue:
+It feels too large and visually heavy.
+
+New design:
+
+- smaller circular control
+- lighter / brighter than the surrounding composer
+- subtle dark/light system material depending theme
+- use SF Symbol:
+  "plus"
+
+Do not use a huge filled circle.
+
+Approximate visual target:
+a compact iOS action button, around 32–38pt visual size, with a proper 44pt tap target.
+
+IMPORTANT:
+Visual size can be smaller, but accessibility hit area must remain at least approximately 44x44pt.
+
+Keep the existing attachment menu behavior:
+- Camera
+- Photos
+- Audio
+- File
+
+==================================================
+5. MICROPHONE BUTTON
+==================================================
+
+The microphone icon should NOT have a visible heavy circle/background behind it.
+
+I want:
+
+- microphone icon by itself
+- clean
+- minimal
+- native-looking
+- no big bubble behind it
+
+Use SF Symbol:
+"mic"
+
+or the correct existing native equivalent.
+
+The icon should still have a proper invisible/transparent tap target for accessibility.
+
+Tap target:
+approximately 44x44pt
+
+But visually:
+only the microphone icon should be visible.
+
+Do not remove its functionality.
+
+==================================================
+6. VOICE / AUDIO BUTTON
+==================================================
+
+Keep the existing voice/audio behavior, but make sure its visual style stays consistent with the new composer.
+
+Do not let the microphone and voice-chat button look like two oversized floating bubbles.
+
+Maintain clear visual hierarchy:
+
+- microphone = speech-to-text/dictation
+- voice/wave button = voice conversation
+
+==================================================
+7. SEND BUTTON — NORMAL STATE
+==================================================
+
+When the input contains text and there is NO active AI response:
+
+Show the normal Send button.
+
+Use an appropriate native icon such as:
+
+"arrow.up"
+
+or the existing ChatPop send icon.
+
+Visual:
+- compact circular button
+- ChatPop blue when active
+- white icon
+- disabled/dim when there is no text
+
+Do not let it resize the whole composer when changing state.
+
+==================================================
+8. VERY IMPORTANT — SEND BECOMES STOP
+==================================================
+
+This is critical.
+
+When the user sends a message and ChatPop is generating/streaming a response:
+
+The Send button MUST immediately transform into a STOP button.
+
+The stop button should use a square icon.
+
+Use an SF Symbol such as:
+
+"stop.fill"
+
+or a rounded square equivalent.
+
+Example behavior:
+
+Before send:
+[ ↑ ]
+
+User taps Send
+
+While AI is responding:
+[ ■ ]
+
+After response finishes:
+return to normal composer state.
+
+This should happen without layout jump.
+
+The button size and position must remain exactly the same.
+
+Only the icon/state changes.
+
+==================================================
+9. STOP BUTTON BEHAVIOR
+==================================================
+
+When the user taps the Stop button during generation:
+
+Immediately stop/cancel the current AI response.
+
+Requirements:
+
+- cancel the active streaming/request task
+- stop receiving new tokens/content
+- keep already-received assistant text visible
+- do NOT delete the partial response
+- mark the request as stopped/cancelled if needed
+- return composer to normal state
+
+If using fetch/streaming on frontend:
+use AbortController or the equivalent existing cancellation architecture.
+
+If using native URLSession:
+cancel the active URLSessionTask.
+
+If backend supports stream cancellation:
+propagate cancellation cleanly.
+
+Do NOT fake the Stop button visually while the request continues running.
+
+It must truly cancel the active request.
+
+==================================================
+10. STATE MACHINE
+==================================================
+
+Implement the composer using explicit states.
+
+For example:
+
+IDLE_EMPTY
+- input empty
+- no response generating
+- show voice/mic behavior
+- send disabled/hidden depending current design
+
+IDLE_WITH_TEXT
+- text exists
+- no response generating
+- show active Send button
+
+SENDING
+- request submitted
+- immediately switch Send → Stop
+
+STREAMING
+- assistant is currently responding
+- show Stop button
+
+CANCELLED
+- user pressed Stop
+- stop stream
+- return to idle
+
+COMPLETED
+- response finished naturally
+- return Stop → normal Send/voice state
+
+ERROR
+- response failed
+- restore normal composer state
+- keep user input/message history intact
+
+Do not allow state inconsistencies.
+
+==================================================
+11. USER SEND FLOW
+==================================================
+
+Example:
+
+User types:
+
+"Hello"
+
+Composer shows:
+
+Message ChatPop...
+[ + ]                      [ mic ] [ ↑ ]
+
+User taps Send:
+
+- user message immediately appears in chat
+- input clears
+- send button becomes Stop
+
+While assistant responds:
+
+[ + ]                      [ mic ] [ ■ ]
+
+When response is complete:
+
+Stop button disappears/reverts to the correct idle state.
+
+==================================================
+12. STOP DURING STREAMING
+==================================================
+
+Example:
+
+Assistant has generated:
+
+"Hello! How can I help..."
+
+User taps Stop.
+
+Expected result:
+
+- generation ends immediately
+- partial assistant message remains:
+
+"Hello! How can I help..."
+
+- no additional words appear
+- composer becomes usable again
+- user can immediately type another message
+
+==================================================
+13. PREVENT DUPLICATE REQUESTS
+==================================================
+
+While a response is actively generating:
+
+Do NOT allow repeated Send presses to create multiple duplicate AI requests.
+
+The active action becomes Stop.
+
+There should only be one active response generation per chat unless the current architecture intentionally supports parallel requests.
+
+==================================================
+14. KEYBOARD BEHAVIOR
+==================================================
+
+The composer must work correctly with the real iPhone keyboard.
+
+Requirements:
+
+- composer stays above keyboard
+- no overlap
+- no jumpy resizing
+- no large blank space
+- respect keyboard safe area
+- smoothly animate with keyboard presentation/dismissal
+
+When keyboard closes:
+composer returns smoothly to bottom safe area.
+
+==================================================
+15. SAFE AREA
+==================================================
+
+Respect:
+
+- bottom home indicator
+- iPhone safe area
+- Dynamic Island/notch at top where relevant
+
+The composer must never sit underneath the home indicator.
+
+==================================================
+16. MULTILINE INPUT
+==================================================
+
+If the user types a longer message:
+
+- input grows vertically
+- controls remain properly aligned
+- + button stays accessible
+- mic/send/stop remain aligned near bottom or center as appropriate
+
+After reaching max height:
+text area becomes internally scrollable.
+
+Do not let the composer occupy the entire screen.
+
+==================================================
+17. ANIMATIONS
+==================================================
+
+Animations should be subtle and native-feeling.
+
+Use smooth transitions for:
+
+- Send → Stop
+- Stop → Send
+- input growth
+- keyboard movement
+- attachment menu
+
+Do NOT use exaggerated animations.
+
+Send → Stop should feel like a clean icon morph/change.
+
+Duration around:
+0.15–0.25 seconds
+
+==================================================
+18. HAPTICS
+==================================================
+
+Add subtle native haptic feedback where appropriate.
+
+Examples:
+
+Send:
+light impact
+
+Stop:
+light/medium impact
+
+Attachment +:
+light impact
+
+Do not overuse haptics.
+
+==================================================
+19. DARK MODE
+==================================================
+
+For the current dark ChatPop design:
+
+- background: pure/near black
+- composer: dark system material / dark gray
+- placeholder: iOS secondary gray
+- text: white
+- active send: ChatPop medium blue
+- stop icon/button: clear but not aggressively red unless there is a strong UX reason
+
+Prefer keeping Stop visually consistent with the ChatPop design, for example:
+dark circular control + white stop square
+or subtle blue-accented state.
+
+==================================================
+20. LIGHT MODE
+==================================================
+
+The composer should also correctly adapt to Light mode.
+
+Use system-aware colors/materials if possible.
+
+Do not hard-code dark colors in a way that breaks Light mode.
+
+==================================================
+21. ACCESSIBILITY
+==================================================
+
+Every button must have proper accessibility labels.
+
+Examples:
+
++:
+"Add attachment"
+
+Microphone:
+"Dictate message"
+
+Voice:
+"Start voice conversation"
+
+Send:
+"Send message"
+
+Stop:
+"Stop response"
+
+All controls must maintain accessible touch targets.
+
+==================================================
+22. IMPORTANT — DO NOT BREAK EXISTING FEATURES
+==================================================
+
+Do not break:
+
+- attachment menu
+- speech-to-text microphone
+- voice chat
+- keyboard
+- chat history
+- AI model selector
+- menu
+- settings
+
+Only refine the composer and add correct Send/Stop request state.
+
+==================================================
+23. DO NOT REDESIGN THE CHAT SCREEN
+==================================================
+
+Do NOT change:
+
+- ChatPop logo
+- model selector
+- menu button
+- new chat button
+- empty state
+- overall page structure
+
+Only work on the bottom chat composer/input.
+
+==================================================
+24. REAL IPHONE TEST CASES
+==================================================
+
+Test all of the following on the real iPhone:
+
+TEST 1 — Empty input
+- composer looks compact
+- + is smaller/lighter
+- microphone has no visible large background
+- send is disabled/hidden appropriately
+
+TEST 2 — Type text
+- type "Hello"
+- Send becomes active
+- input remains clean
+
+TEST 3 — Send
+- tap Send
+- user message appears
+- input clears
+- Send immediately changes to Stop square
+
+TEST 4 — Stop
+- while assistant is responding, tap Stop
+- response stops immediately
+- partial response remains
+- composer returns to idle
+
+TEST 5 — Natural completion
+- send another message
+- let assistant finish
+- Stop automatically returns to normal Send/voice state
+
+TEST 6 — Multiline
+- type a long message
+- composer grows smoothly
+- does not exceed max height
+
+TEST 7 — Keyboard
+- open/close keyboard repeatedly
+- no jumps
+- no composer overlap
+
+TEST 8 — Attachment menu
+- + still works
+- menu opens/closes properly
+
+TEST 9 — Microphone
+- dictation still works
+
+TEST 10 — Voice chat
+- voice-chat button still works
+
+==================================================
+25. DEFINITION OF DONE
+==================================================
+
+This task is complete only when:
+
+- composer feels significantly closer to native iOS
+- + button is smaller and lighter
+- microphone has no heavy visible background
+- Send state works
+- Stop state works
+- Stop truly cancels AI generation
+- no layout jumps
+- keyboard works correctly
+- existing features remain working
+
+==================================================
+26. REPORT
+==================================================
+
+When finished, STOP and report:
+
+1. Files changed
+2. Composer implementation changes
+3. Native iOS components/materials used
+4. Send/Stop state implementation
+5. How active requests are cancelled
+6. Whether partial assistant text remains after Stop
+7. Keyboard handling approach
+8. Whether tested on the real iPhone
+9. Any remaining issue
+
+Do not continue to another feature after this task.
