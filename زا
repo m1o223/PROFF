@@ -1,1 +1,235 @@
+I want you to connect the existing ChatPop backend project to my existing Render account/service and manage the deployment from here.
 
+Existing Render service:
+chatpop-backend
+
+Existing GitHub repository:
+m1o223/chatpop-backend
+
+IMPORTANT:
+Do NOT create another Render service.
+Do NOT create another backend.
+Do NOT change frontend or iOS yet.
+
+==================================================
+1. CHECK RENDER ACCESS
+==================================================
+
+First check whether you already have access to Render through any available:
+
+- Render CLI
+- Render API
+- Render MCP/integration
+- authenticated local Render session
+
+If Render access is already authenticated, use it.
+
+If authentication is required, STOP and tell me exactly the ONE login/authorization step I need to complete.
+
+Do not ask me to paste passwords into chat.
+
+==================================================
+2. USE THE EXISTING SERVICE
+==================================================
+
+Use ONLY the existing Render Web Service:
+
+chatpop-backend
+
+Do not create a replacement service.
+
+Verify it is connected to:
+
+m1o223/chatpop-backend
+branch: main
+
+==================================================
+3. VERIFY BUILD CONFIGURATION
+==================================================
+
+The service must use:
+
+Runtime:
+Node
+
+Root Directory:
+repository root / blank
+
+Build Command:
+npm ci --include=dev && npm run build
+
+Start Command:
+npm start
+
+Health Check Path:
+/health
+
+Node version:
+24
+
+Verify these settings and correct them if needed.
+
+==================================================
+4. ENVIRONMENT VARIABLES
+==================================================
+
+Configure the Render service using the backend's real existing configuration.
+
+Required variables:
+
+DATABASE_URL
+DATABASE_SSL=true
+DATABASE_CA_FILE=certs/supabase-ca.crt
+RATE_LIMIT_SECRET
+NODE_ENV=production
+HOST=0.0.0.0
+CORS_ORIGINS=capacitor://localhost
+
+IMPORTANT:
+
+- Use the existing working Supabase DATABASE_URL from the backend's local ignored .env.
+- NEVER print DATABASE_URL.
+- NEVER print the database password.
+- NEVER commit it to GitHub.
+
+For RATE_LIMIT_SECRET:
+generate a new cryptographically strong production secret of at least 32 random characters.
+
+Do not display the secret in your final report.
+
+Do NOT manually define PORT.
+Render provides PORT automatically.
+
+==================================================
+5. OPTIONAL VARIABLES
+==================================================
+
+Leave optional values at their backend defaults unless needed:
+
+DB_POOL_MAX
+ACCESS_TOKEN_SECONDS
+SESSION_DAYS
+TRUST_PROXY
+STORAGE_DRIVER
+STORAGE_LOCAL_ROOT
+MAX_MEDIA_BYTES
+
+Do NOT set:
+
+ALLOW_TEST_DATABASE_RESET
+
+Do NOT copy local Docker-only settings:
+
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_DB
+
+==================================================
+6. SUPABASE TLS
+==================================================
+
+The public Supabase CA certificate already exists in the repository at:
+
+certs/supabase-ca.crt
+
+Keep verified TLS enabled.
+
+Do NOT use:
+
+rejectUnauthorized: false
+
+Do NOT disable SSL verification.
+
+==================================================
+7. DEPLOY
+==================================================
+
+Once Render configuration is correct:
+
+Deploy the latest commit from main.
+
+Monitor the deploy logs.
+
+If deployment fails:
+diagnose the actual error and fix only what is necessary.
+
+Do not repeatedly redeploy without understanding the failure.
+
+==================================================
+8. VERIFY THE PUBLIC BACKEND
+==================================================
+
+After a successful deployment, verify:
+
+https://chatpop-backend.onrender.com/health
+
+or the actual Render URL assigned to the existing service.
+
+Expected:
+HTTP 200
+healthy backend response
+
+==================================================
+9. VERIFY SUPABASE FROM RENDER
+==================================================
+
+From the deployed backend verify:
+
+- PostgreSQL connection
+- verified TLS
+- SELECT 1
+- migrations/schema compatibility
+- database readiness
+
+Do not run destructive tests.
+
+==================================================
+10. TEST AUTHENTICATION
+==================================================
+
+Test the production Render backend safely:
+
+- register test account
+- login
+- /me
+- refresh
+- logout
+
+Use test data only.
+
+Do not expose tokens.
+
+==================================================
+11. DO NOT TOUCH YET
+==================================================
+
+Do NOT change:
+
+- frontend API URL
+- iOS API URL
+- Chat UI
+- Settings UI
+- subscription UI
+- Supabase schema unnecessarily
+- Bundle Identifier
+- signing
+
+First make the Render backend fully healthy.
+
+==================================================
+12. FINAL REPORT
+==================================================
+
+When done, STOP and report only:
+
+- Render authentication status
+- existing service found: yes/no
+- environment configuration completed: yes/no
+- deploy succeeded: yes/no
+- public backend URL
+- /health result
+- Supabase connection result
+- auth test result
+- any remaining blocker
+
+Do NOT reveal any secret values.
