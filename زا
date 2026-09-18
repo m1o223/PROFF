@@ -1,1 +1,24 @@
+Prepare the existing chatpop-backend repository for deployment on Render.
 
+Do NOT change the architecture.
+
+Please inspect package.json and the current backend code and tell me exactly what I should enter in Render for:
+
+1. Runtime / Language
+2. Root Directory
+3. Build Command
+4. Start Command
+5. Health Check Path
+6. Required Environment Variables
+7. Node version if required
+
+Important:
+- Fastify must listen on 0.0.0.0
+- Use process.env.PORT provided by Render
+- Keep Supabase PostgreSQL as the database
+- Keep verified TLS enabled
+- Preserve the Supabase CA certificate configuration
+- Do not expose or commit secrets
+- Do not modify frontend/iOS yet
+
+Also verify that the backend is production-ready for Render and report the exact Render settings I should enter.
