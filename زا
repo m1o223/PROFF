@@ -1,1 +1,63 @@
+The backend push to GitHub succeeded and Render can now see the repository.
 
+Before I deploy, inspect the CURRENT chatpop-backend project and give me the EXACT Render production configuration.
+
+Do not guess any variable or command.
+
+Please report:
+
+1. Deployment type:
+   - Docker or Native Node
+   - use the architecture already present in the repository
+
+2. Exact required Render Environment Variables.
+   Read them from the real backend code, .env.example, README, and configuration.
+
+For every variable tell me:
+- exact variable name
+- whether it is REQUIRED or OPTIONAL
+- what type of value I should put there
+- whether it is SECRET
+
+Do NOT show or print any existing secret value.
+
+3. Specifically verify whether we need variables such as:
+- DATABASE_URL
+- DATABASE_CA_FILE
+- auth/JWT/session secrets
+- rate-limit secret
+- CORS configuration
+- production environment flag
+- storage configuration
+- PORT
+
+Do not invent names. Use only the actual names implemented in the backend.
+
+4. Supabase CA:
+The public Supabase CA certificate is already committed safely to the backend repository.
+
+Tell me the exact production path/value Render should use for DATABASE_CA_FILE.
+
+5. Render PORT:
+The backend must use process.env.PORT supplied by Render and listen on 0.0.0.0.
+
+Verify that this is already correct.
+
+6. Give me the EXACT:
+- Build Command, if required
+- Start Command, if required
+- Health Check Path
+- Root Directory
+- Runtime
+
+If Docker handles build/start automatically, clearly say that and do not invent commands.
+
+7. Production CORS:
+Prepare the backend so later the ChatPop iOS app can call the Render HTTPS API securely.
+
+Do not use insecure wildcard configuration unless appropriate for the current API architecture.
+
+8. Do NOT deploy yet.
+Do NOT touch frontend or iOS yet.
+
+Stop after giving me the exact Render configuration checklist.
