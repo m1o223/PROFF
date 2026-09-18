@@ -1,1 +1,38 @@
-rnd_i50BpHM4vqvR3di14zwTuUQXD2jK
+
+  I have created a NEW Render API key and stored it privately in:
+
+chatpop-backend/.env
+
+as:
+
+RENDER_API_KEY rnd_i50BpHM4vqvR3di14zwTuUQXD2jK
+
+The previous key was revoked.
+
+Do NOT print, log, expose, or commit the key.
+
+Please continue using ONLY the existing Render service:
+
+chatpop-backend
+
+Tasks:
+1. Verify Render API authentication.
+2. Locate the existing chatpop-backend service.
+3. Configure the required Render environment variables securely.
+4. Keep the existing GitHub repository and main branch.
+5. Deploy the latest commit.
+6. Monitor build/start logs.
+7. Verify the public /health endpoint.
+8. Verify Supabase PostgreSQL connectivity with TLS enabled.
+9. Test register, login, /me, refresh, and logout.
+10. Do not touch frontend/iOS yet.
+
+Stop and report only safe results:
+- Render authentication success/failure
+- deploy success/failure
+- public backend URL
+- /health result
+- Supabase connectivity result
+- authentication test result
+
+Never include secrets or tokens in the report.
