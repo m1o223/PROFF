@@ -1,24 +1,58 @@
-Prepare the existing chatpop-backend repository for deployment on Render.
+The Render service is already created and connected to:
 
-Do NOT change the architecture.
+GitHub repository:
+m1o223/chatpop-backend
 
-Please inspect package.json and the current backend code and tell me exactly what I should enter in Render for:
+Render service:
+chatpop-backend
 
-1. Runtime / Language
-2. Root Directory
-3. Build Command
-4. Start Command
-5. Health Check Path
-6. Required Environment Variables
-7. Node version if required
+The problem is that Render says the GitHub repository is empty.
 
-Important:
-- Fastify must listen on 0.0.0.0
-- Use process.env.PORT provided by Render
-- Keep Supabase PostgreSQL as the database
-- Keep verified TLS enabled
-- Preserve the Supabase CA certificate configuration
-- Do not expose or commit secrets
-- Do not modify frontend/iOS yet
+Please prepare and push the EXISTING local ChatPop backend to this GitHub repository.
 
-Also verify that the backend is production-ready for Render and report the exact Render settings I should enter.
+IMPORTANT:
+Do NOT create a new backend.
+Do NOT modify the frontend or iOS.
+Do NOT commit secrets.
+
+Tasks:
+
+1. Inspect the local chatpop-backend folder.
+
+2. Verify that the backend files are complete and production-ready.
+
+3. Make sure these sensitive files are ignored:
+- .env
+- database credentials
+- Supabase DATABASE_URL
+- passwords
+- auth secrets
+- private keys
+- temporary files
+
+4. Make sure .gitignore is correct before committing.
+
+5. The Supabase CA certificate may be committed only if it is a public CA certificate and contains no private key or secret.
+Never commit private credentials.
+
+6. Commit the existing backend code to the existing Git repository.
+
+7. Push it to:
+m1o223/chatpop-backend
+
+Branch:
+main
+
+8. Verify GitHub now contains the backend source files.
+
+9. Do NOT print or expose any secrets.
+
+10. After pushing, STOP and report:
+- whether the push succeeded
+- commit hash
+- branch pushed
+- whether .env is safely ignored
+- whether the repository now contains the backend files
+- whether Render is ready for deployment
+
+Do not deploy anything else yet.
