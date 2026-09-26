@@ -1,8 +1,1 @@
-Connect this existing Unity project to my GitHub repository:
-[https://github.com/m1o223/bluemetro-frontend]
 
-Do not delete or overwrite the current Unity project.
-Create a proper Unity .gitignore so Library, Temp, Logs, Obj and other generated files are not committed.
-Keep Assets, Packages and ProjectSettings tracked.
-Then create the initial commit and push it to the main branch.
-Do not make gameplay changes yet.
