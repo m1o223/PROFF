@@ -1,32 +1,8 @@
-We are starting a new Unity 6 URP game project called Blue Metro.
+Connect this existing Unity project to my GitHub repository:
+[حط رابط Blue Metro Front End هون]
 
-Target platform: iPad / iOS, landscape only.
-
-First inspect the existing Unity project before making changes.
-
-IMPORTANT:
-- Keep the current Unity version and URP.
-- Do not modify generated .csproj or .slnx files.
-- Do not modify Library, Temp, Logs, or Obj.
-- Do not add unnecessary packages.
-- Do not build gameplay yet.
-
-Create and organize these folders inside Assets:
-Scenes
-Scripts
-Prefabs
-Models
-Materials
-Textures
-UI
-Audio
-Animations
-Editor
-
-Create a proper Unity .gitignore at the project root.
-
-Prepare the project structure for an iPad landscape game.
-
-Do not create the Lobby yet.
-
-When finished, tell me exactly what you created or changed and whether there are any Unity errors.
+Do not delete or overwrite the current Unity project.
+Create a proper Unity .gitignore so Library, Temp, Logs, Obj and other generated files are not committed.
+Keep Assets, Packages and ProjectSettings tracked.
+Then create the initial commit and push it to the main branch.
+Do not make gameplay changes yet.
