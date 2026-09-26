@@ -1,1 +1,268 @@
+BLUE METRO — BASE MAP TERRAIN / GEOGRAPHY V1
 
+We are now starting the actual Blue Metro game map.
+
+IMPORTANT:
+For this task, create ONLY the base map terrain and geography.
+Do NOT create gameplay systems yet.
+
+REFERENCE:
+Use the attached Homs outline image as the primary reference for the OUTER SHAPE of the map.
+
+The final playable map should follow the Homs outline/silhouette as closely as reasonably possible.
+
+==================================================
+1. MAP SHAPE
+==================================================
+
+Create a large 3D playable terrain based on the Homs-shaped outline from the attached reference.
+
+Requirements:
+
+- Reproduce the outer silhouette carefully.
+- The terrain must follow the irregular Homs boundary.
+- Do not turn it into a square, rectangle, circle, or generic island.
+- Preserve the recognizable shape from the reference.
+- The map should feel large enough for an extraction shooter with multiple major regions that we will add later.
+
+This is only the geographical foundation.
+
+==================================================
+2. GENERAL ENVIRONMENT / CLIMATE
+==================================================
+
+Create a semi-arid environment.
+
+The map should NOT be:
+- completely desert
+- completely green
+- snowy
+- tropical
+
+Instead use a natural mixture of:
+
+- dry soil
+- light brown earth
+- beige terrain
+- rocky ground
+- sparse dry grass
+- occasional green patches
+- small natural elevation changes
+- hills
+- rocky ridges
+
+The terrain should have visual variation but remain believable as one connected environment.
+
+==================================================
+3. TERRAIN HEIGHT
+==================================================
+
+The terrain must NOT be completely flat.
+
+Create subtle natural elevation variation across the map:
+
+- gentle hills
+- shallow valleys
+- small slopes
+- rocky elevated areas
+- natural depressions
+- occasional larger hills
+
+IMPORTANT:
+Do not create extreme mountains throughout the interior.
+
+Most of the interior must remain suitable for future:
+- cities
+- military bases
+- airport
+- Red Zone
+- roads
+- Metro entrances
+- combat areas
+
+We will decide the exact locations of those later.
+
+==================================================
+4. OUTER MAP EDGE
+==================================================
+
+Around the ENTIRE outer edge of the Homs-shaped map, create natural geographical barriers.
+
+Use:
+
+- low mountains
+- rocky hills
+- cliffs where appropriate
+- elevated terrain
+- rock formations
+
+These should visually communicate:
+
+"THIS IS THE END OF THE PLAYABLE MAP."
+
+Do NOT create a giant artificial wall.
+
+Do NOT create visible invisible-wall-style structures.
+
+The edge should look like natural geography.
+
+The mountains around the perimeter should generally be moderate rather than enormous.
+
+They should discourage the player from leaving while still looking realistic.
+
+==================================================
+5. IMPORTANT FUTURE OUT-OF-BOUNDS SYSTEM
+==================================================
+
+Later we will create a separate gameplay system where:
+
+- the player may be able to cross some parts of the geographical boundary
+- crossing the playable boundary starts a 10-second warning
+- returning cancels the warning
+- remaining outside until zero kills the player
+
+DO NOT IMPLEMENT ANY OF THIS NOW.
+
+For this task:
+- NO countdown
+- NO warning UI
+- NO damage
+- NO death system
+- NO boundary scripts
+- NO sniper
+- NO invisible gameplay boundary
+
+Only prepare the geography so this system can be added later.
+
+==================================================
+6. DO NOT ADD THESE YET
+==================================================
+
+Do NOT create:
+
+- Red Zone
+- military base
+- destroyed city
+- airport
+- buildings
+- houses
+- roads
+- bridges
+- Metro tunnels
+- Metro stations
+- Metro entrances
+- loot
+- crates
+- weapons
+- monsters
+- enemies
+- NPCs
+- vehicles
+- extraction points
+- player spawns
+- gameplay UI
+- gameplay logic
+
+We will add these ONE AREA AT A TIME later.
+
+==================================================
+7. PERFORMANCE
+==================================================
+
+This game is intended to run on iPhone and iPad.
+
+Keep the base terrain mobile-friendly.
+
+Avoid:
+- unnecessarily dense geometry
+- excessive terrain resolution
+- expensive materials
+- excessive vegetation
+- unnecessary objects
+
+Use simple optimized terrain materials and geometry for V1.
+
+However, structure the terrain so we can improve visual quality later.
+
+==================================================
+8. PROJECT ORGANIZATION
+==================================================
+
+Keep the map organized.
+
+Suggested structure:
+
+BlueMetro_Map
+|
+|-- BaseTerrain
+|-- PerimeterTerrain
+|   |-- Mountains
+|   |-- Hills
+|   |-- Rocks
+|
+|-- Environment
+|   |-- GroundMaterials
+|   |-- SparseVegetation
+|
+|-- FutureZones
+    |-- RedZone_PLACEHOLDER
+    |-- MilitaryBase_PLACEHOLDER
+    |-- DestroyedCity_PLACEHOLDER
+    |-- Airport_PLACEHOLDER
+
+The FutureZones objects should only be EMPTY organizational placeholders.
+
+Do NOT design those areas yet.
+
+==================================================
+9. SCENE
+==================================================
+
+Work on the existing TestMap / map scene.
+
+Do NOT modify the Blue Metro Lobby.
+
+Do NOT break existing project settings or iOS support.
+
+Do NOT replace or delete working systems unnecessarily.
+
+==================================================
+10. CAMERA / INSPECTION
+==================================================
+
+Make it easy for me to inspect the whole terrain in Unity.
+
+Add an EDITOR-ONLY overview method if useful so I can easily view the complete Homs-shaped map from above.
+
+Do not turn this into gameplay functionality.
+
+==================================================
+11. MOST IMPORTANT RULE
+==================================================
+
+This task is ONLY:
+
+HOMS MAP SHAPE
++
+BASE TERRAIN
++
+NATURAL GEOGRAPHY
++
+LIGHT PERIMETER MOUNTAINS / HILLS
+
+Nothing else.
+
+Do not try to finish the game.
+Do not design the four zones yet.
+
+We will build the map step by step.
+
+After completing the terrain:
+
+1. Tell me exactly what you created.
+2. Tell me which files/scenes were modified.
+3. Tell me how to open the map in Unity.
+4. Tell me how to view the complete map from above.
+5. Mention any problems or limitations you encountered.
+
+Then STOP and wait for my next instruction.
