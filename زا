@@ -1,5 +1,5 @@
 Connect this existing Unity project to my GitHub repository:
-[حط رابط Blue Metro Front End هون]
+[https://github.com/m1o223/bluemetro-frontend]
 
 Do not delete or overwrite the current Unity project.
 Create a proper Unity .gitignore so Library, Temp, Logs, Obj and other generated files are not committed.
