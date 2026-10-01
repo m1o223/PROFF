@@ -1,1 +1,205 @@
+We are now starting FRONTEND ONLY for BlueMind Web Service.
 
+IMPORTANT:
+Do NOT touch the backend.
+Do NOT add APIs.
+Do NOT add authentication.
+Do NOT add database logic.
+Do NOT design the website yet.
+Do NOT add animations, images, gradients, cards, or complex styling.
+
+For this step I only want the basic page structure and navigation.
+
+--------------------------------------------------
+1. HOME PAGE
+--------------------------------------------------
+
+Route:
+
+/
+
+Create a completely white page.
+
+In the center of the page write only:
+
+Hello
+
+Keep it very simple.
+
+--------------------------------------------------
+2. NAVIGATION
+--------------------------------------------------
+
+Create a simple temporary navigation at the top so we can move between all pages.
+
+Navigation links:
+
+Home
+About Us
+Services
+Our Work
+How We Work
+Request a Quote
+Contact
+
+Do not spend time designing the navbar.
+It is temporary.
+
+Plain text links are enough.
+
+--------------------------------------------------
+3. CREATE ALL ROUTES
+--------------------------------------------------
+
+Create these pages:
+
+Home
+/
+
+About Us
+/about
+
+Services
+/services
+
+Our Work
+/our-work
+
+How We Work
+/how-we-work
+
+Request a Quote
+/quote
+
+Contact
+/contact
+
+--------------------------------------------------
+4. PAGE CONTENT
+--------------------------------------------------
+
+Every page must currently contain ONLY its page name.
+
+Examples:
+
+/about
+
+About Us
+
+
+/services
+
+Services
+
+
+/our-work
+
+Our Work
+
+
+/how-we-work
+
+How We Work
+
+
+/quote
+
+Request a Quote
+
+
+/contact
+
+Contact
+
+Use:
+- white background
+- black text
+- simple centered text
+- no real design yet
+
+--------------------------------------------------
+5. NAVIGATION TEST
+--------------------------------------------------
+
+Make sure every navigation link works.
+
+Test:
+
+Home → About Us
+About Us → Services
+Services → Our Work
+Our Work → How We Work
+How We Work → Request a Quote
+Request a Quote → Contact
+Contact → Home
+
+Also test direct URLs.
+
+Refreshing any page must NOT cause a 404.
+
+--------------------------------------------------
+6. RESPONSIVE
+--------------------------------------------------
+
+Make sure the temporary navigation and pages work on:
+
+Desktop
+Tablet
+Mobile
+
+No detailed responsive design is needed yet.
+
+Just make sure nothing breaks.
+
+--------------------------------------------------
+7. CODE QUALITY
+--------------------------------------------------
+
+Use the existing:
+
+Next.js
+React
+TypeScript
+
+Keep the project clean.
+
+Create reusable navigation/layout code instead of duplicating the navbar on every page.
+
+Do not install unnecessary packages.
+
+--------------------------------------------------
+8. TEST
+--------------------------------------------------
+
+Before finishing:
+
+- run TypeScript check
+- run production build
+- check all routes
+- verify navigation
+- verify no console errors
+- verify mobile layout does not break
+
+Do not touch backend code.
+
+--------------------------------------------------
+FINAL REPORT
+--------------------------------------------------
+
+Tell me:
+
+Pages created:
+Routes:
+Navigation status:
+Desktop:
+Tablet:
+Mobile:
+TypeScript:
+Production build:
+Console errors:
+
+Then STOP.
+
+Do not start designing any page.
+
+After this step I will choose one page at a time and we will design it separately.
