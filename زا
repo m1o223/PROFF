@@ -1,1 +1,36 @@
+I am sending you the background image that should be used in the Home page Hero section.
 
+Important:
+Do NOT redesign the image.
+Do NOT add extra elements.
+Do NOT change its visual identity.
+
+What I want:
+
+1. Crop the image only as needed so it fits the Hero section correctly.
+2. Resize it carefully for the website layout.
+3. Preserve the highest possible visual quality.
+4. Do NOT make it blurry, soft, pixelated, or compressed-looking.
+5. Keep the image sharp on high-resolution / Retina displays.
+6. Use an appropriate high-quality web format such as WebP or AVIF if suitable, while preserving visible detail.
+7. Do not upscale a low-resolution source artificially unless necessary.
+8. If responsive versions are needed, generate separate sizes for desktop, tablet, and mobile instead of stretching one image everywhere.
+9. Use Next.js image optimization or an equivalent responsive image approach.
+10. Set correct width/height and object-fit behavior so the image is cropped cleanly without distortion.
+11. Test the image on desktop, tablet, and mobile.
+12. Check the final result visually at full size and make sure text/details remain crisp.
+13. Avoid excessive compression.
+14. Prevent layout shift while the image loads.
+15. Keep the original source file unchanged.
+
+The final Hero image should look clean, sharp, and high-resolution, close to 4K quality where the source allows it.
+
+After implementation, tell me:
+- original image dimensions
+- final desktop dimensions
+- tablet dimensions
+- mobile dimensions
+- format used
+- compression/quality setting
+- whether any upscaling was used
+- whether the final result was visually checked for blur/pixelation
