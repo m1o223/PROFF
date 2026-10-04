@@ -1,1 +1,1140 @@
+المهمة الحالية:
+إعادة تصميم وبناء صفحة Request a Quote لتصبح صفحة Pricing + Quote احترافية لـBlueMind Web Service.
 
+أريد الصفحة أن تعرض الأسعار بشكل واضح، لكن في نفس الوقت تجعل العميل يشعر أن السعر يشمل قيمة ومميزات كثيرة.
+
+الهدف:
+عندما يرى العميل مثلًا 5,990 SEK أو 7,490 SEK، لا يرى مجرد رقم وعدد صفحات.
+يجب أن يرى مباشرة كل الأشياء المهمة التي يحصل عليها ضمن السعر.
+
+أريد التصميم Premium، نظيف، بسيط، ومتماشي 100% مع هوية BlueMind الحالية.
+
+راجع أولًا:
+- Home
+- About Us
+- Services
+- How We Work
+- Contact
+- Header
+- Footer
+- BlueMind planet
+- animations
+- typography
+- spacing
+- الأيقونات المستخدمة في الصفحات السابقة
+
+ثم نفّذ الصفحة بنفس الهوية.
+
+
+==================================================
+1. HERO
+==================================================
+
+في بداية الصفحة:
+
+Request a Quote
+
+ثم:
+
+Find the right website for your project.
+
+ثم:
+
+See our starting prices, compare what’s included, and tell us what you have in mind.
+
+لا تجعل Hero ضخمًا.
+
+على Desktop:
+
+TEXT → BLUE MIND PLANET WATERMARK
+
+المحتوى على اليسار.
+الكوكب على اليمين.
+
+استخدم نفس BlueMind planet الموجود أصلًا.
+
+إذا كان الكوكب لديه rotation animation معتمدة حاليًا، أعد استخدام نفس الحركة.
+
+لا تنشئ كوكبًا جديدًا.
+
+على Mobile:
+حافظ على التصميم responsive بدون overflow.
+
+
+==================================================
+2. INTRO VALUE MESSAGE
+==================================================
+
+بعد الـHero مباشرة، ضع رسالة قصيرة توضح أن BlueMind لا يبيع مجرد صفحات.
+
+استخدم:
+
+More included. No unnecessary extras.
+
+ثم:
+
+Professional websites built for desktop, tablet and mobile — included as standard.
+
+يمكن إضافة visual star صغيرة أو sparkle بسيطة بجانب هذا النص، بنفس أسلوب الموقع.
+
+لا تستخدم emoji ملونة.
+
+إذا احتجت نجمة، استخدم SVG / CSS icon بسيطة بالأسود أو اللون المعتمد في BlueMind.
+
+
+==================================================
+3. PRICING STRUCTURE
+==================================================
+
+أريد 6 خيارات:
+
+01 One Page Website
+02 Small Website
+03 Business Website
+04 Business Plus
+05 Online Store
+06 Custom Website
+
+على Desktop:
+اعرضها في Grid مرتب.
+
+يفضل:
+3 أعمدة × صفين
+
+إذا كان هذا مناسبًا للمساحة.
+
+على Tablet:
+2 columns عند الحاجة.
+
+على Mobile:
+1 column.
+
+لكن لا تجعلها Pricing Cards تقليدية مملة.
+
+أريد:
+- spacing ممتاز.
+- typography قوية.
+- borders خفيفة.
+- stars / small visual marks.
+- hierarchy واضح.
+- subtle hover.
+- نفس BlueMind visual language.
+
+كل باقة يجب أن تكون واضحة كعنصر مستقل، لكن جميعها تنتمي لنفس النظام.
+
+
+==================================================
+4. النجوم / FEATURE MARKS
+==================================================
+
+هذه نقطة مهمة جدًا.
+
+بجانب كل Feature داخل الباقات، لا أريد bullet عادية.
+
+استخدم Star / Spark mark صغيرة ومخصصة.
+
+مثال بصري:
+
+★ Custom design
+★ Mobile, tablet & desktop
+★ Contact form
+
+لكن لا تستخدم Emoji ⭐ الملونة.
+
+أنشئ Star icon بسيطة كـSVG أو CSS shape، متناسقة مع BlueMind.
+
+يجب أن تكون:
+- صغيرة.
+- سوداء أو بلون الهوية.
+- نظيفة.
+- نفس الحجم في جميع الباقات.
+- aligned بدقة مع النص.
+
+يمكن أن يكون شكل النجمة slightly custom بحيث يصبح جزءًا من هوية BlueMind.
+
+لا تجعل النجوم كبيرة أو طفولية.
+
+استخدم النجمة للدلالة على:
+Included Feature.
+
+
+==================================================
+5. PACKAGE 01 — ONE PAGE WEBSITE
+==================================================
+
+Label:
+
+01
+
+Title:
+
+One Page Website
+
+Price:
+
+From 4,490 SEK
+
+Delivery:
+
+Estimated delivery: 3–5 days
+
+Description:
+
+A focused one-page website for a service, product, personal brand, or small business.
+
+FEATURES:
+
+★ Custom design
+
+★ You choose the design direction
+
+★ One complete page
+
+★ Mobile, tablet & desktop included
+
+★ Responsive design
+
+★ Contact section or form
+
+★ Basic SEO setup
+
+★ Domain connection
+
+★ Launch assistance
+
+★ Revisions included
+
+
+CTA:
+
+Get My Quote
+
+
+مهم:
+لا تكتب Unlimited Revisions.
+
+لا تدّعِ أن سعر شراء الـdomain نفسه مشمول.
+
+Domain connection يعني أننا نساعد في ربط الدومين، وليس أننا ندفع ثمن الدومين.
+
+
+==================================================
+6. PACKAGE 02 — SMALL WEBSITE
+==================================================
+
+Label:
+
+02
+
+Title:
+
+Small Website
+
+Price:
+
+From 5,990 SEK
+
+Delivery:
+
+Estimated delivery: 4–6 days
+
+Secondary information:
+
+Up to 3 pages
+
+Description:
+
+A complete small website for businesses that need more than a single page.
+
+FEATURES:
+
+★ Custom design
+
+★ You choose the design direction
+
+★ Up to 3 pages
+
+★ Mobile, tablet & desktop included
+
+★ Responsive design
+
+★ Contact form
+
+★ Basic SEO setup
+
+★ Domain connection
+
+★ Launch assistance
+
+★ Revisions included
+
+
+CTA:
+
+Get My Quote
+
+
+==================================================
+7. PACKAGE 03 — BUSINESS WEBSITE
+==================================================
+
+هذه هي الباقة الرئيسية التي أريد جذب انتباه المستخدم إليها.
+
+Label:
+
+03
+
+Badge:
+
+MOST POPULAR
+
+Title:
+
+Business Website
+
+Price:
+
+From 7,490 SEK
+
+Delivery:
+
+Estimated delivery: 5–8 days
+
+Secondary information:
+
+Up to 5 pages
+
+Description:
+
+A professional website for businesses that need a stronger online presence.
+
+FEATURES:
+
+★ Professional custom design
+
+★ You choose the design direction
+
+★ Up to 5 pages
+
+★ Mobile, tablet & desktop included
+
+★ Responsive design
+
+★ Contact forms
+
+★ Basic SEO setup
+
+★ Custom sections
+
+★ Subtle animations where appropriate
+
+★ Domain connection
+
+★ Launch assistance
+
+★ Revisions included
+
+
+CTA:
+
+Get My Quote
+
+
+==================================================
+8. MOST POPULAR DESIGN
+==================================================
+
+Business Website يجب أن تكون مميزة بصريًا عن بقية الباقات.
+
+لكن لا تجعلها بلون غريب لا ينتمي للموقع.
+
+استخدم BlueMind style.
+
+يمكن استخدام:
+
+- Border أقوى قليلًا.
+- MOST POPULAR badge.
+- Star صغيرة مميزة.
+- subtle background difference.
+- slight elevation.
+- very subtle scale difference إذا كان مناسبًا.
+
+لكن لا تجعلها ضخمة مقارنة بالبقية.
+
+أريد أن تذهب عين المستخدم إليها أولًا بطريقة راقية.
+
+لا تستخدم ألوان Neon أو Gradient عشوائي.
+
+يمكن وضع نجمة BlueMind-style صغيرة بجانب:
+
+MOST POPULAR
+
+مثال:
+
+★ MOST POPULAR
+
+لكن استخدم SVG icon وليس Emoji.
+
+
+==================================================
+9. PACKAGE 04 — BUSINESS PLUS
+==================================================
+
+Label:
+
+04
+
+Title:
+
+Business Plus
+
+Price:
+
+From 9,990 SEK
+
+Delivery:
+
+Estimated delivery: 7–12 days
+
+Secondary information:
+
+Up to 10 pages
+
+Description:
+
+For growing businesses that need more content, sections, and functionality.
+
+FEATURES:
+
+★ Professional custom design
+
+★ You choose the design direction
+
+★ Up to 10 pages
+
+★ Mobile, tablet & desktop included
+
+★ Responsive design
+
+★ Multiple forms where needed
+
+★ Basic SEO setup
+
+★ Custom sections
+
+★ Enhanced animations
+
+★ More advanced website setup
+
+★ Domain connection
+
+★ Launch assistance
+
+★ Revisions included
+
+
+CTA:
+
+Get My Quote
+
+
+==================================================
+10. PACKAGE 05 — ONLINE STORE
+==================================================
+
+Label:
+
+05
+
+Title:
+
+Online Store
+
+Price:
+
+From 12,990 SEK
+
+Delivery:
+
+Estimated delivery: 10–18 days
+
+Description:
+
+An online store built around your products and your business.
+
+FEATURES:
+
+★ Custom store design
+
+★ Mobile, tablet & desktop included
+
+★ Responsive design
+
+★ Product pages
+
+★ Product management setup
+
+★ Shopping cart
+
+★ Checkout setup
+
+★ Payment integration
+
+★ Basic SEO setup
+
+★ Domain connection
+
+★ Store launch assistance
+
+★ Revisions included
+
+
+CTA:
+
+Get My Quote
+
+
+مهم:
+
+لا تكتب Unlimited Products.
+
+لا تعد بعدد منتجات غير محدد.
+
+لا تقل إن رسوم مزود الدفع مشمولة.
+
+Payment integration تعني الإعداد والربط التقني حسب المشروع.
+
+رسوم خدمات الدفع الخارجية ليست مشمولة تلقائيًا.
+
+
+==================================================
+11. PACKAGE 06 — CUSTOM WEBSITE
+==================================================
+
+Label:
+
+06
+
+Title:
+
+Custom Website
+
+Price:
+
+Custom Quote
+
+Delivery:
+
+Timeline based on your project
+
+Description:
+
+For projects that need custom functionality beyond our standard website packages.
+
+FEATURES:
+
+★ Built around your requirements
+
+★ Custom functionality
+
+★ Custom design
+
+★ Responsive across devices
+
+★ Advanced forms or workflows
+
+★ Booking features where required
+
+★ Login or account features where required
+
+★ API integrations where required
+
+★ Project-specific setup
+
+★ Launch assistance
+
+
+مهم:
+هذه أمثلة على ما يمكن أن يشمله Custom project.
+
+لا توحي أن كل هذه الوظائف مشمولة تلقائيًا في كل Custom Quote.
+
+السعر والمدة يتم تحديدهما حسب المشروع.
+
+
+CTA:
+
+Tell Us Your Idea
+
+
+==================================================
+12. INCLUDED WITH EVERY WEBSITE
+==================================================
+
+بعد Pricing Grid، أريد قسمًا مهمًا جدًا بعنوان:
+
+Included with every website
+
+هذا القسم يجب أن يجعل العميل يفهم القيمة التي يحصل عليها بغض النظر عن الباقة.
+
+اعرض المميزات بشكل بصري جميل.
+
+يمكن استخدام Grid بسيط مع Star icons.
+
+استخدم:
+
+★ Custom design
+
+Your website is designed around your idea and your project.
+
+
+★ You choose the design direction
+
+You’re involved in choosing the look and direction of your website.
+
+
+★ Mobile, Tablet & Desktop
+
+Your website is designed to work across different screen sizes at no extra design charge.
+
+
+★ Responsive Design
+
+The layout automatically adapts to different devices and screen sizes.
+
+
+★ Basic SEO Setup
+
+Essential page titles, descriptions, and technical foundations are prepared where applicable.
+
+
+★ Domain Connection
+
+We help connect your website to your domain.
+
+
+★ Launch Assistance
+
+We help take the website from the finished design to a live website.
+
+
+★ Revisions Included
+
+You can review the work and request revisions within the scope of your package.
+
+
+مهم جدًا:
+لا تكتب أن Mobile / Tablet / Desktop هي ثلاثة مواقع منفصلة.
+
+تقنيًا هي Responsive Website واحدة تتكيف مع الأجهزة.
+
+لكن من ناحية التسويق، أريد أن يكون واضحًا جدًا للعميل أن:
+
+Mobile
+Tablet
+Desktop
+
+كلها Included ضمن السعر.
+
+يمكن إبراز هذه النقطة بصريًا باستخدام:
+
+Phone icon
+Tablet icon
+Desktop icon
+
+لكن بنفس أسلوب BlueMind الأسود البسيط.
+
+
+==================================================
+13. VALUE HIGHLIGHT
+==================================================
+
+داخل قسم Included with every website، أعطِ Mobile / Tablet / Desktop اهتمامًا إضافيًا.
+
+يمكن وضع:
+
+DESKTOP
+TABLET
+MOBILE
+
+مع 3 icons صغيرة.
+
+ثم:
+
+Included as standard.
+
+ثم:
+
+No extra design charge for responsive layouts.
+
+هذه الجملة مهمة.
+
+لا تقل:
+“Normally everyone else charges extra.”
+
+لأننا لا نريد ادعاءً عامًا غير مثبت.
+
+نحن فقط نوضح ما نقدمه نحن.
+
+
+==================================================
+14. PRICE DISCLAIMER
+==================================================
+
+أسفل Pricing Packages، ضع بوضوح ولكن بدون تخويف العميل:
+
+Starting prices. Final price and delivery time depend on your project requirements.
+
+ثم بخط أصغر:
+
+Third-party costs such as domains, hosting, paid plugins, payment-provider fees, and external services are not included unless stated otherwise.
+
+لا تخفِ هذه المعلومة.
+
+لكن لا تجعلها أكبر من السعر نفسه.
+
+
+==================================================
+15. NOT SURE SECTION
+==================================================
+
+بعد الباقات والمميزات، ضع:
+
+Not sure which option is right for you?
+
+ثم:
+
+Tell us what you have in mind. We’ll help you find the right option for your project.
+
+CTA:
+
+Tell Us About Your Project
+
+
+==================================================
+16. QUOTE FORM
+==================================================
+
+بعد ذلك أضف Quote Form.
+
+Title:
+
+Tell us about your project
+
+Fields:
+
+Full Name *
+Email Address *
+Company / Brand Name (Optional)
+
+I'm interested in *
+
+Options:
+
+One Page Website
+Small Website
+Business Website
+Business Plus
+Online Store
+Custom Website
+Not Sure Yet
+
+
+ثم:
+
+Tell us about your idea *
+
+Textarea كبيرة.
+
+
+ثم:
+
+When would you like it ready? (Optional)
+
+Options:
+
+As soon as possible
+Within 1–2 weeks
+Within 1 month
+Flexible
+
+
+ثم زر:
+
+Request My Quote
+
+
+==================================================
+17. PACKAGE → FORM INTERACTION
+==================================================
+
+عندما يضغط المستخدم:
+
+Get My Quote
+
+داخل أي Package:
+
+لا تفتح صفحة مختلفة إذا لم يكن ذلك ضروريًا.
+
+Scroll smoothly إلى Quote Form.
+
+واختر تلقائيًا الباقة التي ضغط عليها المستخدم.
+
+مثال:
+
+إذا ضغط:
+
+Business Website → Get My Quote
+
+يصبح:
+
+I'm interested in:
+Business Website
+
+مختارًا تلقائيًا.
+
+إذا ضغط:
+
+Online Store → Get My Quote
+
+يصبح:
+
+Online Store
+
+مختارًا.
+
+إذا ضغط:
+
+Tell Us Your Idea
+
+في Custom Website:
+
+اختر:
+
+Custom Website
+
+
+==================================================
+18. CHATGPT HELPER
+==================================================
+
+تحت:
+
+Tell us about your idea
+
+ضع helper صغيرًا:
+
+Not sure how to explain your idea?
+
+ثم:
+
+You can use ChatGPT to help describe what you have in mind, then paste it here.
+
+لا تجعل ChatGPT يبدو جزءًا إلزاميًا من الخدمة.
+
+هو فقط مساعدة اختيارية للعميل الذي لا يعرف كيف يشرح فكرته.
+
+
+==================================================
+19. FORM BEHAVIOR
+==================================================
+
+Required:
+
+Full Name
+Email Address
+I'm interested in
+Tell us about your idea
+
+Optional:
+
+Company / Brand Name
+Timeline
+
+
+أضف Frontend validation واضحة.
+
+لا تعرض Success message وهمية إذا لم يكن Backend مربوطًا.
+
+إذا إرسال Quote requests غير مربوط حاليًا:
+جهّز UI + validation فقط، ثم أخبرني بما نحتاجه للربط.
+
+لا تضف Email service أو database جديدة بدون موافقتي.
+
+
+==================================================
+20. VISUAL DESIGN
+==================================================
+
+هذه الصفحة يجب أن تكون من أجمل صفحات BlueMind.
+
+لكن:
+لا أريدها مزدحمة.
+
+أريد مزيجًا بين:
+
+Minimal
+Premium
+Clear
+Modern
+Professional
+
+استخدم:
+
+- Strong typography.
+- Thin lines.
+- Generous spacing.
+- BlueMind planet.
+- Custom star marks.
+- Clean package hierarchy.
+- Subtle hover states.
+- Same black/white visual identity.
+
+لا تستخدم Pricing design جاهزًا يبدو مثل SaaS template عادي.
+
+يجب أن تشعر الصفحة بأنها مصممة خصيصًا لـBlueMind.
+
+
+==================================================
+21. HOVER
+==================================================
+
+عند Hover على Package:
+
+يمكن استخدام:
+
+- slight lift.
+- border emphasis.
+- subtle shadow.
+- small star movement.
+
+لكن الحركة يجب أن تكون خفيفة جدًا.
+
+لا تجعل Card تقفز.
+
+Business Website يمكن أن يبقى أكثر prominence من البقية حتى بدون Hover.
+
+
+==================================================
+22. PAGE ANIMATION
+==================================================
+
+استخدم نفس Animation الموجودة في About Us وServices:
+
+Fade In + Slide Up.
+
+لا تنشئ Animation language جديدة.
+
+عند دخول الصفحة:
+Hero
+Pricing
+Features
+
+تظهر بسلاسة.
+
+لا تعمل stagger طويل.
+
+احترم:
+
+prefers-reduced-motion.
+
+
+==================================================
+23. BLUE MIND PLANET
+==================================================
+
+استخدم نفس Planet component / asset الموجود.
+
+على Desktop:
+
+Text first → Planet on the opposite/right side.
+
+لا تضع الكوكب قبل النص.
+
+إذا rotation animation الحالية معتمدة، حافظ عليها.
+
+لا تغيّر سرعتها أو شكلها في هذه المهمة.
+
+لا تسمح لها بتغطية Pricing أو Quote Form.
+
+
+==================================================
+24. RESPONSIVE
+==================================================
+
+اختبر:
+
+Desktop
+Tablet
+Mobile
+
+Desktop:
+3 packages per row إذا كان العرض مناسبًا.
+
+Tablet:
+2 per row.
+
+Mobile:
+1 per row.
+
+على Mobile:
+- السعر واضح.
+- Features واضحة.
+- CTA سهل الضغط.
+- النجوم aligned.
+- لا يوجد horizontal scrolling.
+- Form بعرض مناسب.
+- Planet لا يسبب overflow.
+
+
+==================================================
+25. لا تغيّر الصفحات الأخرى
+==================================================
+
+لا تغيّر:
+
+Home
+About Us
+Services
+How We Work
+Contact
+Contact Form
+Header
+Footer
+Backend
+Domain
+DNS
+Environment Variables
+
+إلا إذا كان استخدام Shared Component ضروريًا ولا يغير الشكل الحالي.
+
+
+==================================================
+26. QUALITY CHECK
+==================================================
+
+قبل النشر افحص كل Package لوحدها.
+
+تأكد أن:
+
+ONE PAGE:
+4,490 SEK
+3–5 days
+
+SMALL WEBSITE:
+5,990 SEK
+4–6 days
+Up to 3 pages
+
+BUSINESS WEBSITE:
+7,490 SEK
+5–8 days
+Up to 5 pages
+MOST POPULAR
+
+BUSINESS PLUS:
+9,990 SEK
+7–12 days
+Up to 10 pages
+
+ONLINE STORE:
+From 12,990 SEK
+10–18 days
+
+CUSTOM:
+Custom Quote
+Timeline based on project
+
+
+تأكد أن النجوم والمميزات aligned بشكل صحيح.
+
+تأكد أن Mobile / Tablet / Desktop واضحة كمميزات Included.
+
+تأكد أن الأسعار مكتوبة SEK.
+
+
+==================================================
+27. TESTING
+==================================================
+
+شغّل الأدوات الموجودة فعليًا في المشروع:
+
+typecheck
+lint إذا كان موجودًا
+build
+
+واختبر:
+
+Desktop
+Tablet
+Mobile
+Pricing CTA
+Package pre-selection
+Quote Form
+Validation
+Navigation
+Animations
+Reduced motion
+No horizontal overflow
+
+
+==================================================
+28. GITHUB + VERCEL
+==================================================
+
+بعد نجاح التنفيذ:
+
+راجع git diff.
+
+ارفع فقط الملفات المتعلقة بالمهمة.
+
+استخدم:
+
+نفس GitHub repository.
+نفس branch/workflow الحالي.
+نفس Vercel project.
+نفس Production domain.
+
+لا تنشئ مشروعًا جديدًا.
+
+اعمل commit واضحًا مثل:
+
+Build BlueMind pricing and quote experience
+
+ثم push.
+
+انتظر Production deployment.
+
+افتح الصفحة على Production وتأكد أن التصميم والتفاعل يعملان هناك فعلًا.
+
+
+==================================================
+29. التقرير النهائي
+==================================================
+
+بعد الانتهاء أعطني:
+
+1. ملخص التصميم النهائي.
+2. كيف تم تصميم الـStar feature marks.
+3. كيف تم إبراز Business Website كـMost Popular.
+4. كيف تم عرض Mobile / Tablet / Desktop.
+5. كيف تعمل Package → Quote Form pre-selection.
+6. الملفات التي تغيرت.
+7. نتيجة Desktop.
+8. نتيجة Tablet.
+9. نتيجة Mobile.
+10. نتيجة typecheck.
+11. نتيجة lint.
+12. نتيجة build.
+13. branch.
+14. commit hash.
+15. GitHub push status.
+16. Vercel Production status.
+17. رابط الصفحة على الموقع الأصلي.
+18. أي شيء لم تستطع اختباره.
+
+نفّذ هذه الصفحة فقط.
+
+إذا واجهت قرارًا يغيّر الأسعار أو محتوى الباقات أو سياسة الدفع أو الخدمات المشمولة، لا تخترع قرارًا من عندك. توقف واسألني.
+
+بعد نشر الصفحة على الموقع الأصلي، توقف للمراجعة.
