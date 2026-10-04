@@ -1,55 +1,853 @@
-أريد تعديلًا صغيرًا ومحددًا فقط على صفحتي About Us وServices.
+ المهمة الحالية: تصميم وتطوير صفحة How We Work بالكامل، مع إنشاء أيقونات مخصصة لكل مرحلة، وبنفس هوية BlueMind Web Service الحالية.
 
-لا تغيّر التصميم الحالي، ولا النصوص، ولا الأيقونات، ولا الأحجام، ولا الـanimations، ولا Header أو Footer.
+صفحة How We Work حاليًا شبه فارغة ويوجد فقط عنوان في منتصف الصفحة.
 
-المطلوب فقط تعديل مكان الـBlueMind planet watermark وترتيب الـHero في الصفحتين.
-
-DESKTOP / TABLET:
-
-في صفحة About Us:
-- المحتوى الكتابي الرئيسي يبدأ من الجهة اليسرى.
-- عنوان About Us والنص الموجود تحته يبقيان في الجهة اليسرى.
-- الـBlueMind planet watermark الكبير يكون في الجهة المقابلة، أي الجهة اليمنى.
-- الترتيب البصري يجب أن يكون:
-  TEXT / CONTENT  →  PLANET WATERMARK
-
-في صفحة Services:
-- نفس القاعدة تمامًا.
-- عنوان Services والـheadline والوصف يبدأون من الجهة اليسرى.
-- الـBlueMind planet watermark يكون في الجهة اليمنى.
-- الترتيب:
-  TEXT / CONTENT  →  PLANET WATERMARK
+أريد تحويلها إلى صفحة واضحة واحترافية تشرح للعميل، خطوة بخطوة، ماذا يحدث منذ أن يرسل لنا فكرة الموقع وحتى استلام الموقع النهائي.
 
 مهم جدًا:
-لا تجعل الـwatermark يظهر أولًا ثم الكلام.
-عند النظر إلى الصفحة من اليسار إلى اليمين، أريد أن يرى المستخدم المحتوى أولًا ثم الكوكب على الجهة الأخرى.
+قبل التنفيذ راجع:
 
-لا تغيّر شكل الكوكب.
-لا تغيّر شفافيته الحالية.
-لا تغيّر animation الدوران إذا كانت مطبقة.
-لا تغيّر حجمه إلا إذا احتجت تعديلًا بسيطًا جدًا حتى يستقر في الجهة اليمنى بدون تداخل.
-لا تحذف الكوكب.
-لا تضف كوكبًا ثانيًا.
+- Home
+- About Us
+- Services
+- Contact
+- Header
+- Footer
+- الـshared styles/components
+- الأيقونات السوداء المستخدمة في About Us وServices
+- BlueMind planet watermark
+- الـFade + Slide Up animation المستخدمة في الصفحات السابقة
 
-حافظ على الكوكب كعنصر خلفي/زخرفي:
-- لا يغطي النص.
-- لا يمنع الضغط على أي عنصر.
+الهدف أن تبدو How We Work جزءًا من نفس BlueMind Web Service، وليس صفحة بتصميم جديد منفصل.
+
+
+==================================================
+1. الهوية البصرية
+==================================================
+
+حافظ على نفس لغة التصميم الموجودة في About Us وServices:
+
+- White / very light background.
+- Black / dark typography.
+- Minimal design.
+- Thin divider lines.
+- Generous but controlled whitespace.
+- نفس fonts.
+- نفس content width.
+- نفس spacing system.
+- نفس Header.
+- نفس Footer.
+- نفس button style.
+- نفس BlueMind planet watermark.
+- نفس animation language.
+- نفس أسلوب الأيقونات السوداء البسيطة.
+
+لا تجعل الصفحة تبدو كـdashboard.
+لا تستخدم cards ملونة.
+لا تستخدم gradients عشوائية.
+لا تستخدم stock illustrations.
+لا تستخدم emoji.
+لا تستخدم أيقونات ملونة.
+لا تغيّر هوية الموقع.
+
+
+==================================================
+2. Hero الخاص بالصفحة
+==================================================
+
+في أعلى الصفحة ضع:
+
+How We Work
+
+ثم headline:
+
+From your idea to a finished website.
+
+ثم description قصيرة:
+
+A simple process designed to keep you involved from the first idea to the final delivery.
+
+لا تجعل الـHero ضخمًا جدًا.
+
+يجب أن يكون قريبًا في الأسلوب والحجم والمسافات من Hero الموجود في About Us وServices.
+
+
+==================================================
+3. BlueMind planet watermark
+==================================================
+
+استخدم نفس BlueMind planet watermark الموجود في الصفحات الأخرى.
+
+على Desktop:
+
+- المحتوى الكتابي يكون أولًا في الجهة اليسرى.
+- الـplanet watermark يكون في الجهة اليمنى.
+
+الترتيب البصري:
+
+TEXT / CONTENT → PLANET WATERMARK
+
+لا تضع الكوكب قبل المحتوى.
+
+حافظ على:
+- opacity الحالية المناسبة.
+- الشكل الحالي.
+- الحركة الحالية إذا كان الكوكب يدور بالفعل.
 - pointer-events: none.
-- لا يسبب horizontal overflow.
-- لا يسبب layout shift.
+- عدم وجود overflow.
+- عدم تغطية النص.
+
+لا تنشئ كوكبًا جديدًا.
 
 على Mobile:
-لا تجبر الصفحة على عمودين.
-حافظ على الـresponsive layout الحالي، وضع الـwatermark بطريقة مناسبة بالخلفية بحيث لا يضغط النص أو يسبب overflow.
+اضبطه كعنصر خلفي responsive بدون أن يضغط المحتوى أو يسبب horizontal scrolling.
 
-نفّذ هذا التغيير فقط في:
-1. About Us
-2. Services
 
-بعد التنفيذ افحص الصفحتين بصريًا على Desktop وMobile وتأكد أن الترتيب أصبح:
+==================================================
+4. الفكرة الأساسية للصفحة
+==================================================
 
-المحتوى على اليسار → الكوكب على اليمين.
+أريد الصفحة كـProcess / Timeline.
 
-لا تغيّر أي شيء آخر في الموقع.
+المستخدم يجب أن يستطيع من النظرة الأولى فهم الرحلة:
 
-بعد التأكد، ارفع التعديل بنفس GitHub/Vercel workflow الحالي إلى الموقع الأصلي، ثم توقف للمراجعة.
+01 Tell Us
+↓
+02 Review
+↓
+03 Choose
+↓
+04 Build
+↓
+05 Review
+↓
+06 Payment
+↓
+07 Delivery
+
+لكن على Desktop يمكنك استخدام Timeline أفقي/متعرج أو Grid مرتب إذا كان ذلك أفضل بصريًا.
+
+المهم أن يكون واضحًا جدًا أن هذه مراحل متتابعة وليست 7 خدمات منفصلة.
+
+استخدم:
+- Step numbers.
+- Thin connecting line/path.
+- Small custom icon لكل مرحلة.
+- Title.
+- Short description.
+
+لا تستخدم Cards كبيرة منفصلة لكل خطوة.
+
+أريد الصفحة Editorial / Process based.
+
+
+==================================================
+5. STEP 01 — Tell Us What You Need
+==================================================
+
+Number:
+
+01
+
+Title:
+
+Tell Us What You Need
+
+Text:
+
+Tell us about your idea, your business, and the website you have in mind.
+
+المعنى:
+العميل يبدأ بإرسال فكرته وما الذي يحتاجه.
+
+
+ICON 01:
+
+أنشئ أيقونة صغيرة مخصصة لهذه المرحلة.
+
+الفكرة البصرية:
+
+Person + idea/lightbulb + message/request.
+
+مثال:
+شخص بسيط بجانبه لمبة أو فقاعة فكرة، مع سهم صغير يدل على إرسال الفكرة إلينا.
+
+الهدف:
+حتى بدون قراءة النص، يستطيع المستخدم فهم:
+"I tell you my idea."
+
+الأيقونة:
+- Black only.
+- Transparent background.
+- Minimal.
+- Same visual weight as About Us / Services icons.
+- No text inside icon.
+- No emoji.
+- No unnecessary details.
+
+
+==================================================
+6. STEP 02 — We Review Your Project
+==================================================
+
+Number:
+
+02
+
+Title:
+
+We Review Your Project
+
+Text:
+
+We review your request, your requirements, and the best way to build your website.
+
+المعنى:
+نحن نفحص الطلب ونفهم المطلوب قبل البدء.
+
+
+ICON 02:
+
+أنشئ أيقونة تدل على Review / Analysis.
+
+الفكرة المقترحة:
+
+Document / website request + magnifying glass + check marks.
+
+يمكن أن تكون:
+ورقة أو شاشة موقع، وفوقها عدسة بحث.
+
+الهدف:
+المستخدم يفهم:
+"We examine your project carefully."
+
+لا تجعلها تشبه Search button فقط.
+يجب أن توحي بمراجعة مشروع/طلب.
+
+
+==================================================
+7. STEP 03 — Choose Your Direction
+==================================================
+
+Number:
+
+03
+
+Title:
+
+Choose Your Direction
+
+Text:
+
+We prepare up to four design concepts. You choose the direction you like most.
+
+مهم جدًا:
+المقصود Design Concepts، وليس أننا نبني أربعة مواقع كاملة.
+
+لا تغيّر النص إلى:
+"We build four websites."
+
+نحن نقدم حتى أربعة اتجاهات/أفكار تصميمية ليختار العميل منها.
+
+
+ICON 03:
+
+أنشئ أيقونة واضحة جدًا لفكرة الاختيار.
+
+مثال بصري:
+
+4 small website/layout thumbnails
++
+واحد منهم عليه Check ✓ أو إطار واضح.
+
+الهدف:
+حتى بدون قراءة النص:
+المستخدم يرى عدة تصاميم ويختار واحدًا.
+
+لا تجعل الأيقونة معقدة.
+يمكن أن تكون أربعة مستطيلات صغيرة تمثل layouts، مع علامة صح على التصميم المختار.
+
+
+==================================================
+8. STEP 04 — We Build & Refine
+==================================================
+
+Number:
+
+04
+
+Title:
+
+We Build & Refine
+
+Text:
+
+Once you choose a direction, we build the website and refine the details with you.
+
+المعنى:
+بعد اختيار التصميم، نبدأ بناء الموقع ونعدّل التفاصيل مع العميل.
+
+
+ICON 04:
+
+أنشئ أيقونة تدل على البناء والتعديل.
+
+الفكرة:
+
+Website window
++
+Gear
++
+small adjustment sliders / tool.
+
+يمكن أن يكون هناك Gear بجانب صفحة موقع.
+
+الهدف:
+"We are building and refining the website."
+
+لا تستخدم Hammer أو construction imagery مبالغًا فيها.
+يجب أن تبقى مرتبطة بتطوير المواقع.
+
+
+==================================================
+9. STEP 05 — Review & Approval
+==================================================
+
+Number:
+
+05
+
+Title:
+
+Review & Approval
+
+Text:
+
+You review the finished website and make sure everything is right before final delivery.
+
+المعنى:
+العميل يشاهد الموقع النهائي ويتأكد أن كل شيء صحيح قبل التسليم.
+
+
+ICON 05:
+
+أنشئ أيقونة تدل على مراجعة الموقع والموافقة.
+
+الفكرة:
+
+Finished website window
++
+Eye / magnifying glass
++
+Check mark.
+
+لا تحتاج وضع الثلاثة إذا أصبحت الأيقونة مزدحمة.
+
+الأولوية:
+Website + Check / Approval.
+
+الهدف:
+"The customer reviews and approves the website."
+
+
+==================================================
+10. STEP 06 — Payment
+==================================================
+
+Number:
+
+06
+
+Title:
+
+Payment
+
+Text:
+
+Once everything is approved, we complete the payment before the final handover.
+
+المعنى:
+بعد موافقة العميل على النتيجة، يتم إكمال الدفع قبل التسليم النهائي.
+
+مهم:
+لا تخترع:
+- Deposit.
+- Subscription.
+- Installments.
+- Refund policy.
+- Payment provider.
+
+لم نحدد هذه الأشياء بعد.
+
+فقط اشرح المرحلة الحالية كما هي.
+
+
+ICON 06:
+
+أنشئ أيقونة بسيطة للدفع.
+
+مثال:
+
+Payment card / payment symbol
++
+Check mark.
+
+أو:
+Invoice/document + check.
+
+لا تستخدم شعارات:
+Stripe
+PayPal
+Visa
+Mastercard
+أو أي شركة دفع محددة.
+
+نريد Icon عامة ومحايدة.
+
+
+==================================================
+11. STEP 07 — Final Delivery
+==================================================
+
+Number:
+
+07
+
+Title:
+
+Final Delivery
+
+Text:
+
+You receive your completed website, along with the files and access included in your project.
+
+المعنى:
+بعد إتمام العملية، يستلم العميل الموقع وما هو مشمول في مشروعه من ملفات وصلاحيات.
+
+مهم:
+لا تكتب:
+"You own absolutely everything."
+
+ولا تعد بحقوق أو تراخيص لم نحددها.
+
+استخدم فقط:
+"files and access included in your project."
+
+
+ICON 07:
+
+هذه أهم أيقونة في نهاية الـProcess.
+
+أنشئ Icon تدل بوضوح على التسليم النهائي.
+
+الفكرة:
+
+Completed website
++
+download / handover arrow
++
+check mark.
+
+أو:
+
+Laptop / website
+→
+hand / customer
++
+check.
+
+الهدف:
+"The finished website is handed over to the customer."
+
+
+==================================================
+12. نظام الأيقونات
+==================================================
+
+الأيقونات السبعة يجب أن تبدو وكأن شخصًا واحدًا صممها.
+
+يجب أن يكون بينها Visual System ثابت:
+
+- Black.
+- Transparent background.
+- Similar stroke/shape weight.
+- Similar level of detail.
+- Similar visual size.
+- Rounded/simple geometry where appropriate.
+- No text inside icons.
+- No colors.
+- No gradients.
+- No shadows.
+- No 3D.
+- No emoji.
+- No stock photography.
+
+مهم:
+لا تجعل بعض الأيقونات ضخمة ومعقدة وبعضها صغيرة جدًا.
+
+أنشئ لها Icon container موحدًا.
+
+لكن حافظ على aspect ratio لكل واحدة.
+
+
+==================================================
+13. إذا كنت لا تستطيع توليد Images مباشرة
+==================================================
+
+إذا بيئة العمل الحالية لا تستطيع إنشاء ملفات الصور نفسها:
+
+لا تستخدم صورًا عشوائية من الإنترنت.
+
+لا تنزل stock icons بدون إذني.
+
+بدل ذلك:
+أنشئ الأيقونات كـSVGs أصلية بسيطة داخل المشروع، باستخدام أشكال ومسارات مناسبة، طالما النتيجة تتبع المواصفات أعلاه.
+
+الأولوية:
+Lightweight SVG / vector assets.
+
+يجب أن تكون الأيقونات قابلة للعرض بوضوح على Retina / high-resolution screens.
+
+لا تستخدم base64 ضخمة داخل components.
+
+
+==================================================
+14. Timeline Layout
+==================================================
+
+أريد أن يشعر المستخدم أن المراحل متصلة.
+
+على Desktop:
+
+جرّب Layout احترافي مثل:
+
+01 → 02 → 03 → 04
+               ↓
+07 ← 06 ← 05
+
+أو Timeline رأسي/متعرج إذا كان أفضل مع المساحة الحالية.
+
+لكن:
+لا تجعل ترتيب القراءة غامضًا.
+
+يجب أن يعرف المستخدم فورًا أين يبدأ وأين ينتهي.
+
+يمكن استخدام خط رفيع جدًا يربط المراحل.
+
+يمكن أن يكون هناك subtle dot عند كل step.
+
+الأرقام:
+01
+02
+03
+04
+05
+06
+07
+
+يجب أن تبقى واضحة.
+
+
+==================================================
+15. ترتيب كل Step
+==================================================
+
+كل Step يحتوي بالترتيب:
+
+Small step number
+Custom icon
+Title
+Description
+
+أو:
+
+Number + Icon
+Title
+Description
+
+اختر الأفضل بصريًا حسب Layout.
+
+لكن استخدم نفس pattern لجميع المراحل.
+
+
+==================================================
+16. لا تجعل الأيقونات كبيرة
+==================================================
+
+الأيقونات ليست صور Hero.
+
+يجب أن تكون صغيرة وتساعد على فهم المرحلة.
+
+العنوان أهم من الأيقونة.
+
+الوصف أقل prominence من العنوان.
+
+Hierarchy:
+
+STEP NUMBER
+ICON + TITLE
+DESCRIPTION
+
+أو ما يعادلها بصريًا.
+
+
+==================================================
+17. Animation
+==================================================
+
+استخدم نفس Animation language الخاصة بـAbout Us وServices:
+
+Fade In + Slide Up.
+
+عند دخول How We Work:
+- Hero.
+- Timeline.
+- Steps.
+- Icons.
+
+تظهر بحركة خفيفة واحترافية.
+
+لا تعمل animation مختلفة لكل أيقونة الآن.
+
+لا تجعل:
+- gear يدور.
+- payment يهتز.
+- icons bounce.
+- icons spin.
+
+هذه ليست المهمة الحالية.
+
+نريد page entrance animation موحدة.
+
+الحركة يجب أن تكون:
+Smooth.
+Subtle.
+Fast.
+Professional.
+
+احترم:
+prefers-reduced-motion.
+
+
+==================================================
+18. Responsive
+==================================================
+
+Desktop:
+استخدم Timeline مناسبًا للمساحة.
+
+Tablet:
+قلل التعقيد إذا احتاج الأمر.
+
+Mobile:
+حوّل الـProcess إلى Vertical Timeline واضح جدًا:
+
+01
+Icon
+Title
+Text
+|
+02
+Icon
+Title
+Text
+|
+03
+...
+
+حتى:
+07 Final Delivery.
+
+لا تجعل المستخدم يتبع Timeline متعرج على شاشة الهاتف.
+
+لا يوجد:
+- horizontal scrolling.
+- clipping.
+- overlapping.
+- icons outside viewport.
+
+
+==================================================
+19. CTA في نهاية الصفحة
+==================================================
+
+بعد Step 07 أضف CTA بسيطًا:
+
+Ready to start your website?
+
+وتحته:
+
+Tell us what you have in mind, and we’ll take it from there.
+
+ثم الزر:
+
+Request a Quote
+
+استخدم نفس button component/style الموجود حاليًا.
+
+الزر يذهب إلى صفحة Request a Quote الحالية.
+
+لا تغيّر Request a Quote نفسها.
+
+
+==================================================
+20. لا تغيّر بقية الموقع
+==================================================
+
+في هذه المهمة لا تغيّر:
+
+- Home.
+- About Us.
+- Services.
+- Contact.
+- Contact Form.
+- Website Concepts.
+- Request a Quote page.
+- Backend.
+- Header design.
+- Footer design.
+- Navigation labels.
+- Contact information.
+- Domain.
+- DNS.
+- Environment variables.
+
+استخدم الـshared components الموجودة بدون تغيير شكل الصفحات الأخرى.
+
+
+==================================================
+21. Visual QA
+==================================================
+
+بعد التنفيذ، لا تكتفِ بأن الكود يعمل.
+
+افحص الصفحة بصريًا.
+
+راجع كل Step:
+
+01:
+هل الأيقونة توضح "أرسل لنا فكرتك"؟
+
+02:
+هل الأيقونة توضح "نراجع المشروع"؟
+
+03:
+هل الأيقونة توضح "اختر من التصاميم"؟
+
+04:
+هل الأيقونة توضح "نبني ونعدل"؟
+
+05:
+هل الأيقونة توضح "راجع ووافق"؟
+
+06:
+هل الأيقونة توضح "الدفع"؟
+
+07:
+هل الأيقونة توضح "استلام الموقع"؟
+
+إذا أي Icon غير مفهومة من النظرة الأولى:
+حسّنها قبل اعتبار المهمة مكتملة.
+
+
+==================================================
+22. اختبارات الصفحة
+==================================================
+
+اختبر:
+
+- Desktop.
+- Tablet.
+- Mobile.
+- Timeline order.
+- CTA.
+- Navigation.
+- Active state لـHow We Work.
+- Animation.
+- Reduced motion.
+- Planet positioning.
+- Icon clarity.
+- No horizontal overflow.
+
+وشغّل الأدوات الموجودة فعليًا في المشروع:
+
+- typecheck.
+- lint إذا كان موجودًا.
+- build.
+
+لا تقل إن اختبارًا نجح إذا لم تشغّله فعلًا.
+
+
+==================================================
+23. GitHub
+==================================================
+
+بعد أن تصبح النتيجة صحيحة:
+
+راجع git diff.
+
+تأكد أن التغييرات تخص How We Work والـassets/components اللازمة لها فقط.
+
+ثم:
+
+- استخدم نفس GitHub repository الأصلي.
+- استخدم نفس branch/workflow الحالي.
+- git add للملفات المطلوبة فقط.
+- commit واضح.
+- push إلى GitHub.
+
+لا تنشئ Repository جديدًا.
+
+
+==================================================
+24. Vercel
+==================================================
+
+بعد GitHub push:
+
+استخدم نفس Vercel project الحالي.
+
+لا تنشئ Vercel project جديدًا.
+لا تنشئ domain جديدًا.
+لا تغيّر DNS.
+
+استخدم نفس Production workflow الحالي.
+
+أريد التعديلات أن تظهر على نفس رابط الموقع الأصلي.
+
+بعد الـdeployment:
+افتح How We Work على Production وتأكد أنها تعمل فعلًا.
+
+
+==================================================
+25. التقرير النهائي
+==================================================
+
+بعد الانتهاء أعطني:
+
+1. وصف الـlayout النهائي.
+2. وصف Icon 01.
+3. وصف Icon 02.
+4. وصف Icon 03.
+5. وصف Icon 04.
+6. وصف Icon 05.
+7. وصف Icon 06.
+8. وصف Icon 07.
+9. الملفات التي تم إنشاؤها للأيقونات.
+10. الملفات البرمجية التي تغيرت.
+11. نتيجة Desktop test.
+12. نتيجة Mobile test.
+13. نتيجة typecheck.
+14. نتيجة lint إن كانت موجودة.
+15. نتيجة build.
+16. branch.
+17. commit hash.
+18. GitHub push status.
+19. Vercel Production status.
+20. رابط How We Work على الموقع الأصلي.
+
+إذا لم تستطع إنشاء Icon معينة بالشكل المطلوب:
+لا تستبدلها بشيء عشوائي.
+أخبرني أي واحدة ولماذا.
+
+نفّذ صفحة How We Work فقط، ثم توقف للمراجعة.
