@@ -1,1 +1,183 @@
+I am going to completely erase/format this Mac soon.
 
+Before I do that, I need you to make absolutely sure that ALL important BlueMind AI iPhone/iOS project files are safely backed up to GitHub.
+
+Please do NOT assume that everything is already pushed. Inspect the entire local BlueMind AI project carefully and verify it file by file and repository by repository.
+
+My goal is:
+After I erase this Mac, I should be able to clone the repositories again on another computer/Mac and recover the complete BlueMind AI project without losing any important source code, assets, configuration files, or project structure.
+
+Please do the following carefully:
+
+1. Locate every local folder/repository related to BlueMind AI and the iPhone/iOS app.
+
+2. Identify all repositories used by the project, including if applicable:
+   - iOS frontend/app
+   - backend
+   - API/services
+   - shared code
+   - assets/resources
+   - documentation
+   - scripts/tools
+   - any additional BlueMind AI repositories
+
+3. For EACH repository, run and inspect:
+   - git status
+   - git remote -v
+   - git branch
+   - git log
+   - untracked files
+   - modified files
+   - staged files
+   - ignored files
+
+4. Make sure every important project file is tracked by Git.
+
+Pay special attention to iOS/Xcode files such as:
+   - .swift files
+   - SwiftUI files
+   - .xcodeproj
+   - .xcworkspace
+   - project.pbxproj
+   - Info.plist
+   - entitlements files
+   - .xcconfig files
+   - Package.swift
+   - Package.resolved
+   - CocoaPods/Podfile files if used
+   - app icons
+   - images
+   - fonts
+   - animations
+   - JSON files
+   - localization files
+   - audio/video assets
+   - 3D assets
+   - Storyboards/XIB files if any
+   - configuration files
+   - scripts
+   - README/documentation
+   - backend/frontend integration files
+   - API client code
+   - model/service files
+   - all folders required to rebuild the app
+
+5. Check for IMPORTANT files that are currently:
+   - untracked
+   - modified but not committed
+   - accidentally ignored by .gitignore
+   - outside the repository but used by the app
+
+If any important project file exists locally but is not on GitHub, add it to the correct repository.
+
+6. Review .gitignore carefully.
+
+Do NOT blindly upload everything ignored.
+
+Make sure .gitignore is not accidentally excluding important source code or assets.
+
+7. DO NOT commit or upload sensitive secrets.
+
+Do NOT upload:
+   - passwords
+   - private API keys
+   - private certificates
+   - private signing keys
+   - Apple signing secrets
+   - .env files containing secrets
+   - private tokens
+   - personal credentials
+
+If the project depends on secret/local configuration files, create a safe template such as:
+   .env.example
+or
+   Config.example.xcconfig
+
+and tell me exactly which secret values I need to save separately before erasing the Mac.
+
+8. Check whether Git LFS is used or required for large files.
+
+If large assets are part of the project:
+   - verify they are actually uploaded
+   - verify Git LFS objects exist remotely
+   - make sure they can be downloaded again after cloning
+
+9. Check for Git submodules.
+
+If submodules exist:
+   - verify they are correctly configured
+   - verify the referenced commits exist remotely
+   - make sure cloning with submodules can restore them
+
+10. Commit all legitimate pending project changes using clear commit messages.
+
+11. Push ALL required commits to the correct GitHub repositories.
+
+12. Verify the correct remotes before pushing.
+
+Do not push to the wrong repository.
+
+13. Push all relevant branches that contain important work.
+
+14. Push relevant tags if the project uses tags/releases.
+
+15. After pushing, compare LOCAL vs GITHUB.
+
+For every repository, verify that:
+   - local HEAD exists on GitHub
+   - there are no important commits only on the Mac
+   - there are no important untracked files left
+   - there are no important modified files left
+   - repository is clean or any remaining local files are clearly explained
+
+16. Perform a recovery test if possible.
+
+Create a temporary clean folder and clone the project fresh from GitHub.
+
+Then verify:
+   - the iOS project opens structurally
+   - all source files exist
+   - all assets exist
+   - dependencies can be restored
+   - backend/project structure is complete
+   - no important local-only files are missing
+
+You do NOT need to fully build/sign the iOS app if that requires private Apple credentials, but verify that the repository contains everything needed to continue development after cloning.
+
+17. Do NOT delete any local files yet.
+
+I will erase the Mac myself later.
+
+18. Do NOT reformat, reset, or wipe the Mac.
+
+Your job is ONLY to make sure the BlueMind AI project is safely backed up to GitHub.
+
+19. At the end, give me a complete final report.
+
+For each repository, show:
+
+- Repository name
+- Local folder path
+- GitHub URL
+- Current branch
+- Latest local commit SHA
+- Latest GitHub commit SHA
+- Whether local and remote match
+- Whether there were uncommitted changes
+- Whether you committed/pushed anything
+- Whether untracked files remain
+- Whether important ignored files were found
+- Whether Git LFS is used and verified
+- Whether submodules exist and are verified
+- Whether a fresh clone test succeeded
+- Any secrets/configuration I must save separately
+- Any files that still exist only on this Mac
+
+Finally, give me one clear conclusion:
+
+SAFE TO ERASE MAC: YES / NO
+
+Only say YES if you have verified that all important BlueMind AI project files are safely recoverable from GitHub or clearly documented external backups.
+
+Do not say YES just because git status is clean.
+Actually verify the remote GitHub repositories and perform a clean recovery check first.
