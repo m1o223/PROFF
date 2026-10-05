@@ -1,1 +1,43 @@
+I need you to finish connecting my existing custom domain to the BlueMind Web Service production website.
 
+Project: bluemind-web-service
+Domain I already own: bluemindwebservice.com
+Hosting: Vercel
+Email: Google Workspace
+
+Current status:
+
+* The website is already deployed and working on Vercel.
+* bluemindwebservice.com has already been added to the Vercel project as an existing domain.
+* Vercel currently shows Invalid Configuration.
+* Vercel says the required DNS record is:
+    * Type: A
+    * Name/Host: @
+    * Value: 216.198.79.1
+* The domain was purchased during Google Workspace setup and Google Admin says domain management is handled via Squarespace.
+* Google Workspace business email is already configured on this domain. I currently use admin@bluemindwebservice.com and I also created contact@bluemindwebservice.com as an alias.
+* DO NOT remove or overwrite any Google Workspace email DNS records (MX, SPF, DKIM, DMARC, TXT, etc.).
+
+Your task:
+
+1. Inspect the current Vercel project and domain configuration.
+2. Confirm that bluemindwebservice.com is connected to the correct Production environment.
+3. Determine exactly which DNS changes are still required.
+4. If you have authorized access to make the required Vercel/DNS changes, complete them.
+5. If DNS must be changed manually in Squarespace, do everything else you can first, then give me the exact minimum manual action required. Do not guess.
+6. Preserve all existing Google Workspace/email DNS records.
+7. Configure bluemindwebservice.com as the primary/canonical website address.
+8. Also configure www.bluemindwebservice.com and redirect it to bluemindwebservice.com.
+9. Make sure HTTPS/SSL works.
+10. Verify the production website loads correctly from the custom domain after DNS propagates.
+11. Do not change the website design, content, application functionality, database, or source code unless strictly necessary for domain configuration.
+
+IMPORTANT:
+
+* Do not buy another domain.
+* Do not transfer the domain.
+* Do not change nameservers unless absolutely necessary and explicitly approved by me.
+* Do not delete existing DNS records.
+* Do not make any destructive change without asking me first.
+
+At the end, report exactly what you changed and clearly tell me if there is one remaining manual step I must perform.
